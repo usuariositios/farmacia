@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<section ng-controller="navegadorSalidasVentaAmortizacionController">
+<div class="panel panel-primary" id="panel-principal">
+  <div class="panel-heading">
+      <div align="center" class="panel-title"><a style="cursor:pointer;" ng-click="mostrarBuscarSalidaVenta_action();"><i class="fa fa-search-plus"></i>&nbsp;PAGO DE AMORTIZACIONES<br> DE DEUDAS POR VENTA A CREDITO</a></div>      
+  </div>
+  <div class="panel-body">
+      <section id="no-more-tables">
+          <table class="table table-bordered table-hover table-condensed"  >
+              <thead class="cf">
+                  <tr>                      
+                      <th>NRO FACTURA</th>                      
+                      <th>CLIENTE</th>
+                      <th>FECHA VENTA</th>
+                      <th>FECHA FINAL</th>                      
+                      <th>MONTO BS.</th>
+                      <th>DESCUENTO BS.</th>
+                      <th>TOTAL BS.</th>                      
+                      <th>CANCELADO BS.</th>
+                      <th>AMORTIZACION</th>
+                      <th>MONTO POR COBRAR</th>
+                      <th>COMPLETADO</th>
+                      <th>&nbsp;</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr  ng-repeat="sv in salidasVentaList" 
+                       id="{{sv.codsalidaVenta}}"
+                       >                      
+                      <td data-title="NRO">&nbsp;{{sv.nroFactura}}</td>
+                      <td data-title="NRO">&nbsp;{{sv.clientes.nombreCliente}}</td>
+                      
+                      <td data-title="FECHA VENTA">&nbsp;{{sv.fechaSalidaVenta}}</td>
+                      <td data-title="FECHA FINAL">&nbsp;{{sv.fechaPagoCredito}}</td>
+                      
+                      <td data-title="MONTO BS.">&nbsp;{{sv.montoSubTotal}}</td>
+                      <td data-title="DESCUENTO BS.">&nbsp;{{sv.montoDescuento}}</td>                      
+                      <td data-title="TOTAL BS.">&nbsp;{{sv.montoTotal}}</td>                      
+                      
+                      <td data-title="CANCELADO BS.">&nbsp;{{sv.montoCancelado}}</td>                      
+                      <td data-title="AMORTIZACION">&nbsp;{{sv.montoAmortizado}}</td>
+                      <td data-title="MONTO POR COBRAR">&nbsp;{{sv.montoPorCobrar}}</td>                      
+                      <td data-title="COMPLETADO">&nbsp;{{ia.ventaCompleta==3?"SI":"NO"}}</td>
+                      
+                      <td data-title="">
+                          
+                          <div class="dropdown">
+                              <a class="btn btn-secondary dropdown-toggle" href="#" id="dropdownMenuButton" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false">
+                                    <i class="fa fa-ellipsis-v"></i>
+                              </a>
+                              <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenuButton">
+                                <li>
+                                    <a tabindex="-1"  ng-click="agregarPagoAmortizacion_action(sv);">
+                                        Pago de Amortizacion
+                                    </a>
+                                </li>
+                            </ul>
+                          </div>
+                          
+                      
+                    </td>
+                      
+                  </tr>
+              </tbody>
+          </table>
+      </section>
+      <div align="center">
+          <button type="button" class="btn btn-primary" ng-click="atras_action()">
+              <i class="fa fa-chevron-left"></i>
+          </button>
+          <button type="button" class="btn btn-primary" ng-click="siguiente_action()">
+              <i class="fa fa-chevron-right"></i>
+          </button>
+      </div>
+          
+</div>
+
+    <div class="panel-footer" align="center">
+        
+        
+    </div>
+</div>
+    <div id="buscarsalidaVentaDialog" class="modal fade" role="dialog">
+        <form>
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><i class="fa fa-search"></i> Buscar Factura</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row show-grid">
+                            <div class="col-md-6">
+                                <label>Nro Factura</label>
+                                <input class="form-control" ng-model="salidasVentaBuscar.nroFactura" />                                
+                            </div>
+                            <div class="col-md-6">
+                                <label>Cliente:</label>
+                                <select class="form-control" ng-model="salidasVentaBuscar.clientes.codCliente" ng-options="e.codItem as e.nombreItem for e in clientesList"></select>
+                            </div>
+                        </div>
+                        <div class="row show-grid">                            
+                            <div class="col-md-6">
+                                <label>Estado amortizacion:</label>
+                                <select class="form-control" ng-model="salidasVentaBuscar.ventaCompleta" ng-options="e.codItem as e.nombreItem for e in estadoAmortizacionList"></select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" ng-click="buscarSalidaVenta_action();">Buscar</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    
+    <!-- alerta -->
+      
+      <div id="mensajeDialog" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><i class="fa fa-search fa-1x"></i> Mensaje</h4>
+                </div>
+                <div class="modal-body">
+                    <i class="fa fa-warning fa-5x"></i>
+                    {{mensaje}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="$('#mensajeDialog').dialog('hide');">Aceptar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+       

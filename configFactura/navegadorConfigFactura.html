@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<section ng-controller="navegadorConfigFacturaController">
+    <div class="panel panel-primary" id="panel-principal">
+        <div class="panel-heading">
+
+
+            <div align="center" class="panel-title">
+                &nbsp;IMPRESION DE FACTURA
+                <div class="float-right">
+                    <div class="dropdown">
+                        <a class="btn btn-secondary dropdown-toggle" href="#" id="dropdownMenuButton1" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false" style="color: white">
+                            <i class="fa fa-ellipsis-v"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenuButton">
+                            <li>
+                                <a tabindex="-1"  ng-click="vistaPrevia_action();">
+                                    Vista Previa
+                                </a>
+                            </li>
+
+                        </ul>                              
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="panel-body">
+            <div class="row show-grid">
+                <div class="col-md-6">
+                    <label>{{tablaDetalleFacturaList[0].descripcionCampo}}</label>
+                    <input class="form-control" ng-model="tablaDetalleFacturaList[0].valorCharCampo" />                            
+                </div>
+                <div class="col-md-6">
+                    <label>{{tablaDetalleFacturaList[1].descripcionCampo}}</label>
+                    <input class="form-control" ng-model="tablaDetalleFacturaList[1].valorCharCampo" />
+                </div>                                        
+            </div>
+
+            <div class="row show-grid">                                        
+                <div class="col-md-6">
+                    <label>{{tablaDetalleFacturaList[2].descripcionCampo}}</label>
+                    <input class="form-control" ng-model="tablaDetalleFacturaList[2].valorCharCampo" maxlength="200" />
+                </div>
+                <div class="col-md-6">                            
+                    <label>{{tablaDetalleFacturaList[3].descripcionCampo}}</label>
+                    <select class="form-control" ng-model="tablaDetalleFacturaList[3].valorNumberCampo" ng-options="p.codItem as p.nombreItem for p in sucursalesList"></select>
+                </div>
+            </div>
+            <div class="row show-grid">
+                <div class="col-md-6">
+                    <label>{{tablaDetalleFacturaList[4].descripcionCampo}}</label>
+                    <input class="form-control" ng-model="tablaDetalleFacturaList[4].valorCharCampo" maxlength="200" />
+                </div>
+                <div class="col-md-6">
+                    <label>{{tablaDetalleFacturaList[5].descripcionCampo}}</label>
+                    <input class="form-control" ng-model="tablaDetalleFacturaList[5].valorCharCampo" maxlength="200" />
+                </div>                        
+            </div>
+            <div class="row show-grid">
+                <div class="col-md-6">                            
+                    <label>{{tablaDetalleFacturaList[6].descripcionCampo}}</label>
+                    <select class="form-control" ng-model="tablaDetalleFacturaList[6].valorNumberCampo" ng-options="p.codItem as p.nombreItem for p in ciudadesList"></select>
+                </div>
+                <div class="col-md-6">
+                    <label>{{tablaDetalleFacturaList[7].descripcionCampo}}</label>
+                    <input class="form-control" ng-model="tablaDetalleFacturaList[7].valorCharCampo" maxlength="200" />
+                </div>             
+            </div>
+            <br/>
+            <div class="btn-block" align="center">
+                <div class="btn-group">
+
+                    <button type="button" class="btn btn-primary" ng-click="guardarFactura_action();">
+                        <i class="fa fa-check"></i>
+                        Guardar
+                    </button>
+
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <div class="panel-footer" align="center">        
+            
+        </div>
+    </div>
+    
+    
+    
+    <!-- alerta -->
+      
+      
+</section>
+       

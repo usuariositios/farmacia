@@ -1,0 +1,96 @@
+<section ng-controller="reporteExistenciasController" ng-cloak>
+    <form>
+<div class="panel panel-primary" id="panel-principal">
+    <div class="panel-heading">
+      <div align="center" class="panel-title">REPORTE DE EXISTENCIAS DE PRODUCTOS</div>      
+    </div>
+    <div class="panel-body">
+    
+        <div class="row show-grid">
+            <div class="col-sm-3">
+                                            
+            </div>
+            <div class="col-sm-3">
+                <label>Capitulo:</label>
+                <select class="form-control" ng-model="productosBuscar.grupoProducto.codGrupoProducto" >
+                    <option value="0">-NINGUNO-</option>
+                    <option ng-repeat="p in  gruposProductoList"
+                            value="{{p.codItem}}">
+                        {{p.nombreItem}}
+                    </option>
+                </select>
+            </div>
+            <div class="col-sm-3">
+                <label>Producto:</label>
+                <div class="input-group">                                    
+                    <input ng-model="productosBuscar.nombreProducto" type="text" class="form-control" placeholder="Nombre de Producto">
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-primary" ng-click="buscarProducto_action();">                                            
+                            Buscar
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                                            
+            </div>
+        </div>
+        
+    <br/><br/>
+                            <div class="row" align="center">
+                                <div class="col-md-3">
+                                            
+                                </div>
+                                <div class="col-md-6">
+                                <table class="table table-bordered table-hover" >
+                                    <thead class="">
+                                        <tr>
+                                            <th><div class="dropdown">
+                                                <a class="btn btn-secondary dropdown-toggle" href="" id="dropdownMenuButton1" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false">
+                                                    <i class="fa fa-ellipsis-v"></i>
+                                                </a>
+                                                <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenuButton1">                                
+                                                    <li>
+                                                        <a tabindex="-1"  ng-click="seleccionar_action();">
+                                                          Seleccionar todo
+                                                        </a>                                                        
+                                                    </li>                                  
+                                                    <li>
+                                                        <a tabindex="-1"  ng-click="verReporteSeleccionados_action();">
+                                                          Ver reporte (todo)
+                                                        </a>
+                                                    </li>                                  
+                                                </ul>
+                                                </div></th>
+                                            <th>NOMBRE</th>                                            
+                                            <th>GRUPO</th>
+                                            <th>
+                                                
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr  ng-repeat="m in productosList" 
+                                             id="{{m.producto.codProducto}}">
+                                            <td data-title=""><input type="checkbox" ng-model="m.checked"/></td>
+                                            <td>{{m.producto.nombreProducto}}</td>                                            
+                                            <td>{{m.producto.grupoProducto.nombreGrupoProducto}}</td>
+                                            <td><button type="button" class="btn btn-primary" ng-click="verReporte(m);">
+                                                    <i class="fa fa-file-text"></i>                                
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                </div>
+                                <div class="col-md-3">
+                                            
+                                </div>
+                                </div>
+    
+    </div>
+    
+</div>
+    </form>
+
+</section>

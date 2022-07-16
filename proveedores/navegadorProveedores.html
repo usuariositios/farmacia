@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<section ng-controller="navegadorProveedoresController">
+<div class="panel panel-primary" id="panel-principal">
+  <div class="panel-heading">
+      
+      
+      <div align="center" class="panel-title">
+          <a style="cursor:pointer;" ng-click="mostrarBuscarProveedor_action();"><i class="fa fa-search-plus"></i>&nbsp;PROVEEDORES</a>
+          <div class="float-right">
+              <div class="dropdown">
+                  <a class="btn btn-secondary dropdown-toggle" href="#" id="dropdownMenuButton1" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false" style="color: white">
+                      <i class="fa fa-ellipsis-v"></i>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenuButton">
+                      <li>
+                          <a tabindex="-1"  ng-click="agregarProveedor_action();">
+                              Agregar
+                          </a>
+                      </li>
+
+                  </ul>                              
+              </div>
+          </div>
+      </div>
+      
+  </div>
+    <div class="panel-body">
+      
+      <section id="no-more-tables">
+          <table class="table table-bordered table-hover table-condensed"  >
+
+              <thead class="cf">
+                  <tr>                      
+                      <th>NOMBRE</th>                      
+                      <th>NIT</th>                      
+                      <th>TIPO</th>
+                      <th>CIUDAD</th>
+                      <th>TELEFONO</th>                      
+                      <th>DIRECCION</th>
+                      <th>COMENTARIOS</th>                      
+                      <th>ESTADO</th>
+                      <th>&nbsp;</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr  ng-repeat="e in proveedoresList" 
+                       id="{{e.codProveedor}}"
+                       >                      
+                      <td data-title="NOMBRE">&nbsp;{{e.nombreProveedor}}</td>
+                      <td data-title="NIT">&nbsp;{{e.nitProveedor}}</td>
+                      <td data-title="TIPO">&nbsp;{{e.tiposProveedor.nombreTipoProveedor}}</td>
+                      <td data-title="CIUDAD">&nbsp;{{e.ciudadProveedor.nombreCiudad}}</td>
+                      <td data-title="TELEFONO">&nbsp;{{e.telefonoProveedor}}</td>
+                      <td data-title="DIRECCION">&nbsp;{{e.direccionProveedor}}</td>
+                      <td data-title="COMENTARIOS">&nbsp;{{e.obsProveedor}}</td>
+                      <td data-title="ESTADO">&nbsp;{{e.estadosProveedor.nombreEstadoProveedor}}</td>
+                      <td data-title="">
+                          <div class="dropdown">
+                              <a class="btn btn-secondary dropdown-toggle" href="#" id="dropdownMenuButton" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false">
+                                    <i class="fa fa-ellipsis-v"></i>
+                              </a>
+                              <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenuButton">
+                                <li>
+                                    <a tabindex="-1"  ng-click="agregarProveedor_action();">
+                                        Agregar
+                                    </a>
+                                </li>
+                                <li>
+                                    <a tabindex="-1" ng-click="editarProveedor_action(e);">
+                                        Editar
+                                    </a>
+                                </li>
+                                <li>
+                                    <a tabindex="-1" ng-click="eliminarProveedor_action(e);">
+                                        Eliminar
+                                    </a>
+                                </li>
+                            </ul>                              
+                          </div>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </section>
+      
+      
+          
+</div>
+
+    <div class="panel-footer" align="center">        
+        <div class="btn-group">
+            <p>
+            <button type="button" class="btn btn-primary" ng-click="agregarProveedor_action();">
+                <i class="fa fa-plus"></i>
+                Registrar
+            </button>            
+            
+            </p>
+        </div>
+    </div>
+</div>
+    
+    <div id="agregarProveedorDialog" class="modal fade" role="dialog" >
+        <form>
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><i class="fa fa-check-circle"></i> Agregar Proveedor</h4>
+                    </div>
+                    <div class="modal-body">
+                         <div class="row show-grid">
+                            <div class="col-md-12">
+                                <label>Nombre *</label>
+                                <input class="form-control" ng-model="proveedor.nombreProveedor" />
+                            </div>
+                            
+                        </div>
+                        <div class="row show-grid">
+                            <div class="col-md-6">
+                                <label>NIT *</label>
+                                <input  ng-model="proveedor.nitProveedor" class="form-control" />
+                            </div>
+                            <div class="col-md-6">                            
+                                <label>Tipo Proveedor *</label>
+                                <select class="form-control" ng-model="proveedor.tiposProveedor.codTipoProveedor" ng-options="e.codItem as e.nombreItem for e in tiposProveedorList"></select>
+                            </div>                            
+                            
+                                
+                        </div>
+                        
+                        <div class="row show-grid">                        
+                            <div class="col-md-6">                            
+                                <label>Pais:</label>
+                                <select class="form-control" ng-model="proveedor.pais.codPais" ng-options="e.codItem as e.nombreItem for e in paisList"></select>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Ciudad:</label>
+                                <select class="form-control" ng-model="proveedor.ciudadProveedor.codCiudad" ng-options="e.codItem as e.nombreItem for e in ciudadList"></select>
+                            </div>
+                        </div>
+                        <div class="row show-grid">                        
+                            <div class="col-md-6">
+                                <label>Teléfono:</label>
+                                <input ng-model="proveedor.telefonoProveedor" class="form-control"  />
+                            </div>
+                            <div class="col-md-6">     
+                                
+                                    <label>Email:</label>
+                                    <input ng-model="proveedor.emailProveedor" class="form-control"  />
+                                
+                            </div>
+                            
+                            
+                        </div>
+                        
+                        
+                        <div class="row show-grid">                        
+                            <div class="col-md-12">
+                                <label>Dirección</label>
+                                <input ng-model="proveedor.direccionProveedor" class="form-control"  />                            
+                            </div>                            
+                        </div>
+                        <div class="row show-grid">                        
+                            <div class="col-md-12">                            
+                                <label>Comentarios:</label>
+                                <textarea ng-model="proveedor.obsProveedor" class="form-control" rows="3"  ></textarea>
+                            </div>                            
+                        </div>
+                        
+                        
+                        
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" ng-click="guardarProveedor_action();">
+                            <i class="fa fa-check"></i>
+                            Guardar
+                        </button>
+                        
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="cancelarAgregarProveedor_action();">
+                            <i class="fa fa-times-circle"></i>
+                            Cancelar
+                        </button>
+                    </div>
+                    
+                </div>
+
+            </div>
+        </form>
+    </div>
+    
+    
+    <div id="editarProveedorDialog" class="modal fade" role="dialog" >
+        <form>
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><i class="fa fa-check-circle"></i> Editar Proveedor</h4>
+                    </div>
+                    <div class="modal-body">
+                         <div class="row show-grid">
+                            <div class="col-md-12">
+                                <label>Nombre *</label>
+                                <input class="form-control" ng-model="proveedor.nombreProveedor" />
+                            </div>
+                            
+                        </div>
+                        <div class="row show-grid">
+                            <div class="col-md-6">
+                                <label>NIT *</label>
+                                <input  ng-model="proveedor.nitProveedor" class="form-control" />
+                            </div>
+                            <div class="col-md-6">                            
+                                <label>Tipo Proveedor *</label>
+                                <select class="form-control" ng-model="proveedor.tiposProveedor.codTipoProveedor" ng-options="e.codItem as e.nombreItem for e in tiposProveedorList"></select>
+                            </div>                            
+                            
+                                
+                        </div>
+                        
+                        <div class="row show-grid">                        
+                            <div class="col-md-6">                            
+                                <label>Pais:</label>
+                                <select class="form-control" ng-model="proveedor.pais.codPais" ng-options="e.codItem as e.nombreItem for e in paisList"></select>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Ciudad:</label>
+                                <select class="form-control" ng-model="proveedor.ciudadProveedor.codCiudad" ng-options="e.codItem as e.nombreItem for e in ciudadList"></select>
+                            </div>
+                        </div>
+                        <div class="row show-grid">                        
+                            <div class="col-md-6">
+                                <label>Teléfono:</label>
+                                <input ng-model="proveedor.telefonoProveedor" class="form-control"  />
+                            </div>
+                            <div class="col-md-6">     
+                                
+                                    <label>Email:</label>
+                                    <input ng-model="proveedor.emailProveedor" class="form-control"  />
+                                
+                            </div>
+                            
+                            
+                        </div>
+                        
+                        
+                        <div class="row show-grid">                        
+                            <div class="col-md-12">
+                                <label>Dirección</label>
+                                <input ng-model="proveedor.direccionProveedor" class="form-control"  />                            
+                            </div>                            
+                        </div>
+                        <div class="row show-grid">                        
+                            <div class="col-md-6">                            
+                                <label>Comentarios:</label>
+                                <textarea ng-model="proveedor.obsProveedor" class="form-control" rows="2"  ></textarea>
+                            </div>
+                            <div class="col-md-6">                            
+                                <label>Pais:</label>
+                                <select class="form-control" ng-model="proveedor.estadosProveedor.codEstadoProveedor" ng-options="e.codItem as e.nombreItem for e in estadosProveedorList"></select>
+                            </div>
+                        </div>
+                        
+                        
+                        
+                        
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" ng-click="guardarEditarProveedor_action();">
+                            <i class="fa fa-check"></i>
+                            Guardar
+                        </button>
+                        
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="cancelarEditarProveedor_action();">
+                            <i class="fa fa-times-circle"></i>
+                            Cancelar
+                        </button>
+                    </div>
+                    
+                </div>
+
+            </div>
+        </form>
+    </div>
+    
+    
+    <div id="buscarProveedorDialog" class="modal fade" role="dialog">
+        <form>
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><i class="fa fa-search"></i> Buscar Proveedores</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row show-grid">                        
+                            <div class="col-md-12">
+                                <label>Nombre:</label>
+                                <input class="form-control" ng-model="proveedoresBuscar.nombreProveedor" />
+                            </div>
+                            
+                        </div>
+                        <div class="row show-grid">
+                            <div class="col-md-6">
+                                <label>NIT:</label>
+                                <input  ng-model="proveedoresBuscar.nitProveedor" class="form-control" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Tipo Proveedor:</label>
+                                <select class="form-control" ng-model="proveedoresBuscar.tiposProveedor.codTipoProveedor" ng-options="e.codItem as e.nombreItem for e in tiposProveedorList"></select>
+                            </div>
+                        </div>
+                        <div class="row show-grid">
+                            <div class="col-md-12">
+                                <label>Dirección:</label>
+                                <input  ng-model="proveedoresBuscar.direccionProveedor" class="form-control"    />
+                            </div>                            
+                        </div>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" ng-click="buscarProveedor_action();">Buscar</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    
+    <!-- alerta -->
+      
+      <div id="mensajeDialog" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><i class="fa fa-search fa-1x"></i> Mensaje</h4>
+                </div>
+                <div class="modal-body">
+                    <i class="fa fa-warning fa-5x"></i>
+                    {{mensaje}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="$('#mensajeDialog').dialog('hide');">Aceptar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+       

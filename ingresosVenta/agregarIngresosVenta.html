@@ -1,0 +1,688 @@
+
+
+<section ng-controller="agregarIngresosVentaController" ng-cloak>
+    <div class="panel panel-primary" id="panel-principal">
+        <div class="panel-heading">
+            <div align="center" class="panel-title">AGREGAR INGRESO ALMACEN VENTA
+                <div class="float-right">              
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div>
+                <div align="center">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label>Nro Ingreso Venta</label>
+                                <input ng-model="ingresosVenta.nroIngresoVenta" class="form-control" disabled="true"   />                                
+                            </div>
+                            <div class="col-sm-4">
+                                <label>Proveedor:</label>                                
+                                    <select class="form-control" ng-model="ingresosVenta.proveedores.codProveedor" ng-options="e.codItem as e.nombreItem for e in proveedoresList"></select>                                                                    
+                            </div>
+                            <div class="col-sm-4">
+                                <label>Fecha ingreso almacen</label>
+                                <input ng-model="ingresosVenta.fechaIngresoVenta" class="form-control"  datepicker  />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                
+                                    <label>Documento:</label>                                
+                                    <div class="input-group">
+                                    <select class="form-control" ng-model="ingresosVenta.tiposDocumento.codTipoDocumento" ng-options="e.codItem as e.nombreItem for e in tiposDocumentoList"></select>                                                                    
+                                    <div class="input-group-btn">                    
+                                        <button class="btn btn-primary dropdown-toggle" type="button" id="DDMBCliente" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false">
+                                            <i class="fa fa-caret-down"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-left" role="menu" aria-labelledby="DDMBCliente">
+                                            <li><a  ng-click="registrarDocumento_action();">Registrar documento</a></li>                                        
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>                            
+                            
+                        </div>
+                    </div>
+                </div>
+                </div>
+            <section id="no-more-tables">
+                <div style="overflow: auto;">
+                    <table class="table table-bordered table-hover cf table-striped" >
+                        <thead class="cf">
+                            <tr>
+                                
+                                <th>NOMBRE</th>
+                                
+                                
+                                
+                                
+                                <th style="width: 7%">CANTIDAD</th>                               
+                                <th>ENVASE</th>
+                                <th>NRO LOTE</th>
+                                <th>FECHA FABRICACION</th>
+                                <th>FECHA VENCIMIENTO</th>
+                                <th>TOTAL UNID</th>
+                                <th style="width: 7%">P/Unit</th>
+                                <th>MNTO SUB TOTAL</th>
+                                <th>DCTO.</th>
+                                <th>TOTAL</th>
+                                
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr  ng-repeat="ivd in ingresosVentaDetalleList" >
+                                
+                                <td data-title="NOMBRE">&nbsp;{{ivd.productos.nombreProducto}}</td>
+                                
+                                
+                                
+                                
+                                <td data-title="CANT. INGRESAR"><input ng-model="ivd.tempCantIngreso" class="form-control" ng-keyup="envaseProducto_change(ivd)" /></td>
+                                <td data-title="ENVASE">
+                                <select class="form-control" ng-model="ivd.tiposEnvase.codTipoEnvase" ng-options="e.codItem as e.nombreItem for e in tiposEnvaseList" ng-change="envaseProducto_change(ivd)"></select>
+                                    
+                                </td>
+                                <td data-title="NRO LOTE"><input ng-model="ivd.nroLote" class="form-control" required="true"/></td>
+                                <td data-title="FECHA FABRICACION"><input ng-model="ivd.fechaFabricacion" class="form-control" required="true" datepicker /></td>
+                                <td data-title="FECHA VENCIMIENTO"><input ng-model="ivd.fechaVencimiento" class="form-control" required="true" datepicker /></td>
+                                <td data-title="UNID.">{{ivd.cantIngreso}}</td>
+                                <td data-title="P/Unit"><input ng-model="ivd.precioUnitario" class="form-control"  ng-keyup="pUnitPorcDesc_change(ivd)" /></td>
+                                <td data-title="SUB TOTAL">{{ivd.subTotalMonto}}</td>
+                                <td data-title="CANT TOTAL"><input ng-model="ivd.porcentajeDescuento" class="form-control" required="true" ng-keyup="pUnitPorcDesc_change(ivd)" /></td>
+                                <td data-title="TOTAL"><input ng-model="ivd.totalMonto" class="form-control"  /></td>
+                                
+                                
+                                
+                                <td data-title="">
+                                    <div>
+                                        <button type="button" class="btn btn-danger" ng-click="borrarVentaDetalle_action(ivd);">
+                                            <i class="fa fa-trash-o"></i>                                
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+                
+                    
+            
+        </div>
+        <div class="panel-footer" align="center">
+
+
+
+            <button type="button" class="btn btn-primary" ng-click="agregarProducto_action();">
+                <i class="fa fa-plus-circle"></i>
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="mostrarAgregarProductoCodBarras();">
+                <i class="fa fa-barcode"></i>
+
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="guardarIngresoVenta_action();" >
+                <i class="fa fa-save">                    
+                </i>
+                Guardar
+
+            </button>            
+            <button type="button" class="btn btn-primary"  ng-click="cancelar_action();" >
+                    <i class="fa fa-times-circle"></i>
+                    Cancelar
+            </button>
+            
+        </div>
+    </div>
+    <!-- registro codigo de barras -->
+    <div id="agregarProductoCodBarrasDialog" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><i class="fa fa-check"></i> Registro con Codigo de Barras</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row show-grid">
+                            <div class="col-md-12">
+                                <label>Cod Barras:</label>
+                                <div class="input-group" >
+                                    <input ng-model="productosBuscar.codBarrasProducto" type="text" class="form-control" placeholder="Cod Barras Producto"  id="codBarrasProducto"   />
+                                    <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-primary" ng-click="agregarProductoCodBarras_action();">
+                                            Agregar
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="$('#mensajeDialog').modal('hide');">Aceptar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    
+    
+    	<!-- ui-dialog -->
+        <div id="agregarProdIngrVentaDialog" class="modal fade" role="dialog">
+            <div class="modal-dialog">                
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><i class="fa fa-check fa-1x"></i>Registrar Producto</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                        <div class="row show-grid">
+                            <div class="col-md-6">
+                                <label>Grupo:</label>
+                                <select class="form-control" ng-model="productosBuscar.grupoProducto.codGrupoProducto" ng-change="grupoProducto_change()">
+                                    <option value="0">-NINGUNO-</option>
+                                    <option ng-repeat="p in gruposProductoList"
+                                            value="{{p.codItem}}">
+                                            {{p.nombreItem}}
+                                    </option>
+                                </select>
+                            </div>                        
+                            <div class="col-md-6">
+                                <label>Sub Grupo:</label>
+                                <select class="form-control" ng-model="productosBuscar.subGruposProducto.codSubgrupo">
+                                    <option value="0">-NINGUNO-</option>
+                                    <option ng-repeat="p in subGruposList"
+                                            value="{{p.codItem}}">
+                                            {{p.nombreItem}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row show-grid">
+                            <div class="col-md-12">
+                                <label>Nombre:</label>                                
+                                <div class="input-group">                                    
+                                    <input ng-model="productosBuscar.nombreProducto" type="text" class="form-control" placeholder="Nombre de Producto">
+                                    <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-primary" ng-click="buscarProducto_action();">                                            
+                                            Buscar
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <br/>
+                        
+                        <div class="row show-grid">
+                            <div style="height: 250px;overflow-y: auto;">
+                                <table class="table table-bordered table-hover" >
+                                    <thead class="">
+                                        <tr>
+                                            <th>COD</th>                                            
+                                            <th>NOMBRE</th>                                            
+                                            <th>MAX. DCTO. %</th>
+                                            <th>STOCK MIN</th>
+                                            <th>STOCK MAX</th>
+                                            <th>PRECIO VENTA</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr  ng-repeat="p in productosBuscarList" 
+                                             id="{{p.codProducto}}">
+                                            <td>{{p.codigoProducto}}</td>
+                                            <td><a href="" ng-click="seleccionarProducto_action(p)" style="color: #337ab7" >{{p.nombreProducto}}</a></td>
+                                            <td>{{p.PorcentajeDescuentoMaximo}}</td>
+                                            <td>{{p.stockMinimo}}</td>
+                                            <td>{{p.stockMaximo}}</td>
+                                            <td>{{p.precioTienda}}</td>                                            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" ng-click="agregarCuenta_action();">
+                            <i class="fa fa-check-circle"></i>
+                            Aceptar    
+                        </button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="$('#agregarProdIngrVentaDialog').modal('hide');">
+                            <i class="fa fa-times-circle"></i>
+                            Cancelar
+                        </button>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+        <!-- ui-dialog -->
+        <div id="detalleEtiquetasDialog" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><i class="fa fa-check fa-1x"></i>Generar Etiquetas</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                        
+                        <div class="row show-grid">
+                            <div class="col-sm-12">
+                                <div class="alert alert-info" role="alert">
+                                    <strong>Producto :</strong> {{ingresosVentaDetalleSeleccionado.productos.nombreProducto}}
+                                </div>                                
+                            </div>
+                        </div>
+                        <div class="row show-grid">
+                            <div class="col-sm-4">
+                                <label>Cantidad Parcial</label>
+                                <input ng-model="ingresosVentaDetalleEstado.cantidadParcial" class="form-control"  />
+                            </div>
+                            <div class="col-sm-4">
+                                <label>Lote Proveedor</label>
+                                <input  ng-model="ingresosVentaDetalleEstado.loteProductoProveedor" class="form-control"/>
+                            </div>
+                            <div class="col-sm-4">
+                                <label>Unidad de Empaque</label>
+                                <select class="form-control" ng-model="ingresosVentaDetalleEstado.empaqueSecundarioExterno.codEmpaqueSecundarioExterno" id="codEmpaqueSecundario">
+                                    <option value="0">-NINGUNO-</option>
+                                    <option ng-repeat="p in empaqueSecundarioExternoList"
+                                            value="{{p.codItem}}">
+                                            {{p.nombreItem}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row show-grid">
+                            <div class="col-sm-4">
+                                <label>Fecha de Vencimiento:</label>
+                                <input  ng-model="ingresosVentaDetalleEstado.fechaVencimiento" class="form-control" datepickers/>
+                            </div>
+                            <div class="col-sm-4">
+                                <label>fecha de Reanalisis:</label>
+                               <input  ng-model="ingresosVentaDetalleEstado.fechaReanalisis" class="form-control" datepickers/>                                
+                            </div>
+                            <div class="col-sm-4">
+                                <label>Tara:</label>
+                                <input  ng-model="ingresosVentaDetalleEstado.tara" class="form-control"/>
+                            </div>
+
+                        </div>
+                        <div class="row show-grid">
+                            <div class="col-sm-12">
+                                <label>Generar Etiquetas:</label>
+                                <div class="input-group">                                    
+                                    <input class="form-control" ng-model="ingresosVentaDetalleSeleccionado.nroUnidadesEmpaque" placeholder="Nro Etiquetas">
+                                    <span class="input-group-btn">
+                                        <button  class="btn btn-primary" ng-click="generarEtiquetas_action();">                                            
+                                            Generar
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        
+                        <br/>
+                        
+                        <div class="row show-grid">
+                            <div style="height: 250px;overflow-y: auto;">
+                                <table    class="table table-bordered table-hover" >
+                                    <thead class="">
+                                        <tr>
+                                            <th>ETIQUETA</th>
+                                            <th>CANTIDAD.</th>
+                                            <th>ESTADO</th>
+                                            <th>EMPAQUE</th>
+                                            <th>&nbsp;TARA&nbsp;</th>
+                                            <th>FECHA VENCIMIENTO&nbsp;</th>
+                                            <th>FECHA REANALISIS&nbsp;&nbsp;&nbsp;</th>
+                                            <th>LOTE PROVEEDOR&nbsp;</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="ivd in ingresosVentaDetalleSeleccionado.ingresosVentaDetalleEstadoList">
+                                            <td>{{ivd.etiqueta}}</td>
+                                            <td><input ng-model="ivd.cantidadParcial" class="form-control"  ng-keyup="cantidadParcial_change()"/></td>
+                                            <td>{{ivd.estadosProducto.nombreEstadoProducto}}</td>                                        
+                                            <td>{{ivd.empaqueSecundarioExterno.nombreEmpaqueSecundarioExterno}}</td>
+                                            <td><input ng-model="ivd.tara" class="form-control" ng-keyup="cantidadParcial_change()" /></td>
+                                            <td><input ng-model="ivd.fechaVencimiento" class="form-control" datepickers /></td>
+                                            <td><input ng-model="ivd.fechaReanalisis" class="form-control" datepickers /></td>
+                                            <td><input ng-model="ivd.loteProductoProveedor" class="form-control" /></td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>total</th>
+                                            <th>{{ingresosVentaDetalleSeleccionado.ingresosVentaDetalleEstadoTotal.cantidadParcial}}</th>
+                                            <th></th>
+                                            <th></th>
+                                            <th>{{ingresosVentaDetalleSeleccionado.ingresosVentaDetalleEstadoTotal.tara}}</th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                                
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" ng-click="guardarEtiquetas_action();">
+                            <i class="fa fa-check-circle"></i>
+                            Aceptar    
+                        </button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="$('#detalleEtiquetasDialog').modal('hide');">
+                            <i class="fa fa-times-circle"></i>
+                            Cancelar
+                        </button>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+    	<!-- ui-dialog editar -->
+        <div id="editarCuentaDialog" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><i class="fa fa-check fa-1x"></i>Editar Cuenta</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row show-grid">
+                            <div class="col-md-6">
+                                <label>Cod Cuenta:</label>
+                                <input class="form-control" ng-model="planDeCuentaBuscar.codigoPlanCuenta" ng-change="nombrePlanCuenta_change()" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Nombre:</label>
+                                <input class="form-control" ng-model="planDeCuentaBuscar.nombrePlanCuenta" ng-change="nombrePlanCuenta_change()" />
+                            </div>
+                        </div>
+                        <div class="row show-grid">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr ><th>CODIGO</th>
+                                        <th>NOMBRE</th>
+                                        <th>ESTADO</th>
+                                        <th>MOVIMIENTO</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr  ng-repeat="p in planDeCuentaList | filter:filterProduct | orderBy:'-cod_empresa'" 
+                                         id="{{p.codPlanCuenta}}"  
+                                         ng-animate=" 'animate'" 
+                                         ng-click="seleccionarPlanDeCuentas_action(p)" 
+                                         style="{{p.codPlanCuenta==planDeCuentaSeleccionado.codPlanCuenta?'background-color:#F1F1F1':''}}">
+                                        <td>{{p.codigoPlanCuenta}}</td>
+                                        <td>{{p.nombrePlanCuenta}}</td>
+                                        <td>{{p.estadoRegistro.nombreEstadoRegistro}}</td>
+                                        <td>{{p.movimiento==1?'SI':'NO'}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" ng-click="editarCuenta_action();">
+                            <i class="fa fa-check-circle"></i>
+                            Aceptar    
+                        </button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="$('#mensajeDialog').modal('hide');">
+                            <i class="fa fa-times-circle"></i>
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+        
+
+      <!-- alerta -->
+      
+      <div id="mensajeDialog" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><i class="fa fa-warning fa-1x"></i> Mensaje</h4>
+                </div>
+                <div class="modal-body">
+                    <i class="fa fa-warning fa-5x"></i>
+                    {{mensaje}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="$('#mensajeDialog').modal('hide');">Aceptar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+      
+      
+      <div id="agregarLibroComprasDialog" class="modal fade" role="dialog">
+        <form>
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><i class="fa fa-check"></i>Libro de compras</h4>
+                    </div>
+                    <div class="modal-body">    
+                        <div class="row show-grid">
+                            <div class="col-md-6">
+                                <label>Proveedor *</label>                                
+                                <div class="input-group">
+                                    <select class="form-control" ng-model="libroCompras.proveedores.codProveedor" ng-options="e.codItem as e.nombreItem for e in proveedoresList" ng-change="proveedor_change()"></select>
+                                    <div class="input-group-btn">                    
+                                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButtonPL" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false">
+                                            <i class="fa fa-caret-down"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-left" role="menu" aria-labelledby="dropdownMenuButtonPL">
+                                            <li><a  ng-click="actualizarProveedores_action();">Actualizar</a></li>
+                                            <li><a  ng-click="abrirProveedores_action();">Abrir</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>                            
+                            <div class="col-md-6">
+                                <label>Nit Proveedor *</label>
+                                <input class="form-control" ng-model="libroCompras.proveedores.nitProveedor" readonly  />
+                            </div>
+                        </div>
+                        <div class="row show-grid">
+                            <div class="col-md-6">
+                                <label>Nro Factura *</label>
+                                <input class="form-control" ng-model="libroCompras.nroFactura" />
+                            </div>                            
+                            <div class="col-md-6">
+                                <label>Nro DUI </label>
+                                <input class="form-control" ng-model="libroCompras.nroDUI" />
+                            </div>
+                        </div>
+                        <div class="row show-grid">
+                            <div class="col-md-6">
+                                <label>Nro. Autorizacion *</label>
+                                <input  ng-model="libroCompras.nroAutorizacion" class="form-control"    />
+                            </div>
+                            <div class="col-md-6">                                            
+                                <label>Codigo Control *</label>                                
+                                <input ng-model="libroCompras.codigoControl" class="form-control"    />
+                            </div>                            
+                        </div>
+                        <div class="row show-grid">                        
+                            <div class="col-md-6" id="fecha">
+                                <label>Fecha *</label>
+                                <div class="input-group date">
+                                    <input ng-model="libroCompras.fechaLibro" type="text" class="form-control" placeholder="fecha libro" readonly="" >
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="row show-grid">                        
+                            <div class="col-md-6">
+                                <label>Importe Total *</label>
+                                <input  ng-model="libroCompras.totalFactura" class="form-control"  placeholder="Monto" ng-change="importe_change()" />
+                            </div>
+                            <div class="col-md-6">                                            
+                                <label>Importe no sujeto a Credito Fiscal:</label>                                
+                                <input ng-model="libroCompras.importeNoSujetoCreditoFiscal" class="form-control"  ng-change="importe_change()"  />
+                            </div>
+                        </div>
+                        <div class="row show-grid">                                                    
+                            <div class="col-md-6">
+                                <label>Descuentos y Rebajas:</label>
+                                <input ng-model="libroCompras.descuentosBonificaciones" class="form-control" ng-change="importe_change()"   />
+                            </div>
+                            <div class="col-md-6">                                            
+                                <label>Importe Pagado:</label>                                
+                                <input ng-model="libroCompras.importePagado" class="form-control"  readonly     />
+                            </div>
+                        </div>
+                        
+                        <div class="row show-grid">                        
+                            <div class="col-md-6">
+                                <label>Importe Base para Credito Fiscal *</label>
+                                <input ng-model="libroCompras.importeBaseCreditoFiscal" class="form-control"  readonly=""   />
+                            </div>
+                            <div class="col-md-6">                            
+                                <label>Credito Fiscal *</label>
+                                <input  ng-model="libroCompras.importeCreditoFiscal" class="form-control"  readonly=""   />                                
+                            </div>
+                            
+                        </div>
+                        <div class="row show-grid">
+                            <div class="col-md-6">                                            
+                                <label>Tipo Doc.:</label>
+                                <select class="form-control" ng-model="libroCompras.tiposDocumentoLibrosCompra.codTipoDocumentoLibroCompra" ng-options="e.codItem as e.nombreItem for e in tiposDocumentoLibroComprasList"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" ng-click="guardarLibroCompras_action();">
+                            <i class="fa fa-check"></i>
+                            Aceptar
+                        </button>
+                        
+                        
+                    </div>
+                    
+                </div>
+
+            </div>
+        </form>
+    </div>
+      <div id="agregarReciboComprasDialog" class="modal fade" role="dialog">
+        <form>
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><i class="fa fa-check"></i>Recibo de compras</h4>
+                    </div>
+                    <div class="modal-body">    
+                        <div class="row show-grid">
+                            <div class="col-md-6">
+                                <label>Proveedor:</label>
+                                <div class="input-group">
+                                    <select class="form-control" ng-model="reciboCompras.proveedor.codProveedor" ng-options="e.codItem as e.nombreItem for e in proveedoresList" ng-change="proveedor_change1()"></select>
+                                    <div class="input-group-btn">                    
+                                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false">
+                                            <i class="fa fa-caret-down"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-left" role="menu" aria-labelledby="dropdownMenuButton">
+                                            <li><a  ng-click="actualizarProveedores_action();">Actualizar</a></li>
+                                            <li><a  ng-click="abrirProveedores_action();">Abrir</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>                            
+                            <div class="col-md-6">
+                                <label>Nit Proveedor:</label>
+                                <input class="form-control" ng-model="reciboCompras.proveedor.nitProveedor" readonly  />
+                            </div>
+                        </div>
+                        <div class="row show-grid">
+                            <div class="col-md-6">
+                                <label>Nro Recibo:</label>
+                                <input class="form-control" ng-model="reciboCompras.nroRecibo" />
+                            </div>                            
+                            <div class="col-md-6" id="fecha_recibo">
+                                <label>Fecha de Recibo:</label>
+                                <div class="input-group date">
+                                    <input ng-model="reciboCompras.fechaRecibo" type="text" class="form-control" placeholder="fecha recibo" >
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row show-grid">
+                            <div class="col-md-6">
+                                <label>Importe total:</label>
+                                <input  ng-model="reciboCompras.importeTotal" class="form-control"  ng-change="importeRecibo_change()"   />
+                            </div>
+                            <div class="col-md-6">                                            
+                                <label>Descuentos y Rebajas:</label>                                
+                                <input ng-model="reciboCompras.descuentosRebajas" class="form-control"  ng-change="importeRecibo_change()"  />
+                            </div>                            
+                        </div>
+                        <div class="row show-grid">
+                            <div class="col-md-6">
+                                <label>Importe cancelado:</label>
+                                <input  ng-model="reciboCompras.importeCancelado" class="form-control"  readonly="true"   />
+                            </div>
+                            <div class="col-md-6" id="fecha_pago">
+                                <label>Fecha de Pago:</label>
+                                <div class="input-group date">
+                                    <input ng-model="reciboCompras.fechaPago" type="text" class="form-control" placeholder="fecha pago"  >
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                            </div>                            
+                        </div>                        
+                        <div class="row show-grid">
+                            <div class="col-md-12">
+                                <label>Glosa:</label>
+                                <input  ng-model="reciboCompras.glosa" class="form-control"    />
+                            </div>                            
+                        </div>
+                    </div>                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" ng-click="guardarReciboCompras_action();">
+                            <i class="fa fa-check"></i>
+                            Aceptar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>

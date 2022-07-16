@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<section ng-controller="navegadorSalidasVentaController">
+<div class="panel panel-primary" id="panel-principal">
+  <div class="panel-heading">
+      <div align="center" class="panel-title"><a style="cursor:pointer;" ng-click="mostrarBuscarSalidaVenta_action();"><i class="fa fa-search-plus"></i>&nbsp;SALIDAS ALMACEN</a></div>      
+  </div>
+  <div class="panel-body">
+      <section id="no-more-tables">
+          <table class="table table-bordered table-hover table-condensed"  >
+              <thead class="cf">
+                  <tr>                      
+                      <th>NRO</th>                      
+                      
+                      <th>FECHA</th>                      
+                      <th>TIPO VENTA</th>
+                      <th>CLIENTE</th>
+                      <th>GLOSA</th>                      
+                      <th>TIPO DOC.</th>
+                      <th>NRO FAC.</th>
+                      
+                      <th>ESTADO</th>
+                      <th>&nbsp;</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr  ng-repeat="ia in salidasVentaList" 
+                       id="{{ia.codsalidaVenta}}"
+                       >                      
+                      <td data-title="NRO">&nbsp;{{ia.nroSalidaVenta}}</td>
+                      
+                      <td data-title="FECHA">&nbsp;{{ia.fechaSalidaVenta}}</td>
+                      
+                      <td data-title="TIPO SALIDA">&nbsp;{{ia.tiposVenta.nombreTipoVenta}}</td>
+                      <td data-title="CLIENTE">&nbsp;{{ia.clientes.nombreCliente}}</td>
+                      <td data-title="GLOSA">&nbsp;{{ia.glosa}}</td>                      
+                      <td data-title="TIPO DOC.">&nbsp;{{ia.tiposDocumento.nombreTipoDocumento}}</td>                      
+                      <td data-title="NRO FACTURA">&nbsp;{{ia.nroFactura}}</td>                      
+                      
+                      <td data-title="ESTADO">&nbsp;{{ia.estadosSalidaVenta.nombreEstadoSalidaVenta}}</td>
+                      <td data-title="">
+                          
+                          <div class="dropdown">
+                              <a class="btn btn-secondary dropdown-toggle" href="#" id="dropdownMenuButton" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false">
+                                    <i class="fa fa-ellipsis-v"></i>
+                              </a>
+                              <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenuButton">
+                                <li>
+                                    <a tabindex="-1"  ng-click="agregarSalidaVenta_action();">
+                                        Agregar
+                                    </a>
+                                </li>
+                                <li>
+                                    <a tabindex="-1" ng-click="editarSalidaVenta3_action(ia);">
+                                        Editar
+                                    </a>
+                                </li>
+                                <li>
+                                    <a tabindex="-1" ng-click="anularSalidaVenta_action(ia);">
+                                        Anular
+                                    </a>
+                                </li>
+                                <li>
+                                    <a tabindex="-1" ng-click="generarFactura_action(ia);">
+                                        Generar Factura
+                                    </a>
+                                </li>
+                                <li>
+                                    <a tabindex="-1" ng-click="verFactura_action(ia);">
+                                        Imprimir Factura
+                                    </a>
+                                </li>
+                                <li>
+                                    <a tabindex="-1" ng-click="devolverSalidaVenta_action(ia);">
+                                        Devolucion
+                                    </a>
+                                </li>
+                                
+                            </ul>                              
+                          </div>
+                          
+                      
+                    </td>
+                      
+                  </tr>
+              </tbody>
+          </table>
+      </section>
+      <div align="center">
+          <button type="button" class="btn btn-primary" ng-click="atras_action()">
+              <i class="fa fa-chevron-left"></i>
+          </button>
+          <button type="button" class="btn btn-primary" ng-click="siguiente_action()">
+              <i class="fa fa-chevron-right"></i>
+          </button>
+      </div>
+          
+</div>
+
+    <div class="panel-footer" align="center">
+        
+        <div class="btn-group">
+            <p>
+            <button type="button" class="btn btn-primary" ng-click="agregarSalidaVenta_action();">
+                <i class="fa fa-plus"></i>
+                Registrar
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="editarSalidaVenta_action();">
+                <i class="fa fa-edit"></i>
+                Editar
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="borrarSalidaVenta(salidaVenta);">
+                <i class="fa fa-trash-o"></i>
+                Eliminar
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="imprimirSalidaVenta_action();">
+                <i class="fa fa-edit"></i>
+                Imprimir
+            </button>
+            
+            </p>    
+        </div>
+    </div>
+</div>
+    <div id="buscarsalidaVentaDialog" class="modal fade" role="dialog">
+        <form>
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><i class="fa fa-search"></i> Buscar Salida Venta</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row show-grid">                        
+                            <div class="col-md-6">
+                                <label>Nro Salida Venta:</label>
+                                <input class="form-control" ng-model="salidasVentaBuscar.nroSalidaVenta" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Nro Factura Emitida</label>
+                                <input class="form-control" ng-model="salidasVentaBuscar.nroFactura" />                                
+                            </div>
+                        </div>
+                        <div class="row show-grid">
+                            <div class="col-md-6">
+                                <label>Cliente:</label>
+                                <select class="form-control" ng-model="salidasVentaBuscar.clientes.codCliente" ng-options="e.codItem as e.nombreItem for e in clientesList"></select>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Estado:</label>
+                                <select class="form-control" ng-model="salidasVentaBuscar.estadosSalidaVenta.codEstadoSalidaVenta" ng-options="e.codItem as e.nombreItem for e in estadosSalidaVentaList"></select>
+                            </div>
+                        </div>
+                        <div class="row show-grid">                        
+                            
+                                <div class="col-sm-6" id="fechaSalidaVentaInicio">
+                                    <label>Fecha Inicio</label>
+                                    <div class="input-group date">
+                                        <input type="text" class="form-control" data-ng-model="salidasVentaBuscar.fechaSalidaVentaInicio"  >
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                            
+                            
+                                <div class="col-sm-6" id="fechaSalidaVentaFinal">
+                                    <label>Fecha Final</label>
+                                    <div class="input-group date">
+                                        <input type="text" class="form-control" data-ng-model="salidasVentaBuscar.fechaSalidaVentaFinal"  >
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                            
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" ng-click="buscarSalidaVenta_action();">Buscar</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    
+    <!-- alerta -->
+      
+      <div id="mensajeDialog" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><i class="fa fa-search fa-1x"></i> Mensaje</h4>
+                </div>
+                <div class="modal-body">
+                    <i class="fa fa-warning fa-5x"></i>
+                    {{mensaje}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="$('#mensajeDialog').dialog('hide');">Aceptar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+       

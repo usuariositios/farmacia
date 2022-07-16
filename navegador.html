@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<!-- saved from url=(0033)https://www.adchsm.com/slidebars/ -->
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <title>MI ASISTENTE FARMACIA</title>        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">        
+        <link rel="stylesheet" href="./js/slideBar/slidebars.css">
+        <link rel="stylesheet" href="./js/slideBar/manhattan.css">
+        <link rel='stylesheet' href='./js/datePicker/css/bootstrap-datepicker.min.css' type='text/css'>
+        <link rel="stylesheet" href="./js/slideBar/style.css">
+        
+        
+        <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css" >        
+        <link rel="stylesheet" href="./lib/bootstrap/css/custom.css" type="text/css" />
+        <link rel="stylesheet" href="./lib/bootstrap/css/font-awesome.min.css"  type="text/css" />                  
+        <link rel='stylesheet' href='./lib/bootstrap/css/font-custom.css' type='text/css'>
+        <link rel='stylesheet' href='./lib/table-responsive/table-responsive.css' type='text/css'>
+        <link rel='stylesheet' href='./js/menu/styles.css' type='text/css'>
+        <link rel='stylesheet' href='./js/growl/jquery.growl.css' type='text/css'>
+        <style>
+            body modal-open {
+            overflow: hidden;
+            }
+            .deshabilitarContenido {/*llevar a un archivo*/
+                pointer-events: none;
+                opacity: 0.6;
+            }
+        </style>
+        
+        
+        <!--base href="/inventarios_requirejs/"-->
+        
+    </head>
+
+    <body id="body-container" ng-controller="navegadorController">
+        <nav canvas="" style="z-index: 10" >
+            <div  data-ng-cloak>
+                <div >
+                    <div >
+                        <div class="float-left">
+                            <button class="button js-toggle-main-menu"><i class="fa fa-bars"></i> <span class="text">Menu</span></button>
+                        </div>
+
+                        <div class="float-right">
+                            
+                            
+                            
+                            <button type="button" class="button" 
+                                    data-toggle="popover" title="Sesion"
+                                    data-html="true"
+                                    data-content="Gestion: {{usuarioPersonal.gestion.nombreGestion}}<br/>
+                                                  Empresa: {{usuarioPersonal.empresas.nombreEmpresa}}<br/>
+                                                  Sucursal: {{usuarioPersonal.sucursalVentas.nombreSucursal}}<br/>
+                                                  Almacen: {{usuarioPersonal.almacenesVenta.nombreAlmacenVenta}}
+                                                  "                                                 
+                                    data-placement="left">
+                                <i class="fa fa-home"></i>
+                            </button>
+                            
+                            
+                            
+                            
+                            <button class="button dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false">
+                                <i class="fa fa-user"></i> <span class="text">{{usuarioPersonal.personal.nombrePersonal}} {{usuarioPersonal.personal.apPaternoPersonal}}</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenuButton">
+                                <li><a href="#"><i class="fa fa-user fa-fw"></i> Información</a>
+                                </li>
+                                <li><a href="#" ng-click="configuracion_action();"><i class="fa fa-gear fa-fw"></i> Configuracion</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li><a ng-click="salir_action();"><i class="fa fa-sign-out fa-fw"></i> Salir</a>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                            <div  data-loading ><img src="./images/ajaxloading.gif" style="height: 48px" />
+                        
+                        
+                            
+                        
+
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div canvas="container" id="panel-container">
+            <div id="main" class="container-fluid" ng-view>
+                <p>Contenido</p>
+                
+            </div>
+        </div><!-- /canvas -->
+        <div data-off-canvas="main-menu left overlay" style="margin-left: -255px;">
+            <div align="center">
+                <img src="data:image/jpg;base64,{{usuarioPersonal.empresas.logotipoEmpresa}}"  style="height: 59px" />
+            </div>
+            <div id='cssmenu'>
+                
+                
+                <div style="display: none;left:40%;top: 40%;position: absolute" id="status" align="center">
+                    <img src="./images/ajaxloading.gif" style="height: 40px" />
+                </div>
+                
+            </div>
+        </div>
+        
+        <script type="text/javascript" src="./bower_components/requirejs/require.js" data-main="./scripts/data-main.js"></script>
+        
+    </body>
+</html>

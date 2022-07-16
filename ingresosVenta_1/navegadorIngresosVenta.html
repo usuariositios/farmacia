@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<section ng-controller="navegadorIngresosVentaController">
+<div class="panel panel-primary" id="panel-principal">
+  <div class="panel-heading">
+      
+      
+      <div align="center" class="panel-title"><a style="cursor:pointer;" ng-click="mostrarBuscarIngresoVenta_action();"><i class="fa fa-search-plus"></i>&nbsp;INGRESOS ALMACEN VENTA</a></div>
+      
+    </div>
+  <div class="panel-body">
+      <section id="no-more-tables">
+          <table class="table table-bordered table-hover table-condensed"  >
+
+              <thead class="cf">
+                  <tr>                      
+                      <th>NRO</th>
+                      <th>TIPO DOC.</th>
+                      <th>NRO DOC.</th>
+                      <th>FECHA</th>
+                      <th>PROVEEDOR</th>
+                      
+                      <th>GLOSA</th>
+                      <th>TIPO INGRESO</th>
+                      <th></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr  ng-repeat="ia in ingresosVentaList" 
+                       id="{{ia.codingresoVenta}}"
+                       >
+                      
+                      <td data-title="NRO">&nbsp;{{ia.nroIngresoVenta}}</td>
+                      <td data-title="TIPO DOC.">&nbsp;{{ia.tiposDocumento.nombreTipoDocumento}}</td>
+                      <td data-title="NRO DOC.">&nbsp;{{ia.libroCompras.nroFactura>0?ia.libroCompras.nroFactura:ia.reciboCompras.nroRecibo}}</td>
+                      <td data-title="FECHA">&nbsp;{{ia.fechaIngresoVenta}}</td>
+                      <td data-title="PROVEEDOR">&nbsp;{{ia.proveedores.nombreProveedor}}</td>
+                      
+                      
+                      <td data-title="GLOSA">&nbsp;{{ia.glosa}}</td>
+                      <td data-title="TIPO INGRESO">&nbsp;{{ia.tiposIngresoVenta.nombreTipoIngresoVenta}}</td>
+                      <td data-title="">
+                          <div class="dropdown">
+                              <a class="btn btn-secondary dropdown-toggle" href="#" id="dropdownMenuButton" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false">
+                                    <i class="fa fa-ellipsis-v"></i>
+                              </a>
+                              <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenuButton">
+                                <li>
+                                    <a tabindex="-1"  ng-click="agregarIngresoVenta_action();">
+                                        Agregar
+                                    </a>
+                                </li>
+                                <li>
+                                    <a tabindex="-1" ng-click="editarIngresoVenta3_action(ia);">
+                                        Editar
+                                    </a>
+                                </li>
+                                <li>
+                                    <a tabindex="-1" ng-click="eliminarIngresoVenta_action(ia);">
+                                        Eliminar
+                                    </a>
+                                </li>
+                                <li>
+                                    <a tabindex="-1" ng-click="reporteIngresoVenta_action(ia);">
+                                        Reporte
+                                    </a>
+                                </li>
+                            </ul>                              
+                          </div>
+                          
+                          
+                      </td>
+                      
+                  </tr>
+              </tbody>
+          </table>
+      </section>
+      <div align="center">
+          <button type="button" class="btn btn-primary" ng-click="atras_action()">
+              <i class="fa fa-chevron-left"></i>
+          </button>
+          <button type="button" class="btn btn-primary" ng-click="siguiente_action()">
+              <i class="fa fa-chevron-right"></i>
+          </button>
+      </div>
+          
+</div>
+
+    <div class="panel-footer" align="center">
+        
+        <div class="btn-group">
+            <p>
+            <button type="button" class="btn btn-primary" ng-click="agregarIngresoVenta_action();">
+                <i class="fa fa-plus"></i>
+                Registrar
+            </button>
+            <!--button type="button" class="btn btn-primary" ng-click="editarIngresoVenta_action();">
+                <i class="fa fa-edit"></i>
+                Editar
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="borraringresoVenta(ingresoVenta);">
+                <i class="fa fa-trash-o"></i>
+                Eliminar
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="imprimiringresoVenta_action();">
+                <i class="fa fa-edit"></i>
+                Imprimir
+            </button-->
+            </p>    
+        </div>
+    </div>
+</div>
+    <div id="buscaringresoVentaDialog" class="modal fade" role="dialog">
+        <form>
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><i class="fa fa-search"></i> Buscar Ingreso Venta</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row show-grid">                        
+                            <div class="col-md-6">
+                                <label>Nro Ingreso Venta:</label>
+                                <input class="form-control" ng-model="ingresosVentaBuscar.nroIngresoVenta" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Nro Factura</label>
+                                <input class="form-control" ng-model="ingresosVentaBuscar.nroFacturaProveedor" />                                
+                            </div>
+                        </div>
+                        <div class="row show-grid">
+                            <div class="col-md-6">
+                                <label>Proveedor:</label>
+                                <select class="form-control" ng-model="ingresosVentaBuscar.proveedores.codProveedor" ng-options="e.codItem as e.nombreItem for e in proveedoresList"></select>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Estado:</label>
+                                <select class="form-control" ng-model="ingresosVentaBuscar.estadosIngresoVenta.codEstadoIngresoVenta" ng-options="e.codItem as e.nombreItem for e in estadosIngresoVentaList"></select>
+                            </div>
+                        </div>
+                        <div class="row show-grid">                        
+                            <div class="col-md-6">                            
+                                <label>Fecha Inicio:</label>
+                                <input  data-ng-model="ingresosVentaBuscar.fechaIngresoVentaInicio" class="form-control" datepickers required="true" id="fechaIngresoVentaInicio" />
+                            </div>
+                            <div class="col-md-6">                            
+                                <label>Fecha Fin:</label>
+                                <input  data-ng-model="ingresosVentaBuscar.fechaIngresoVentaFinal" class="form-control" datepickers required="true" id="fechaIngresoVentaFinal" />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" ng-click="buscarIngresoVenta_action();">Buscar</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <div id="agregarIngresoVentaDialog" class="modal fade" role="dialog">
+        <form>
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><i class="fa fa-check"></i> Seleccionar Documento</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row show-grid">
+                            <div class="col-md-12">                                
+                                <table class="table table-bordered table-hover table-condensed" >
+                                    <thead class="">
+                                        <tr>
+                                            <th>NOMBRE</th>                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr  ng-repeat="t in tiposDocumentoList" id="{{t.codItem}}">
+                                            <td><a href="" style="color: #337ab7" ng-click="seleccionarTipoDocumento_action(t)" >{{t.nombreItem}}</a></td>                                            
+                                        </tr>
+                                    </tbody>
+                                </table>                                
+                            </div>                            
+                        </div>
+                    </div>
+                    <div class="modal-footer">                        
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    
+    <!-- alerta -->
+      
+      <div id="mensajeDialog" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><i class="fa fa-search fa-1x"></i> Mensaje</h4>
+                </div>
+                <div class="modal-body">
+                    <i class="fa fa-warning fa-5x"></i>
+                    {{mensaje}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="$('#mensajeDialog').dialog('hide');">Aceptar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+       

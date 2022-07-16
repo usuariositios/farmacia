@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+
+<section ng-controller="navegadorProductosController">
+<div class="panel panel-primary" id="panel-principal">
+  <div class="panel-heading">
+      
+          
+              
+              
+            <div align="center" class="panel-title">
+                
+                
+            
+                
+                    <a style="cursor:pointer;" ng-click="mostrarBuscarProducto_action();"><i class="fa fa-search-plus"></i>&nbsp;PRODUCTOS</a>
+                    
+                    <div class="dropdown float-right">
+                        
+                        
+                        <a class="btn btn-secondary dropdown-toggle" href="#" id="menuDropdown" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false" style="color: white">
+                          <i class="fa fa-ellipsis-v"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="menuDropdown">
+                          <li>
+                              <a tabindex="-1"  ng-click="agregarProducto_action();">
+                                  Agregar
+                              </a>
+                          </li>
+                        </ul>
+                    </div>
+                
+              
+            </div>
+          
+        
+  </div>
+    <div class="panel-body">      
+      <section id="no-more-tables">
+          <table class="table table-bordered table-hover table-condensed"  >
+              <thead class="cf">
+                  <tr>
+                      <th>CODIGO</th>
+                      <th>NOMBRE</th>
+                      <th>LABORATORIO</th>
+                      <th>UNID.</th>
+                      <th>NOMBRE GENERICO</th>
+                      <th>FORMA FARMACEUTICA</th>
+                      <th>IMAGEN PRODUCTO</th>
+                      <th><p style="padding: 1em"></p></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr class="no-border" ng-repeat="p in productosList" 
+                       id="{{p.codProducto}}"
+                       >
+                      <td data-title="CODIGO">&nbsp;{{p.codigoProducto}}</td>
+                      <td data-title="NOMBRE">&nbsp;{{p.nombreProducto}}</td>
+                      <td data-title="LABORATORIO">&nbsp;{{p.proveedores1.nombreProveedor}}</td>
+                      <td data-title="UNID.">&nbsp;{{p.unidadesMedida.nombreUnidadMedida}}</td>
+                      <td data-title="NOMBRE GENERICO">&nbsp;{{p.nombreGenerico.descripcionNombreGenerico}}</td>
+                      <td data-title="FORMA FARMACEUTICA">&nbsp;{{p.formaFarmaceutica.nombreFormaFarmaceutica}}</td>
+                      
+                      <td data-title="IMAGEN PRODUCTO">&nbsp;<img src="data:image/jpg;base64,{{p.imagenProducto}}" width="200" /></td>
+                      <td data-title=" ">
+                          <div class="dropdown">
+                              <a class="btn btn-secondary dropdown-toggle" href="#" id="dropdownMenuButton" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false">
+                                  <i class="fa fa-ellipsis-v"></i>
+                              </a>
+                              <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenuButton">
+                                
+                                <li>
+                                    <a tabindex="-1" ng-click="editarProducto_action(p);">
+                                        Editar
+                                    </a>
+                                </li>
+                                <li>
+                                    <a tabindex="-1" ng-click="eliminarProducto_action(p);">
+                                        Eliminar
+                                    </a>
+                                </li>
+                                <li>
+                                    <a tabindex="-1" ng-click="verReporteProducto_action(p);">
+                                        Reporte
+                                    </a>
+                                </li>
+                            </ul>                              
+                          </div>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </section>
+      
+      <div align="center">
+          <button type="button" class="btn btn-primary" ng-click="atras_action()">
+              <i class="fa fa-chevron-left"></i>
+          </button>
+          <button type="button" class="btn btn-primary" ng-click="siguiente_action()" >
+              <i class="fa fa-chevron-right"></i>
+          </button>          
+      </div>
+          
+</div>
+
+    <div class="panel-footer" align="center">
+        
+        <div class="btn-group">
+            <p>
+            <button type="button" class="btn btn-primary" ng-click="agregarProducto_action();">
+                <i class="fa fa-plus"></i>
+                Registrar
+            </button>            
+            
+            </p>
+        </div>
+    </div>
+</div>
+    
+    <div id="agregarProductoDialog" class="modal fade" role="dialog" >
+        <form>
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><i class="fa fa-check-circle"></i> Agregar Producto</h4>
+                    </div>
+                    <div class="modal-body">
+                         
+                        
+                        
+                        <div role="tabpanel">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#datos1Tab" aria-controls="datos1Tab" role="tab" data-toggle="tab">Producto</a>
+
+                                </li>
+                                <li role="presentation"><a href="#datos2Tab" aria-controls="datos2Tab" role="tab" data-toggle="tab">Costos y stock</a>
+
+                                </li>
+                            </ul>
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="datos1Tab">
+                                    <div class="row show-grid">
+                                        <div class="col-md-6">
+                                            <label>Codigo:</label>
+                                            <input class="form-control" ng-model="producto.codigoProducto" />
+                                        </div>
+                                    </div>
+                                    <div class="row show-grid">
+                                        <div class="col-md-12">
+                                            <label>Nombre:</label>
+                                            <input class="form-control" ng-model="producto.nombreProducto" />
+                                        </div>
+                                    </div>
+                                    <div class="row show-grid">
+                                        <div class="col-md-6">                            
+                                            <label>Laboratorio:</label>
+                                            <select class="form-control" ng-model="producto.proveedores1.codProveedor" ng-options="p.codItem as p.nombreItem for p in proveedoresList"></select>
+                                        </div>
+                                        <div class="col-md-6">                            
+                                            <label>Presentacion:</label>
+                                            <select class="form-control" ng-model="producto.presentacionesProducto.codPresentacionProducto" ng-options="p.codItem as p.nombreItem for p in presentacionesProductoList"></select>
+                                        </div>
+                                    </div>
+                                    <div class="row show-grid">
+                                        <div class="col-md-12">
+                                            <label>Codigo de barras:</label>
+                                            <input ng-model="producto.codBarrasProducto" class="form-control"  />                                
+                                        </div>
+                                    </div>                                    
+                                    <div class="row show-grid">
+                                        <div class="col-md-6">
+                                            <label>Forma farmaceutica:</label>
+                                            <select class="form-control" ng-model="producto.formaFarmaceutica.codFormaFarmaceutica" ng-options="p.codItem as p.nombreItem for p in formaFarmaceuticaList"></select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Nombre generico:</label>
+                                            <select class="form-control" ng-model="producto.nombreGenerico.codNombreGenerico" ng-options="p.codItem as p.nombreItem for p in nombreGenericoList"></select>
+                                        </div>
+                                    </div>
+                                    <div class="row show-grid">
+                                        <div class="col-md-6">
+                                            <label>Imagen:</label>
+                                            <input type="file" name="fileImgProducto" id="fileImgProducto" />
+                                        </div>                            
+                                        <div class="col-md-6">
+                                            <label>Vista Previa:</label>
+                                            <img id="imgPreviaProducto" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="datos2Tab">
+                                    
+                                    
+                                    <div class="row show-grid">
+                                        <div class="col-md-6">
+                                            <label>Stock Minimo:</label>
+                                            <input ng-model="producto.stockMinimo" class="form-control"  />                                
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Unidad:</label>
+                                            <select class="form-control" ng-model="producto.unidadesMedida.codUnidadMedida" ng-options="p.codItem as p.nombreItem for p in unidadesMedidaList"></select>
+                                        </div>
+                                    </div>
+                                    <fieldset>
+                                        <legend class="h5">Unidad:</legend>                                    
+                                    <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Costo de compra:</label>
+                                                <input ng-model="producto.precioCompra" class="form-control"  />                                
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Precio de venta:</label>
+                                                <input ng-model="producto.precioTienda" class="form-control"  />                                
+                                            </div>
+                                    </div>
+                                    </fieldset>
+                                    <fieldset class="">
+                                        <legend class="h5">Blister:</legend>
+                                        <div class="row">
+                                        <div class="col-md-4">
+                                            <label>Costo de compra:</label>
+                                            <input ng-model="producto.precioCompraBlister" class="form-control"  />                                
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Precio de venta:</label>
+                                            <input ng-model="producto.precioVentaBlister" class="form-control"  />                                
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>contiene:</label>
+                                            <input ng-model="producto.cantUnidadesBlister" class="form-control"  />                                
+                                        </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend class="h5">Caja:</legend>
+                                        <div class="row">
+                                        <div class="col-md-4">
+                                            <label>Costo de compra:</label>
+                                            <input ng-model="producto.precioCompraCaja" class="form-control"  />                                
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Precio de venta:</label>
+                                            <input ng-model="producto.precioVentaCaja" class="form-control"  />                                
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>contiene:</label>
+                                            <input ng-model="producto.cantUnidadesCaja" class="form-control"  />                                
+                                        </div>
+                                            </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" ng-click="guardarProducto_action();">
+                            <i class="fa fa-check"></i>
+                            Guardar
+                        </button>
+                        
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="cancelarAgregarProducto_action();">
+                            <i class="fa fa-times-circle"></i>
+                            Cancelar
+                        </button>
+                    </div>
+                    
+                </div>
+
+            </div>
+        </form>
+        
+        
+
+
+    </div>
+    
+    <div id="editarProductoDialog" class="modal fade" role="dialog" >
+        <form>
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><i class="fa fa-check-circle"></i> Editar Producto</h4>
+                    </div>
+                    <div class="modal-body">
+                         
+                        
+                        
+                        <div role="tabpanel">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active">
+                                    <a href="#datos1ETab" aria-controls="datos1ETab" role="tab" data-toggle="tab">Producto</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#datos2ETab" aria-controls="datos2ETab" role="tab" data-toggle="tab">Costos y stock</a>
+                                </li>
+                            </ul>
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="datos1ETab">
+                                    <div class="row show-grid">
+                                        <div class="col-md-6">
+                                            <label>Codigo:</label>
+                                            <input class="form-control" ng-model="producto.codigoProducto" />
+                                        </div>
+                                    </div>
+                                    <div class="row show-grid">
+                                        <div class="col-md-12">
+                                            <label>Nombre:</label>
+                                            <input class="form-control" ng-model="producto.nombreProducto" />
+                                        </div>
+                                    </div>
+                                    <div class="row show-grid">
+                                        <div class="col-md-6">                            
+                                            <label>Laboratorio:</label>
+                                            <select class="form-control" ng-model="producto.proveedores1.codProveedor" ng-options="p.codItem as p.nombreItem for p in proveedoresList"></select>
+                                        </div>
+                                        <div class="col-md-6">                            
+                                            <label>Presentacion:</label>
+                                            <select class="form-control" ng-model="producto.presentacionesProducto.codPresentacionProducto" ng-options="p.codItem as p.nombreItem for p in presentacionesProductoList"></select>
+                                        </div>
+                                    </div>
+                                    <div class="row show-grid">
+                                        <div class="col-md-12">
+                                            <label>Codigo de barras:</label>
+                                            <input ng-model="producto.codBarrasProducto" class="form-control"  />                                
+                                        </div>
+                                    </div>                                    
+                                    <div class="row show-grid">
+                                        <div class="col-md-6">
+                                            <label>Forma farmaceutica:</label>
+                                            <select class="form-control" ng-model="producto.formaFarmaceutica.codFormaFarmaceutica" ng-options="p.codItem as p.nombreItem for p in formaFarmaceuticaList"></select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Nombre generico:</label>
+                                            <select class="form-control" ng-model="producto.nombreGenerico.codNombreGenerico" ng-options="p.codItem as p.nombreItem for p in nombreGenericoList"></select>
+                                        </div>
+                                    </div>
+                                    <div class="row show-grid">
+                                        <div class="col-md-6">
+                                            <label>Imagen:</label>
+                                            <input type="file" name="fileImgProductoEd" id="fileImgProductoEd" />
+                                        </div>                            
+                                        <div class="col-md-6">
+                                            <label>Vista Previa:</label>
+                                            <img id="imgPreviaProductoEd" src="data:image/jpg;base64,{{producto.imagenProducto}}" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="datos2ETab">
+                                    
+                                    
+                                    <div class="row show-grid">
+                                        <div class="col-md-6">
+                                            <label>Stock Minimo:</label>
+                                            <input ng-model="producto.stockMinimo" class="form-control"  />                                
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Unidad:</label>
+                                            <select class="form-control" ng-model="producto.unidadesMedida.codUnidadMedida" ng-options="p.codItem as p.nombreItem for p in unidadesMedidaList"></select>
+                                        </div>
+                                    </div>
+                                    <fieldset>
+                                        <legend class="h5">Unidad:</legend>                                    
+                                    <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Costo de compra:</label>
+                                                <input ng-model="producto.precioCompra" class="form-control"  />                                
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Precio de venta:</label>
+                                                <input ng-model="producto.precioTienda" class="form-control"  />                                
+                                            </div>
+                                    </div>
+                                    </fieldset>
+                                    <fieldset class="">
+                                        <legend class="h5">Blister:</legend>
+                                        <div class="row">
+                                        <div class="col-md-4">
+                                            <label>Costo de compra:</label>
+                                            <input ng-model="producto.precioCompraBlister" class="form-control"  />                                
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Precio de venta:</label>
+                                            <input ng-model="producto.precioVentaBlister" class="form-control"  />                                
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>contiene:</label>
+                                            <input ng-model="producto.cantUnidadesBlister" class="form-control"  />                                
+                                        </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend class="h5">Caja:</legend>
+                                        <div class="row">
+                                        <div class="col-md-4">
+                                            <label>Costo de compra:</label>
+                                            <input ng-model="producto.precioCompraCaja" class="form-control"  />                                
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Precio de venta:</label>
+                                            <input ng-model="producto.precioVentaCaja" class="form-control"  />                                
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>contiene:</label>
+                                            <input ng-model="producto.cantUnidadesCaja" class="form-control"  />                                
+                                        </div>
+                                            </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" ng-click="guardarEditarProducto_action();">
+                            <i class="fa fa-check"></i>
+                            Guardar
+                        </button>
+                        
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="$('#editarProductoDialog').modal('hide');">
+                            <i class="fa fa-times-circle"></i>
+                            Cancelar
+                        </button>
+                    </div>
+                    
+                </div>
+
+            </div>
+        </form>
+    </div>
+    
+    
+    
+    
+    
+    <div id="buscarProductoDialog" class="modal fade" role="dialog">
+        <form>
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><i class="fa fa-search"></i> Buscar Productos</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row show-grid">                        
+                            <div class="col-md-12">
+                                <label>Nombre:</label>
+                                <input class="form-control" ng-model="productosBuscar.nombreProducto" />
+                            </div>                            
+                        </div>
+                        <div class="row show-grid">
+                            <div class="col-md-6">
+                                <label>Grupo:</label>
+                                <select class="form-control" ng-model="productosBuscar.grupoProducto.codGrupoProducto" ng-options="p.codItem as p.nombreItem for p in gruposProductoList"></select>                                
+                            </div>
+                            <div class="col-md-6">
+                                <label>Medida:</label>
+                                <select class="form-control" ng-model="productosBuscar.unidadesMedida.codUnidadMedida" ng-options="p.codItem as p.nombreItem for p in unidadesMedidaList"></select>
+                            </div>
+                        </div>                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-default" ng-click="buscarProducto_action();">Buscar</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    
+    <!-- alerta -->
+      
+      <div id="mensajeDialog" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><i class="fa fa-search fa-1x"></i> Mensaje</h4>
+                </div>
+                <div class="modal-body">
+                    <i class="fa fa-warning fa-5x"></i>
+                    {{mensaje}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="$('#mensajeDialog').dialog('hide');">Aceptar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+       

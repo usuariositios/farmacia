@@ -1,0 +1,62 @@
+<section ng-controller="reporteLibroComprasController" ng-cloak>
+    <form>
+        <div class="panel panel-primary" id="panel-principal">
+            <div class="panel-heading">
+                <div align="center" class="panel-title">REPORTE LIBRO DE COMPRAS</div>      
+            </div>
+            <div class="panel-body">
+
+                <div class="row show-grid">
+                    <div class="col-md-3">
+                                            
+                    </div>                    
+                    <div class="col-md-3">
+                        <label>Gestion:</label>
+                        <select class="form-control" ng-model="datosReporte.codGestion" id="codGestion" >
+                            <option value="0">-NINGUNO-</option>
+                            <option ng-repeat="p in  gestionList"
+                                    value="{{p.codItem}}">
+                                {{p.nombreItem}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Mes:</label>
+                        <select class="form-control" ng-model="datosReporte.codMes" id="codMes" >
+                            <option value="0">-NINGUNO-</option>
+                            <option ng-repeat="p in  mesesList"
+                                    value="{{p.codItem}}">
+                                {{p.nombreItem}}
+                            </option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-md-3">
+                                            
+                    </div>
+                </div>
+                
+                
+                    
+                
+                <br/>
+
+                
+
+            </div>
+            <div class="panel-footer" align="center">
+                <div class="btn-group">                    
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false">
+
+                        <span class="text">Ver Reporte</span>&nbsp;<i class="fa fa-caret-down"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-left" role="menu" aria-labelledby="dropdownMenuButton">
+                        <li><a  ng-click="verReporte();">Facturas</a></li>
+                        <li><a  ng-click="verReporteRecibos_action();">Recibos</a></li>
+                    </ul>
+                </div>
+            </div>
+              
+        </div>
+    </form>
+</section>

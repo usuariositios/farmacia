@@ -1,0 +1,444 @@
+<section ng-controller="editarIngresosAlmacenController">
+    
+    
+    <div class="panel panel-primary" id="panel-principal">
+        <div class="panel-heading">
+            <div align="center" class="panel-title">EDITAR INGRESO ALMACEN</div>
+        </div>
+
+
+        <div class="panel-body">
+
+
+            <!--div ng-show="comprobantes.length==0"><i class="fa fa-ban fa-3x"></i>&nbsp;No data found</div>
+            <div ng-hide="comprobantes.length>-1"><i class="fa fa-cog fa-3x fa-spin"></i>&nbsp;Loading</div-->
+            <div >
+                <div align="center">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label>Gestión</label>
+                                <input data-ng-model="ingresosAlmacen.gestion.nombreGestion" class="form-control" disabled />
+                            </div>
+                            <div class="col-sm-4">
+                                <label>Fecha Ingreso</label>
+                                <input  data-ng-model="ingresosAlmacen.fechaIngresoAlmacen" class="form-control" datepickers required="true"  id="fechaIngresoAlmacen" disabled="true"/>
+                            </div>
+                            <div class="col-sm-4">
+                                <label>Nro Ingreso Almacen</label>
+                                <input ng-model="ingresosAlmacen.nroIngresoAlmacen" class="form-control"  disabled="true" />                                
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label>Estado:</label>
+                                <input ng-model="ingresosAlmacen.estadoIngresoAlmacen.nombreEstadoIngresoAlmacen" class="form-control"  disabled="true" />
+                            </div>
+                            <div class="col-sm-4">
+                                <label>Tipo de Ingreso:</label>                                
+                                <select class="form-control" ng-model="ingresosAlmacen.tiposIngresoAlmacen.codTipoIngresoAlmacen" ng-options="e.codItem as e.nombreItem for e in tiposIngresoAlmacenList"></select>
+                            </div>
+                            <div class="col-sm-4">
+                                <label>Tipo de Compra:</label>
+                                <select class="form-control" ng-model="ingresosAlmacen.tiposCompra.codTipoCompra" ng-options="e.codItem as e.nombreItem for e in tiposCompraList"></select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label>Origen Proveedor:</label>
+                                <input ng-model="ingresosAlmacen.proveedores.pais.nombrePais" class="form-control" disabled="true" />
+                            </div>
+                            <div class="col-sm-4">
+                                <label>Proveedor:</label>
+                                <select class="form-control" ng-model="ingresosAlmacen.proveedores.codProveedor" ng-options="e.codItem as e.nombreItem for e in proveedoresList"></select>                                
+                            </div>        
+                            <div class="col-sm-4">
+                                <label>Nro Documento:</label>                                
+                                <input ng-model="ingresosAlmacen.nroDocumento" class="form-control" placeholder="Nro Documento:" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label>Con Credito Fiscal:</label>
+                                <select class="form-control" ng-model="ingresosAlmacen.creditoFiscalSiNo" ng-options="e.codItem as e.nombreItem for e in creditoFiscalList"></select>
+                            </div>
+                            <div class="col-sm-4">
+                                <label>Observaciones:</label>
+                                <textarea class="form-control" rows="4"  ng-model="ingresosAlmacen.obsIngresoAlmacen" ></textarea>
+                            </div>        
+                            <div class="col-sm-4">                                
+                            </div>
+                        </div>      
+                        
+                    </div>
+                </div>
+                </div>
+            <section id="no-more-tables">
+                <div style="overflow: auto;">
+                    <table class="table table-bordered table-hover cf table-striped" >
+                        <thead class="cf">
+                            <tr>
+                                <th></th>
+                                <th>ITEM</th>
+                                <th>CANTIDAD</th>
+                                <th>UNIDAD</th>
+                                <th>OBS</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr  ng-repeat="row in ingresosAlmacenDetalleList">
+                                <td data-title=""><input type="checkbox" ng-model="row.checked"/></td>
+                                <td data-title="ITEM">{{row.materiales.nombreMaterial}}</td>
+                                <td data-title="CANTIDAD">{{row.cantTotalIngreso}}</td>
+                                <td data-title="UNIDAD">{{row.unidadesMedida.nombreUnidadMedida}}</td>
+                                <td data-title="OBS">{{row.observacion}}</td>
+                                <td data-title="">
+                                    <div>
+                                        <button type="button" class="btn btn-primary" ng-click="verIngresoAlmacenDetalle_action(row);">
+                                            <i class="fa fa-edit"></i>                                
+                                        </button>
+                                        <button type="button" class="btn btn-danger" ng-click="borrarAlmacenDetalle_action(row);">
+                                            <i class="fa fa-trash-o"></i>                                
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+                
+                    
+            
+        </div>
+        <div class="panel-footer" align="center">
+
+
+
+            <button type="button" class="btn btn-primary" ng-click="agregarMaterial_action();">
+                <i class="fa fa-plus-circle"></i>
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="eliminarCuenta_action();" id="btnEliminar">
+                <i class="fa fa-minus-circle"></i>
+
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="guardarIngresoAlmacen_action();" >
+                <i class="fa fa-save">                    
+                </i>
+                Guardar
+
+            </button>            
+            <button type="button" class="btn btn-primary"  ng-click="cancelar_action();" >
+                    <i class="fa fa-times-circle"></i>
+                    Cancelar
+            </button>
+            
+        </div>
+    </div>
+    
+    	<!-- ui-dialog -->
+        <div id="agregarMaterialDialog" class="modal fade" role="dialog">
+            <div class="modal-dialog">                
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><i class="fa fa-check fa-1x"></i>Registrar Material</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                        <div class="row show-grid">
+                            <div class="col-md-6">
+                                <label>Capitulo:</label>
+                                <select class="form-control" ng-model="materialesBuscar.gruposMaterial.capitulosMaterial.codCapituloMaterial" ng-change="capitulo_change()">
+                                    <option value="0">-NINGUNO-</option>
+                                    <option ng-repeat="p in capitulosMaterialList"
+                                            value="{{p.codItem}}">
+                                            {{p.nombreItem}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Grupo:</label>
+                                <select class="form-control" ng-model="materialesBuscar.gruposMaterial.codGrupoMaterial">
+                                    <option value="0">-NINGUNO-</option>
+                                    <option ng-repeat="p in gruposMaterialList"
+                                            value="{{p.codItem}}">
+                                            {{p.nombreItem}}
+                                    </option>                                    
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row show-grid">                            
+                            <div class="col-md-12">
+                                <label>Material:</label>
+                                <div class="input-group">                                    
+                                    <input ng-model="materialesBuscar.nombreMaterial" type="text" class="form-control" placeholder="Nombre de Material">
+                                    <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-primary" ng-click="buscarMaterial_action();">                                            
+                                            Buscar
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <br/>
+                        
+                        <div class="row show-grid">
+                            <div style="height: 250px;overflow-y: auto;">
+                                <table class="table table-bordered table-hover" >
+                                    <thead class="">
+                                        <tr>
+                                            <th>NOMBRE</th>
+                                            <th>CAPITULO</th>
+                                            <th>GRUPO</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr  ng-repeat="m in materialesBuscarList" 
+                                             id="{{m.codMaterial}}">
+                                            <td><a href="" ng-click="seleccionarMaterial_action(m)" style="color: #337ab7" >{{m.nombreMaterial}}</a></td>
+                                            <td>{{m.gruposMaterial.capitulosMaterial.nombreCapituloMaterial}}</td>
+                                            <td>{{m.gruposMaterial.nombreGrupoMaterial}}</td>                                        
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" ng-click="agregarCuenta_action();">
+                            <i class="fa fa-check-circle"></i>
+                            Aceptar    
+                        </button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="$('#agregarMaterialDialog').modal('hide');">
+                            <i class="fa fa-times-circle"></i>
+                            Cancelar
+                        </button>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+        <!-- ui-dialog -->
+        <div id="detalleEtiquetasDialog" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><i class="fa fa-check fa-1x"></i>Generar Etiquetas</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                        
+                        <div class="row show-grid">
+                            <div class="col-sm-12">
+                                <div class="alert alert-info" role="alert">
+                                    <strong>Material :</strong> {{ingresosAlmacenDetalleSeleccionado.materiales.nombreMaterial}}
+                                </div>                                
+                            </div>
+                        </div>
+                        <div class="row show-grid">
+                            <div class="col-sm-4">
+                                <label>Cantidad Parcial</label>
+                                <input ng-model="ingresosAlmacenDetalleEstado.cantidadParcial" class="form-control"  />
+                            </div>
+                            <div class="col-sm-4">
+                                <label>Lote Proveedor</label>
+                                <input  ng-model="ingresosAlmacenDetalleEstado.loteMaterialProveedor" class="form-control"/>
+                            </div>
+                            <div class="col-sm-4">
+                                <label>Unidad de Empaque</label>
+                                <select class="form-control" ng-model="ingresosAlmacenDetalleEstado.empaqueSecundarioExterno.codEmpaqueSecundarioExterno" id="codEmpaqueSecundario">
+                                    <option value="0">-NINGUNO-</option>
+                                    <option ng-repeat="p in empaqueSecundarioExternoList"
+                                            value="{{p.codItem}}">
+                                            {{p.nombreItem}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row show-grid">
+                            <div class="col-sm-4">
+                                <label>Fecha de Vencimiento:</label>
+                                <input  ng-model="ingresosAlmacenDetalleEstado.fechaVencimiento" class="form-control" datepickers/>
+                            </div>
+                            <div class="col-sm-4">
+                                <label>fecha de Reanalisis:</label>
+                               <input  ng-model="ingresosAlmacenDetalleEstado.fechaReanalisis" class="form-control" datepickers/>                                
+                            </div>
+                            <div class="col-sm-4">
+                                <label>Tara:</label>
+                                <input  ng-model="ingresosAlmacenDetalleEstado.tara" class="form-control"/>
+                            </div>
+
+                        </div>
+                        <div class="row show-grid">
+                            <div class="col-sm-12">
+                                <label>Generar Etiquetas:</label>
+                                <div class="input-group">                                    
+                                    <input class="form-control" ng-model="ingresosAlmacenDetalleSeleccionado.nroUnidadesEmpaque" placeholder="Nro Etiquetas">
+                                    <span class="input-group-btn">
+                                        <button  class="btn btn-primary" ng-click="generarEtiquetas_action();">                                            
+                                            Generar
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        
+                        <br/>
+                        
+                        <div class="row show-grid">
+                            <div style="height: 250px;overflow-y: auto;">
+                                <table    class="table table-bordered table-hover" >
+                                    <thead class="">
+                                        <tr>
+                                            <th>ETIQUETA</th>
+                                            <th>CANTIDAD.</th>
+                                            <th>ESTADO</th>
+                                            <th>EMPAQUE</th>
+                                            <th>&nbsp;TARA&nbsp;</th>
+                                            <th>FECHA VENCIMIENTO&nbsp;</th>
+                                            <th>FECHA REANALISIS&nbsp;&nbsp;&nbsp;</th>
+                                            <th>LOTE PROVEEDOR&nbsp;</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="row in ingresosAlmacenDetalleSeleccionado.ingresosAlmacenDetalleEstadoList">
+                                            <td>{{row.etiqueta}}</td>
+                                            <td><input ng-model="row.cantidadParcial" class="form-control"  ng-keyup="cantidadParcial_change()"/></td>
+                                            <td>{{row.estadosMaterial.nombreEstadoMaterial}}</td>                                        
+                                            <td>{{row.empaqueSecundarioExterno.nombreEmpaqueSecundarioExterno}}</td>
+                                            <td><input ng-model="row.tara" class="form-control" ng-keyup="cantidadParcial_change()" /></td>
+                                            <td><input ng-model="row.fechaVencimiento" class="form-control" datepickers /></td>
+                                            <td><input ng-model="row.fechaReanalisis" class="form-control" datepickers /></td>
+                                            <td><input ng-model="row.loteMaterialProveedor" class="form-control" /></td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>total</th>
+                                            <th>{{ingresosAlmacenDetalleSeleccionado.ingresosAlmacenDetalleEstadoTotal.cantidadParcial}}</th>
+                                            <th></th>
+                                            <th></th>
+                                            <th>{{ingresosAlmacenDetalleSeleccionado.ingresosAlmacenDetalleEstadoTotal.tara}}</th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                                
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" ng-click="guardarEtiquetas_action();">
+                            <i class="fa fa-check-circle"></i>
+                            Aceptar    
+                        </button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="$('#detalleEtiquetasDialog').modal('hide');">
+                            <i class="fa fa-times-circle"></i>
+                            Cancelar
+                        </button>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+    	<!-- ui-dialog editar -->
+        <div id="editarCuentaDialog" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><i class="fa fa-check fa-1x"></i>Editar Cuenta</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row show-grid">
+                            <div class="col-md-6">
+                                <label>Cod Cuenta:</label>
+                                <input class="form-control" ng-model="planDeCuentaBuscar.codigoPlanCuenta" ng-change="nombrePlanCuenta_change()" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Nombre:</label>
+                                <input class="form-control" ng-model="planDeCuentaBuscar.nombrePlanCuenta" ng-change="nombrePlanCuenta_change()" />
+                            </div>
+                        </div>
+                        <div class="row show-grid">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr ><th>CODIGO</th>
+                                        <th>NOMBRE</th>
+                                        <th>ESTADO</th>
+                                        <th>MOVIMIENTO</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr  ng-repeat="p in planDeCuentaList | filter:filterProduct | orderBy:'-cod_empresa'" 
+                                         id="{{p.codPlanCuenta}}"  
+                                         ng-animate=" 'animate'" 
+                                         ng-click="seleccionarPlanDeCuentas_action(p)" 
+                                         style="{{p.codPlanCuenta==planDeCuentaSeleccionado.codPlanCuenta?'background-color:#F1F1F1':''}}">
+                                        <td>{{p.codigoPlanCuenta}}</td>
+                                        <td>{{p.nombrePlanCuenta}}</td>
+                                        <td>{{p.estadoRegistro.nombreEstadoRegistro}}</td>
+                                        <td>{{p.movimiento==1?'SI':'NO'}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" ng-click="editarCuenta_action();">
+                            <i class="fa fa-check-circle"></i>
+                            Aceptar    
+                        </button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="$('#mensajeDialog').modal('hide');">
+                            <i class="fa fa-times-circle"></i>
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+        
+
+      <!-- alerta -->
+      
+      <div id="mensajeDialog" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><i class="fa fa-warning fa-1x"></i> Mensaje</h4>
+                </div>
+                <div class="modal-body">
+                    <i class="fa fa-warning fa-5x"></i>
+                    {{mensaje}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="$('#mensajeDialog').modal('hide');">Aceptar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>

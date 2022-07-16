@@ -1,0 +1,144 @@
+
+
+<section ng-controller="editarOrdenesCompraController" ng-cloak>
+    <div class="panel panel-primary" id="panel-principal">
+        <div class="panel-heading">
+            <div align="center" class="panel-title">EDITAR ORDENES COMPRA</div>
+        </div>
+        <div class="panel-body">
+            <div>
+                <div align="center">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label>Nro:</label>
+                                <input ng-model="ordenesCompra.nroOrdenCompra" class="form-control"  disabled="true" />                                
+                            </div>
+                            <div class="col-sm-4">
+                                <label>Moneda:</label>
+                                <select class="form-control" ng-model="ordenesCompra.monedas.codMoneda" ng-options="e.codItem as e.nombreItem for e in monedasList"></select>                                                                
+                            </div>
+                            <div class="col-sm-4" id="fecha_emision">
+                                <label>Fecha:</label>                                                                
+                                <input ng-model="ordenesCompra.fechaEmision" type="text" class="form-control" placeholder="fecha emision" >                                
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label>Proveedor:</label>
+                                <select class="form-control" ng-model="ordenesCompra.proveedores.codProveedor" ng-options="e.codItem as e.nombreItem for e in proveedoresList"></select>                                
+                            </div>
+                            <div class="col-sm-4">
+                                <label>Tipo Compra:</label>                                
+                                <select class="form-control" ng-model="ordenesCompra.tiposCompra.codTipoCompra" ng-options="e.codItem as e.nombreItem for e in tiposCompraList"></select>                                
+                            </div>                            
+                            <div class="col-sm-4" id="fecha_entrega">
+                                <label>Fecha Entrega:</label>
+                                <input ng-model="ordenesCompra.fechaEntrega" type="text" class="form-control" placeholder="fecha entrega" >                                                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            <section id="no-more-tables">
+                <div style="overflow: auto;">
+                    <table class="table table-bordered table-hover cf table-striped" >
+                        <thead class="cf">
+                            <tr>
+                                
+                                <th>PRODUCTO</th>
+                                <th>CANT.</th>
+                                <th>ENVASE</th>
+                                <th>CANT. TOTAL</th>
+                                <th>PRECIO TOTAL</th>
+                                <th>NRO LOTE</th>
+                                <th>FECHA FABRICACION</th>
+                                <th>FECHA VENCIMIENTO</th>
+                                <th>OBS.</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr  ng-repeat="row in ordenesCompraDetalleList">
+                                
+                                <td data-title="PRODUCTO"><select class="form-control" ng-model="row.tempCodProducto" ng-options="e.codItem as e.nombreItem for e in productosList" ng-change="producto_change(row)"></select></td>
+                                <td data-title="CANT."><input ng-model="row.tempCantidadNeta" class="form-control" ng-keyup="cantidadProducto_change(row)" /></td>
+                                <td data-title="ENVASE"><select class="form-control" ng-model="row.tiposEnvase.codTipoEnvase" ng-options="e.codItem as e.nombreItem for e in tiposEnvaseList" ng-change="envaseProducto_change(row)"></select></td>
+                                <td data-title="CANT. TOTAL">{{row.cantidadNeta}}</td>
+                                <td data-title="PRECIO TOTAL">{{row.precioTotal}}</td>
+                                <td data-title="NRO LOTE"><input ng-model="row.nroLote" class="form-control" required="true"/></td>
+                                <td data-title="FECHA FABRICACION"><input ng-model="row.fechaFabricacion" class="form-control"/></td>
+                                <td data-title="FECHA VENCIMIENTO"><input ng-model="row.fechaVencimiento" class="form-control"/></td>
+                                <td data-title="OBS.">{{row.descripcion}}</td>                                
+                                <td data-title="">
+                                    <div>
+                                        <button type="button" class="btn btn-danger" ng-click="borrarOrdenCompraDetalle_action(row);">
+                                            <i class="fa fa-trash-o"></i>                                
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+                
+                    
+            
+        </div>
+        <div class="panel-footer" align="center">
+
+
+
+            <button type="button" class="btn btn-primary" ng-click="agregarProducto_action();">
+                <i class="fa fa-plus-circle"></i>
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="guardarOrdenCompra_action();" >
+                <i class="fa fa-save">                    
+                </i>
+                Guardar
+            </button>
+            <button type="button" class="btn btn-primary"  ng-click="cancelar_action();" >
+                    <i class="fa fa-times-circle"></i>
+                    Cancelar
+            </button>
+            
+        </div>
+    </div>
+    
+    
+    
+    	<!-- ui-dialog -->
+        
+        
+        <!-- ui-dialog -->
+        
+        
+    	<!-- ui-dialog editar -->
+        
+        
+        
+
+      <!-- alerta -->
+      
+      <div id="mensajeDialog" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><i class="fa fa-warning fa-1x"></i> Mensaje</h4>
+                </div>
+                <div class="modal-body">
+                    <i class="fa fa-warning fa-5x"></i>
+                    {{mensaje}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="$('#mensajeDialog').modal('hide');">Aceptar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

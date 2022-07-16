@@ -1,0 +1,50 @@
+<section ng-controller="reporteCuentasPorCobrarClienteController" ng-cloak>
+    <form>
+<div class="panel panel-primary" id="panel-principal">
+    <div class="panel-heading">
+      <div align="center" class="panel-title">REPORTE DE CUENTAS POR COBRAR A CLIENTES</div>
+    </div>
+    <div class="panel-body">    
+        <div class="row show-grid">
+            <div class="col-sm-3">
+                                            
+            </div>            
+            <div class="col-sm-3">
+                <label>Cliente: </label>                
+                <select class="form-control" ng-model="datosReporte.codCliente" ng-options="e.codItem as e.nombreItem for e in clienteList" ></select>
+            </div>
+            <div class="col-md-3" id="fecha_final">
+                <label>Fecha Final:</label>
+                <div class="input-group date">
+                    <input ng-model="datosReporte.fechaFinal" type="text" class="form-control" placeholder="fecha final" readonly="" >
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+            </div>
+            
+            <div class="col-sm-3">
+                                            
+            </div>
+        </div>
+        
+        
+    <br/><br/>
+                            <div class="row" align="center">
+                                <div class="col-md-3">
+                                            
+                                </div>
+                                <div class="col-md-6">
+                                <button type="button" class="btn btn-primary" ng-click="verReporte(m);">
+                                    <i class="fa fa-file-text"></i> Ver Reporte                                
+                                </button>
+                                </div>
+                                <div class="col-md-3">
+                                            
+                                </div>
+                                </div>
+    
+    </div>
+    
+</div>
+    </form>
+
+</section>

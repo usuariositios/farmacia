@@ -1,0 +1,110 @@
+<html lang="en">
+
+    <head>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>CONFIGURACION</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!-- Bootstrap Core CSS -->
+        <link rel="stylesheet" href="./js/slideBar/slidebars.css">
+        <link rel='stylesheet' href='./js/datePicker/css/bootstrap-datepicker.min.css' type='text/css'>
+        <link rel="stylesheet" href="./js/slideBar/style.css">
+
+
+        <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css" >        
+        <link rel="stylesheet" href="./lib/bootstrap/css/custom.css" type="text/css" />
+        <link rel="stylesheet" href="./lib/bootstrap/css/font-awesome.min.css"  type="text/css" />                  
+        <link rel='stylesheet' href='./lib/bootstrap/css/font-custom.css' type='text/css'>
+        <link rel='stylesheet' href='./lib/table-responsive/table-responsive.css' type='text/css'>
+        <link rel='stylesheet' href='./js/growl/jquery.growl.css' type='text/css'>
+
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->        
+    </head>
+
+    <body ng-controller="configuracionController"  >
+        <div class="row" data-ng-cloak>
+            <div class="col-md-4">
+
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-primary" id="panel-principal">
+                    <div class="panel-heading">
+                        <div align="center" class="panel-title">ALMACEN</div>      
+                    </div>
+                    <div class="panel-body">
+                        <div class="row show-grid">
+                            <div class="col-md-6">
+                            <label>Empresa:</label>                            
+                            </div>
+                            <div class="col-md-6">
+                            <span>{{usuarioPersonal.empresas.nombreEmpresa}}</span>
+                            </div>
+                            
+                        </div>
+                        <div class="row show-grid">
+                            <div class="col-md-6">
+                            <label>Sucursal:</label>
+                            </div>
+                            <div class="col-md-6">
+                            <span>{{usuarioPersonal.sucursalVentas.nombreSucursal}}</span>
+                            </div>
+                            
+                        </div>
+                        <div class="row show-grid">
+                            <!--listado de almacenes-->
+                            <div class="col-md-12">
+                                <label>Seleccionar Almacen:</label>
+                                <table class="table table-bordered table-hover table-condensed" >
+                                    <thead class="">
+                                        <tr>
+                                            <th>NOMBRE</th>                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr  ng-repeat="a in almacenesVentaList" id="{{a.codAlmacenVenta}}">
+                                            <td><a href="" style="color: #337ab7" ng-click="seleccionarAlmacen_action(a)" >{{a.nombreAlmacenVenta}}</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="panel-footer" align="center">
+                        <div class="btn-group">
+                            <p>
+                                <button type="button" class="btn btn-primary" ng-click="atras_action()">
+                                    <i class="fa fa-arrow-left"></i>
+                                    Atras
+                                </button>
+                                <button type="button" class="btn btn-primary" ng-click="salir_action()">
+                                    <i class="fa"></i>
+                                    Salir
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+
+            </div>
+        </div>
+        
+        
+
+        <script type="text/javascript" src="./bower_components/requirejs/require.js" data-main="./scripts/data-main.js"></script>
+
+
+
+
+    </body>
+
+</html>
