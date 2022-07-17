@@ -199,7 +199,7 @@ app.controller('navegadorFacturasEmitidasController',
     
     $scope.verFactura_action = function(s){
         console.log(s);
-        $window.open("/FARMACIA_REPORTES/factura/reporteFacturaPdf.jsp?codSalidaVenta="+s.salidasVenta.codSalidaVenta +"&codFacturaEmitida="+s.codFacturaEmitida+"&montoTotal="+s.montoTotal);
+        $window.open("https://farmacia-reportes.herokuapp.com/factura/reporteFacturaPdf.jsp?codSalidaVenta="+s.salidasVenta.codSalidaVenta +"&codFacturaEmitida="+s.codFacturaEmitida+"&montoTotal="+s.montoTotal);
     };
     
     $scope.anularFacturaEmitida_action = function(s){

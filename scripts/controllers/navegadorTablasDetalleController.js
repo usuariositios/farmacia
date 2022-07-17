@@ -110,7 +110,7 @@ app.controller('navegadorTablasDetalleController',
     
     $scope.verReporteTabla_action = function(pr){
         
-        $window.open("/FARMACIA_REPORTES/tablaDetalle/reporteTabla.jsp?codTabla="+pr.codTabla +"&nombreTabla="+pr.nombreTabla+"&codEmpresa="+$scope.usuarioPersonal.empresas.codEmpresa);
+        $window.open("https://farmacia-reportes.herokuapp.com/tablaDetalle/reporteTabla.jsp?codTabla="+pr.codTabla +"&nombreTabla="+pr.nombreTabla+"&codEmpresa="+$scope.usuarioPersonal.empresas.codEmpresa);
     };
     
     

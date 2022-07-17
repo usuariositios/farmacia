@@ -73,7 +73,7 @@ function ($scope, Data, $location,$window) {
     $scope.verReporte = function(m){
         console.log($scope.datosReporte.fechaInicio);
         console.log($scope.datosReporte.fechaFinal);                
-        $window.open("/FARMACIA_REPORTES/ventasFacturadas/reporteVentasFacturadas.jsp?codCliente="+$scope.datosReporte.codCliente +"&fechaInicio="+$scope.datosReporte.fechaInicio +"&fechaFinal="+$scope.datosReporte.fechaFinal+"&codTipoVenta="+$scope.datosReporte.codTipoVenta+"&codEmpresa="+$scope.usuarioPersonal.empresas.codEmpresa);
+        $window.open("https://farmacia-reportes.herokuapp.com/ventasFacturadas/reporteVentasFacturadas.jsp?codCliente="+$scope.datosReporte.codCliente +"&fechaInicio="+$scope.datosReporte.fechaInicio +"&fechaFinal="+$scope.datosReporte.fechaFinal+"&codTipoVenta="+$scope.datosReporte.codTipoVenta+"&codEmpresa="+$scope.usuarioPersonal.empresas.codEmpresa);
     };
     
     

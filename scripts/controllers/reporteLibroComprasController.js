@@ -32,13 +32,13 @@ function ($scope, Data, $location,$window) {
         $scope.datosReporte.nombreMes = $("#codMes option:selected").text();
         
         //window.open("http://localhost:8080/VENTAS_REPORTES/kardexMovimiento/reporteKardexMovimiento.jsp?codProducto="+m.codProducto +"&fechaInicio="+$scope.datosReporte.fechaInicio +"&fechaFinal="+$scope.datosReporte.fechaFinal, '_blank', 'location=yes,height=570,width=1300,scrollbars=yes,status=yes');        
-        $window.open("/FARMACIA_REPORTES/libroCompras/reporteLibroCompras.jsp?codGestion="+$scope.datosReporte.codGestion +"&nombreGestion="+$scope.datosReporte.nombreGestion.trim()+ "&codMes="+$scope.datosReporte.codMes +"&nombreMes="+$scope.datosReporte.nombreMes.trim()+"&codEmpresa="+$scope.usuarioPersonal.empresas.codEmpresa);
+        $window.open("https://farmacia-reportes.herokuapp.com/libroCompras/reporteLibroCompras.jsp?codGestion="+$scope.datosReporte.codGestion +"&nombreGestion="+$scope.datosReporte.nombreGestion.trim()+ "&codMes="+$scope.datosReporte.codMes +"&nombreMes="+$scope.datosReporte.nombreMes.trim()+"&codEmpresa="+$scope.usuarioPersonal.empresas.codEmpresa);
     };
     $scope.verReporteRecibos_action = function(){
         $scope.datosReporte.nombreGestion = $("#codGestion option:selected").text();
         $scope.datosReporte.nombreMes = $("#codMes option:selected").text();        
         
-        $window.open("/FARMACIA_REPORTES/reciboCompras/reporteReciboCompras.jsp?codGestion="+$scope.datosReporte.codGestion +"&nombreGestion="+$scope.datosReporte.nombreGestion.trim()+ "&codMes="+$scope.datosReporte.codMes +"&nombreMes="+$scope.datosReporte.nombreMes.trim()+"&codEmpresa="+$scope.usuarioPersonal.empresas.codEmpresa);
+        $window.open("https://farmacia-reportes.herokuapp.com/reciboCompras/reporteReciboCompras.jsp?codGestion="+$scope.datosReporte.codGestion +"&nombreGestion="+$scope.datosReporte.nombreGestion.trim()+ "&codMes="+$scope.datosReporte.codMes +"&nombreMes="+$scope.datosReporte.nombreMes.trim()+"&codEmpresa="+$scope.usuarioPersonal.empresas.codEmpresa);
     };
     
 }

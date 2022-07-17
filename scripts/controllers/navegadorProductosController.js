@@ -233,7 +233,7 @@ app.controller('navegadorProductosController',
     
     $scope.verReporteProducto_action = function(pr){
         
-        $window.open("/FARMACIA_REPORTES/producto/reporteProducto.jsp?codProducto="+pr.codProducto +"&nombreProducto="+pr.nombreProducto+"&codEmpresa="+$scope.usuarioPersonal.empresas.codEmpresa);
+        $window.open("https://farmacia-reportes.herokuapp.com/producto/reporteProducto.jsp?codProducto="+pr.codProducto +"&nombreProducto="+pr.nombreProducto+"&codEmpresa="+$scope.usuarioPersonal.empresas.codEmpresa);
     };
     
     document.getElementById('fileImgProducto').onchange = function (evt) {//carga la vista previa de la imagen (carga la variable de logotipo con base64)
