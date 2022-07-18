@@ -107,6 +107,7 @@ define(['routes','services/dependencyResolverFor'], function(config, dependencyR
 app.factory("DataCont", ['$http', '$location',
     function ($http, $location) {
 
+
         var serviceBase = 'https://contabilidad-servicios.herokuapp.com/rest';
 
         var obj = {};

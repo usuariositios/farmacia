@@ -32,6 +32,7 @@ app.factory("DataCont", ['$http', '$location',
 
         var serviceBase = 'https://contabilidad-servicios.herokuapp.com/rest';
 
+
         var obj = {};
 
         obj.get = function (q) {
