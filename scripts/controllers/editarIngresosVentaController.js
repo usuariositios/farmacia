@@ -545,7 +545,8 @@ $q.all([
                     });
                 });
             }else{
-                $scope.libroCompras.gestion = angular.copy($scope.usuarioPersonal.gestion);
+                $scope.libroCompras.gestion.codGestion = angular.copy($scope.usuarioPersonal.gestion.codGestion);
+                console.log($scope.libroCompras);
                 DataCont.post('/libroCompras/eliminarLibroCompras', $scope.libroCompras).then(function(data){
                     console.log(data);
                     DataCont.post('/libroCompras/guardarLibroCompras', $scope.libroCompras).then(function(libroCompras){
