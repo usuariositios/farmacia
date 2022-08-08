@@ -32,7 +32,7 @@ function ($scope, Data, $location,$window) {
         $scope.datosReporte.nombreMes = $("#codMes option:selected").text();
         
         //window.open("http://localhost:8080/VENTAS_REPORTES/kardexMovimiento/reporteKardexMovimiento.jsp?codProducto="+m.codProducto +"&fechaInicio="+$scope.datosReporte.fechaInicio +"&fechaFinal="+$scope.datosReporte.fechaFinal, '_blank', 'location=yes,height=570,width=1300,scrollbars=yes,status=yes');        
-        $window.open("https://farmacia-reportes.herokuapp.com/libroVentas/reporteLibroVentas.jsp?codGestion="+$scope.datosReporte.codGestion +"&nombreGestion="+$scope.datosReporte.nombreGestion.trim()+ "&codMes="+$scope.datosReporte.codMes +"&nombreMes="+$scope.datosReporte.nombreMes.trim()+"&codEmpresa="+$scope.usuarioPersonal.empresas.codEmpresa);
+        $window.open(pathFarmaciaReportes+"/libroVentas/reporteLibroVentas.jsp?codGestion="+$scope.datosReporte.codGestion +"&nombreGestion="+$scope.datosReporte.nombreGestion.trim()+ "&codMes="+$scope.datosReporte.codMes +"&nombreMes="+$scope.datosReporte.nombreMes.trim()+"&codEmpresa="+$scope.usuarioPersonal.empresas.codEmpresa);
     };
     
     

@@ -58,7 +58,7 @@ function ($scope, Data, $location,$window) {
         
         
         //window.open("http://localhost:8080/VENTAS_REPORTES/kardexMovimiento/reporteKardexMovimiento.jsp?codProducto="+m.codProducto +"&fechaInicio="+$scope.datosReporte.fechaInicio +"&fechaFinal="+$scope.datosReporte.fechaFinal, '_blank', 'location=yes,height=570,width=1300,scrollbars=yes,status=yes');        
-        $window.open("https://farmacia-reportes.herokuapp.com/cuentasPorCobrarClientes/reporteCuentasPorCobrarClientes.jsp?fechaInicio="+$scope.datosReporte.fechaInicio +"&fechaFinal="+$scope.datosReporte.fechaFinal+"&codAlmacenVenta="+$scope.datosReporte.codAlmacenVenta+"&codEmpresa="+$scope.usuarioPersonal.empresas.codEmpresa+"&codCliente="+$scope.datosReporte.codCliente+"&codGestion="+$scope.datosReporte.codGestion);
+        $window.open(pathFarmaciaReportes+"/cuentasPorCobrarClientes/reporteCuentasPorCobrarClientes.jsp?fechaInicio="+$scope.datosReporte.fechaInicio +"&fechaFinal="+$scope.datosReporte.fechaFinal+"&codAlmacenVenta="+$scope.datosReporte.codAlmacenVenta+"&codEmpresa="+$scope.usuarioPersonal.empresas.codEmpresa+"&codCliente="+$scope.datosReporte.codCliente+"&codGestion="+$scope.datosReporte.codGestion);
     };
     $scope.verReporteSeleccionados_action = function(m){
         console.log($scope.datosReporte.fechaInicio);
@@ -69,7 +69,7 @@ function ($scope, Data, $location,$window) {
                 productos += ","+$scope.productosList[i].producto.codProducto;
                 }
         }
-        $window.open("https://farmacia-reportes.herokuapp.com/cuentasPorCobrarClientes/reporteCuentasPorCobrarClientes.jsp?codProducto="+productos +"&fechaInicio="+$scope.datosReporte.fechaInicio +"&fechaFinal="+$scope.datosReporte.fechaFinal+"&codAlmacenVenta="+$scope.datosReporte.codAlmacenVenta+"&codEmpresa="+$scope.usuarioPersonal.empresas.codEmpresa+"&codCliente="+$scope.datosReporte.codCliente);
+        $window.open(pathFarmaciaReportes+"/cuentasPorCobrarClientes/reporteCuentasPorCobrarClientes.jsp?codProducto="+productos +"&fechaInicio="+$scope.datosReporte.fechaInicio +"&fechaFinal="+$scope.datosReporte.fechaFinal+"&codAlmacenVenta="+$scope.datosReporte.codAlmacenVenta+"&codEmpresa="+$scope.usuarioPersonal.empresas.codEmpresa+"&codCliente="+$scope.datosReporte.codCliente);
     };
     
     $scope.seleccionar_action = function(){

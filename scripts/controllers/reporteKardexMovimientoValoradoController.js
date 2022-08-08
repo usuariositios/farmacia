@@ -76,7 +76,7 @@ function ($scope, Data, $location,$window) {
         console.log($scope.datosReporte.fechaInicio);
         console.log($scope.datosReporte.fechaFinal);
         //window.open("http://localhost:8080/VENTAS_REPORTES/kardexMovimiento/reporteKardexMovimiento.jsp?codProducto="+m.codProducto +"&fechaInicio="+$scope.datosReporte.fechaInicio +"&fechaFinal="+$scope.datosReporte.fechaFinal, '_blank', 'location=yes,height=570,width=1300,scrollbars=yes,status=yes');        
-        $window.open("https://farmacia-reportes.herokuapp.com/kardexMovimientoValorado/reporteKardexMovimientoValorado.jsp?codProducto="+m.codProducto +"&fechaInicio="+$scope.datosReporte.fechaInicio +"&fechaFinal="+$scope.datosReporte.fechaFinal+"&nombreProducto="+m.nombreProducto+"&codAlmacenVenta="+$scope.datosReporte.codAlmacenVenta+"&codEmpresa="+$scope.usuarioPersonal.empresas.codEmpresa);
+        $window.open(pathFarmaciaReportes+"/kardexMovimientoValorado/reporteKardexMovimientoValorado.jsp?codProducto="+m.codProducto +"&fechaInicio="+$scope.datosReporte.fechaInicio +"&fechaFinal="+$scope.datosReporte.fechaFinal+"&nombreProducto="+m.nombreProducto+"&codAlmacenVenta="+$scope.datosReporte.codAlmacenVenta+"&codEmpresa="+$scope.usuarioPersonal.empresas.codEmpresa);
     };
     
     

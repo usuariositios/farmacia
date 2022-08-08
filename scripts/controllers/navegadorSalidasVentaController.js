@@ -281,7 +281,7 @@ function ($scope, Data,$location,$window,DataCont,$q) {
     
     $scope.verFactura_action = function(s){
         console.log(s);
-        $window.open("https://farmacia-reportes.herokuapp.com/factura/reporteFacturaPdf.jsp?codSalidaVenta="+s.codSalidaVenta +"&codFacturaEmitida="+s.codFacturaEmitida+"&montoTotal="+s.montoTotal+"&codEmpresa="+$scope.usuarioPersonal.empresas.codEmpresa);
+        $window.open(pathFarmaciaReportes+"/factura/reporteFacturaPdf.jsp?codSalidaVenta="+s.codSalidaVenta +"&codFacturaEmitida="+s.codFacturaEmitida+"&montoTotal="+s.montoTotal+"&codEmpresa="+$scope.usuarioPersonal.empresas.codEmpresa);
     };
     
     

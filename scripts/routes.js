@@ -213,8 +213,13 @@ define([], function()
                 dependencies: [
                     'controllers/navegadorTablasDetalleController'
                 ]
-            }
-            
+            },
+            '/navegadorSucursalVentas': {
+                templateUrl: '/farmacia/sucursalVentas/navegadorSucursalVentas.html',
+                dependencies: [
+                    'controllers/navegadorSucursalVentasController'
+                ]
+            }            
         }
     };
 });
