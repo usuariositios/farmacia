@@ -1,8 +1,9 @@
 define(['app'], function (app)
 {
     app.controller('navegadorController',
-            ['$scope', 'Data', '$location', function ($scope, Data) {
+            ['$scope', 'Data', '$location','$window', function ($scope, Data, $location,$window) {
                     cargarContenido(3);//cargar menu en el navegador
+                    $scope.prodVenc = 0.0;
                     
                     $scope.usuarioPersonal = {};
                     $("[data-toggle=popover]").popover();
@@ -21,6 +22,34 @@ define(['app'], function (app)
                     $scope.configuracion_action = function () {
                         window.location = "seleccionarSucursalAlmacen.html";
                     };
+                    
+                    Data.get('/ingresosVentaDetalle/ingresosVentaDetalle').then(function(data){//para obtener productos vencidos
+                        $scope.ingresosVentaDetalle = data;
+                        console.log($scope.ingresosVentaDetalle);
+                        $scope.ingresosVentaDetalle.ingresosVenta.gestion = angular.copy($scope.usuarioPersonal.gestion);
+                        $scope.ingresosVentaDetalle.ingresosVenta.almacenesVenta = angular.copy($scope.usuarioPersonal.almacenesVenta);                        
+                        console.log($scope.ingresosVentaDetalle);
+                        Data.post('/ingresosVentaDetalle/cantProdVencidos', $scope.ingresosVentaDetalle).then(function (data) {
+                            console.log(data); 
+                            $scope.prodVenc = data;
+                        });
+                    });
+                    //para reporte de productos vencidos
+                $scope.datosReporte = {
+                       codGestion:$scope.usuarioPersonal.gestion.codGestion,                           
+                       codAlmacenVenta:$scope.usuarioPersonal.almacenesVenta.codAlmacenVenta,
+                       nombreAlmacenVenta:$scope.usuarioPersonal.almacenesVenta.nombreAlmacenVenta,
+                       codEmpresa:$scope.usuarioPersonal.empresas.codEmpresa
+                       };
+
+                console.log($scope.usuarioPersonal);
+
+                $scope.verReporte_prodVencidos = function(){
+                    $window.open(pathFarmaciaReportes+"/productosVencidos/reporteProductosVencidos.jsp?codGestion="+$scope.datosReporte.codGestion +                
+                            "&codAlmacenVenta="+$scope.datosReporte.codAlmacenVenta+
+                            "&codEmpresa="+$scope.datosReporte.codEmpresa
+                            );
+                };
                     
                 }
             ]);

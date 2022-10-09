@@ -1,100 +1,51 @@
-<section ng-controller="reporteKardexMovimientoController" ng-cloak>
+<section ng-controller="reporteProductosVencidosController" ng-cloak>
     <form>
         <div class="panel panel-primary" id="panel-principal">
             <div class="panel-heading">
-                <div align="center" class="panel-title">KARDEX DE MOVIMIENTO DE PRODUCTOS</div>      
+                <div align="center" class="panel-title">REPORTE DE PRODUCTOS VENCIDOS</div>
             </div>
             <div class="panel-body">
 
                 <div class="row show-grid">
-                    <div class="col-md-3">
-                                            
+                    <div class="col-md-4">                                            
                     </div>
-                    <div class="col-md-3">
-                        <label>Capitulo:</label>
-                        <select class="form-control" ng-model="productosBuscar.grupoProducto.codGrupoProducto" >
-                            <option value="0">-NINGUNO-</option>
-                            <option ng-repeat="p in  gruposProductoList"
-                                    value="{{p.codItem}}">
-                                {{p.nombreItem}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label>Producto:</label>
-                        <div class="input-group">                                    
-                            <input ng-model="productosBuscar.nombreProducto" type="text" class="form-control" placeholder="Nombre de Producto">
-                            <span class="input-group-btn">
-                                <button type="submit" class="btn btn-primary" ng-click="buscarProducto_action();">                                            
-                                    Buscar
-                                </button>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
+                        <label>Almacen:</label>
+                        <p>{{usuarioPersonal.almacenesVenta.nombreAlmacenVenta}}</p>
+                    </div>                    
+                    <div class="col-md-4">
                                             
                     </div>
                 </div>
                 <div class="row show-grid">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                                             
                     </div>
-                    <div class="col-md-3" id="fecha_inicio">
-                                <label>Fecha Inicio:</label>
-                                <div class="input-group date">
-                                    <input ng-model="datosReporte.fechaInicio" type="text" class="form-control" placeholder="fecha inicio" readonly="" >
-                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                </div>
+                    
+                    <div class="col-md-4">
+                        <label>Gestion:</label>
+                        <p>{{usuarioPersonal.gestion.nombreGestion}} ({{usuarioPersonal.gestion.fechaInicio}}-{{usuarioPersonal.gestion.fechaFinal}})</p>
                     </div>
-                    <div class="col-md-3" id="fecha_final">
-                                <label>Fecha Final:</label>
-                                <div class="input-group date">
-                                    <input ng-model="datosReporte.fechaFinal" type="text" class="form-control" placeholder="fecha final" readonly="" >
-                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                </div>
-                    </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                                             
                     </div>
                 </div>
-                
+                <div class="row show-grid">
+                    <div class="col-md-4">
+                                            
+                    </div>
                     
-                
+                    <div class="col-md-4">
+                        <label>Dias Por Vencer:</label><br/>
+                        <input ng-model="datosReporte.diasPorVencer" class="form-control"  />
+                    </div>
+                    <div class="col-md-4">
+                                            
+                    </div>
+                </div>
                 <br/>
 
-                <div class="row show-grid" align="center">
-                        <div class="col-md-3">
-                                            
-                        </div>
-                    <div class="col-md-6">
-                                            
-                    
-                        <table class="table table-bordered table-hover" >
-                            <thead class="">
-                                <tr>
-                                    <th>NOMBRE</th>                                            
-                                    <th>GRUPO</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr  ng-repeat="m in productosList" 
-                                     id="{{m.codProducto}}">
-                                    <td>{{m.nombreProducto}}</td>                                            
-                                    <td>{{m.grupoProducto.nombreGrupoProducto}}</td>
-                                    <td><button type="button" class="btn btn-primary" ng-click="verReporte(m);">
-                                            <i class="fa fa-file-text"></i>                                
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                        <div class="col-md-3">
-                                            
-                        </div>
-                    
-                </div>
+                
 
 
             </div>

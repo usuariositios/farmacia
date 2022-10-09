@@ -3,7 +3,7 @@
 <section ng-controller="navegadorSucursalVentasController">
 <div class="panel panel-primary" id="panel-principal">
     <div class="panel-heading">
-        <div align="center" class="panel-title"><a style="cursor:pointer;" ng-click="mostrarBuscarSucursal_action();"><i class="fa fa-search-plus"></i>&nbsp;SUCURSAL</a></div>
+        <div align="center" class="panel-title"><a style="cursor:pointer;" ng-click="mostrarBuscarSucursalVenta_action();"><i class="fa fa-search-plus"></i>&nbsp;SUCURSAL</a></div>
     </div>
   <div class="panel-body">
       <section id="no-more-tables">
@@ -31,7 +31,7 @@
                       <td data-title="TELEFONO">&nbsp;{{e.telefonoSucursal}}</td>
                       <td data-title="EMAIL">&nbsp;{{e.emailSucursal}}</td>
                       <td data-title="ENCARGADO">&nbsp;{{e.representante}}</td>
-                      <td data-title="EMPRESA">&nbsp;{{e.sucursalVentas.nombreEmpresa}}</td>
+                      <td data-title="EMPRESA">&nbsp;{{e.empresas.nombreEmpresa}}</td>
                       <td data-title="ESTADO">&nbsp;{{e.estadosRegistro.codEstado}}</td>                      
                       <td data-title="">
                           <div class="dropdown">
@@ -86,7 +86,6 @@
         </div>
     </div>
 </div>
-<div class="loading-spiner-holder" data-loading align="center" ><div class="loading-spiner"><img src="./images/ajaxloading.gif" /></div></div>
     
     <div id="agregarSucursalVentaDialog" class="modal fade" role="dialog">
         <form>
@@ -104,55 +103,33 @@
                                 <input class="form-control" ng-model="sucursalVenta.nombreSucursal" />
                             </div>
                             <div class="col-md-6">
-                                <label>Ruc:</label>
-                                <input  ng-model="sucursalVenta.ruc" class="form-control" />
+                                <label>Direccion:</label>
+                                <input  ng-model="sucursalVenta.direccionSucursal" class="form-control" />
                             </div>
                         </div>
                         <div class="row show-grid">
                             <div class="col-md-6">
-                                <label>Direccion:</label>
-                                <input  ng-model="sucursalVenta.direccion" class="form-control"    />
+                                <label>Telefono:</label>
+                                <input  ng-model="sucursalVenta.telefonoSucursal" class="form-control"    />
                             </div>
                             <div class="col-md-6">
-                                <label>Telefono:</label>
-                                <input  ng-model="sucursalVenta.telefono" class="form-control"    />
+                                <label>Email:</label>
+                                <input  ng-model="sucursalVenta.emailSucursal" class="form-control"    />
                             </div>
                         </div>
-                        <div class="row show-grid">                        
+                        <div class="row show-grid">                                                    
+                            <div class="col-md-6">
+                                <label>Encargado:</label>
+                                <input  ng-model="sucursalVenta.representante" class="form-control"    />
+                            </div>
                             <div class="col-md-6">                            
                                 <label>Ciudad:</label>
-                                <select class="form-control" ng-model="sucursalVenta.ciudad.codCiudad" ng-options="e.codItem as e.nombreItem for e in ciudadList"></select>
-                            </div>
-                            <div class="col-md-6">
-                                <label>Nom. Impuesto:</label>
-                                <input  ng-model="sucursalVenta.nombreImpuesto" class="form-control"    />
+                                <select class="form-control" ng-model="sucursalVenta.empresas.codEmpresa" ng-options="e.codItem as e.nombreItem for e in empresasList"></select>
                             </div>
                         </div>
-                        <div class="row show-grid">                        
-                            <div class="col-md-6">                            
-                                <label>Porc. Impuesto:</label>
-                                <input ng-model="sucursalVenta.porcentajeImpuesto" class="form-control"  />
-                            </div>
-                            <div class="col-md-6">
-                                <label>Moneda:</label>
-                                <select class="form-control" ng-model="sucursalVenta.moneda.codMoneda" ng-options="e.codItem as e.nombreItem for e in monedaList"></select>
-                            </div>
-                        </div>
-                        <div class="row show-grid">                        
-                            <div class="col-md-6">                            
-                                <label>Imagen:</label>
-                                <input type="file" name="file" id="file" />
-                            </div>                            
-                            <div class="col-md-6">                            
-                                <label>Vista Previa:</label>
-                                <img id="previa" />
-                            </div>                            
-                        </div>
-                        
-
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" ng-click="guardarSucursal_action();">
+                        <button type="button" class="btn btn-primary" ng-click="guardarSucursalVenta_action();">
                             <i class="fa fa-check"></i>
                             Guardar
                         </button>
@@ -205,7 +182,7 @@
                                 <input  ng-model="sucursalVenta.representante" class="form-control"    />
                             </div>
                             <div class="col-md-6">                            
-                                <label>Ciudad:</label>
+                                <label>Empresa:</label>
                                 <select class="form-control" ng-model="sucursalVenta.empresas.codEmpresa" ng-options="e.codItem as e.nombreItem for e in empresasList"></select>
                             </div>
                         </div>
@@ -228,7 +205,7 @@
     
     
     
-    <div id="buscarSucursalDialog" class="modal fade" role="dialog">
+    <div id="buscarSucursalVentaDialog" class="modal fade" role="dialog">
         <form>
             <div class="modal-dialog">
                 <!-- Modal content-->
@@ -244,23 +221,23 @@
                                 <input class="form-control" ng-model="sucursalVentaBuscar.nombreSucursal" />
                             </div>
                             <div class="col-md-6">
-                                <label>Ruc:</label>
-                                <input  ng-model="sucursalVentaBuscar.ruc" class="form-control"    />
+                                <label>Direccion:</label>
+                                <input  ng-model="sucursalVentaBuscar.direccionSucursal" class="form-control"    />
                             </div>
                         </div>
                         <div class="row show-grid">
                             <div class="col-md-6">
-                                <label>Direccion:</label>
-                                <input  ng-model="sucursalVentaBuscar.direccion" class="form-control"    />
+                                <label>Telefono:</label>
+                                <input  ng-model="sucursalVentaBuscar.telefonoSucursal" class="form-control"    />
                             </div>
-                            <div class="col-md-6">
-                                <label>Ciudad:</label>
-                                <select class="form-control" ng-model="sucursalVentaBuscar.ciudad.codCiudad" ng-options="e.codItem as e.nombreItem for e in ciudadList"></select>
+                            <div class="col-md-6">                            
+                                <label>Empresa:</label>
+                                <select class="form-control" ng-model="sucursalVentaBuscar.empresas.codEmpresa" ng-options="e.codItem as e.nombreItem for e in empresasList"></select>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" ng-click="buscarSucursal_action();">Buscar</button>
+                        <button type="button" class="btn btn-default" ng-click="buscarSucursalVenta_action();">Buscar</button>
                     </div>
                 </div>
 

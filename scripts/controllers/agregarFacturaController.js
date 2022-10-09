@@ -545,7 +545,7 @@ function ($scope, Data,$location,$window,DataCont,$q) {
             console.log($scope.salidasVenta);
             console.log($scope.salidasVentaDetalleList);
             
-            //console.log(JSON.stringify($scope.salidasVentaBusiness));
+            console.log($scope.salidasVentaBusiness);
             //mostrarVentanaModal('progressDialog');
             Data.post("/facturasEmitidas/guardarFacturaEmitidaBusiness", $scope.salidasVentaBusiness).then(function(data){
                 //window.location = "navegadorSalidasVenta.html";

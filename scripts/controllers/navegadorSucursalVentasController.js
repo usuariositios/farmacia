@@ -74,29 +74,17 @@ app.controller('navegadorSucursalVentasController',
     };
     $scope.guardarSucursalVenta_action = function() {
         $scope.sucursalVenta.estadosRegistro.codEstado = 1;
-        $scope.sucursalVenta.logotipoSucursalVenta = $scope.sucursalVenta.logotipoSucursalVenta.replace("data:image/jpeg;base64,","");//reemplaza la primera ocurrencia
         Data.post('/sucursalVenta/guardarSucursalVentas', $scope.sucursalVenta).then(function(data){            
             $('#agregarSucursalVentaDialog').modal('hide');
-            Data.post("/sucursalVenta/cargarSucursalVentasItem", $scope.sucursalVentaBuscar).then(function(data){
+            Data.post("/sucursalVenta/cargarSucursalVentas", $scope.sucursalVentaBuscar).then(function(data){
                 $scope.sucursalVentaList = data;
                 console.log(data);
             });
         });
     };
     $scope.editarSucursalVenta_action = function(e){
-        /*var i=0;
-        for(i=0;i<$scope.sucursalVentaList.length;i++){
-            if($scope.sucursalVentaList[i].checked===true){
-                $scope.sucursalVenta = angular.copy($scope.sucursalVentaList[i]);                
-                break;
-            }
-        }*/
         $scope.sucursalVenta = angular.copy(e);
         mostrarVentanaModal("editarSucursalVentaDialog");
-        //$('#editarSucursalVentaDialog').modal('show');
-        //$('.modal-backdrop').appendTo('.container');
-        //$('body').removeClass();        
-        
     };
     
     $scope.guardarEditarSucursalVenta_action = function() {        
@@ -140,34 +128,13 @@ app.controller('navegadorSucursalVentasController',
         mostrarVentanaModal("buscarSucursalVentaDialog");
     };
     $scope.buscarSucursalVenta_action = function(){
-        Data.post("/sucursalVenta/cargarSucursalVentasItem", $scope.sucursalVentaBuscar).then(function (data) {
+        Data.post("/sucursalVenta/cargarSucursalVentas", $scope.sucursalVentaBuscar).then(function (data) {
                 $scope.sucursalVentaList = data;
                 console.log(data);
-        });
-         console.log("entro hide:::");
+        });         
          ocultarVentanaModal("#buscarSucursalVentaDialog");
     };
-    document.getElementById('file').onchange = function (evt) {//carga la vista previa de la imagen (carga la variable de logotipo con base64)
-        var tgt = evt.target || window.event.srcElement;
-        var files = tgt.files;
-        
-        
-        // FileReader support
-        if (FileReader && files && files.length) {
-            var fr = new FileReader();
-            fr.onload = function (e) {
-                $scope.sucursalVenta.logotipoSucursalVenta = e.target.result;//coloca el valor base 64 de la imagen en la variable
-                document.getElementById("previa").src = fr.result;
-            };
-            fr.readAsDataURL(files[0]);
-        }
-
-        // Not supported
-        else {
-            // fallback -- perhaps submit the input to an iframe and temporarily store
-            // them on the server until the user's session ends.
-        }
-    };
+    
     
     
     }

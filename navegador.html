@@ -47,34 +47,48 @@
                             
                             
                             
-                            <button type="button" class="button" 
-                                    data-toggle="popover" title="Sesion"
-                                    data-html="true"
-                                    data-content="Gestion: {{usuarioPersonal.gestion.nombreGestion}}<br/>
-                                                  Empresa: {{usuarioPersonal.empresas.nombreEmpresa}}<br/>
-                                                  Sucursal: {{usuarioPersonal.sucursalVentas.nombreSucursal}}<br/>
-                                                  Almacen: {{usuarioPersonal.almacenesVenta.nombreAlmacenVenta}}
-                                                  "                                                 
-                                    data-placement="left">
-                                <i class="fa fa-home"></i>
-                            </button>
                             
                             
                             
+                            <div class="btn-group">
+                                <button class="button dropdown-toggle" type="button" id="dropdownMenuConfig" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false">
+                                    <i class="fa fa-info-circle"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenuConfig">
+                                    <li> <a href="#">Gestion: {{usuarioPersonal.gestion.nombreGestion}}</a></li>
+                                    <li><a href="#"> Empresa: {{usuarioPersonal.empresas.nombreEmpresa}}</a></li>
+                                    <li><a href="#"> Sucursal: {{usuarioPersonal.sucursalVentas.nombreSucursal}}</a></li>
+                                    <li><a href="#"> Almacen: {{usuarioPersonal.almacenesVenta.nombreAlmacenVenta}}</a></li>
+                                </ul>
+                            </div>
                             
-                            <button class="button dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false">
-                                <i class="fa fa-user"></i> <span class="text">{{usuarioPersonal.personal.nombrePersonal}} {{usuarioPersonal.personal.apPaternoPersonal}}</span>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenuButton">
-                                <li><a href="#"><i class="fa fa-user fa-fw"></i> Información</a>
-                                </li>
-                                <li><a href="#" ng-click="configuracion_action();"><i class="fa fa-gear fa-fw"></i> Configuracion</a>
-                                </li>
-                                <li class="divider"></li>
-                                <li><a ng-click="salir_action();"><i class="fa fa-sign-out fa-fw"></i> Salir</a>
-                                </li>
-                            </ul>
+                            
+                            <div class="btn-group">
+                                <button class="button dropdown-toggle" type="button" id="dropdownMenuAlertas" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false">
+                                    <i class="fa {{prodVenc>0?'fa-bell':'fa-bell-o'}}"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenuAlertas">
+                                    <li><a href="#" ng-click="verReporte_prodVencidos()"><i class="fa fa-product-hunt"></i> Productos vencidos: {{prodVenc}}</a></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="btn-group">
+                                <button class="button dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false">
+                                    <i class="fa fa-user"></i> <span class="text">{{usuarioPersonal.personal.nombrePersonal}} {{usuarioPersonal.personal.apPaternoPersonal}}</span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenuButton">
+                                    <li><a href="#"><i class="fa fa-user fa-fw"></i> Información</a>
+                                    </li>
+                                    <li><a href="#" ng-click="configuracion_action();"><i class="fa fa-gear fa-fw"></i> Configuracion</a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li><a ng-click="salir_action();"><i class="fa fa-sign-out fa-fw"></i> Salir</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
+                            
+                            
                         
                             <div  data-loading ><img src="./images/ajaxloading.gif" style="height: 48px" />
                         
@@ -90,10 +104,10 @@
         </nav>
         <div canvas="container" id="panel-container">
             <div id="main" class="container-fluid" ng-view>
-                <p>Contenido</p>
+                <p>Cargando...</p>
                 
             </div>
-        </div><!-- /canvas -->
+        </div><!-- /canvas -->        
         <div data-off-canvas="main-menu left overlay" style="margin-left: -255px;">
             <div align="center">
                 <img src="data:image/jpg;base64,{{usuarioPersonal.empresas.logotipoEmpresa}}"  style="height: 59px" />
@@ -109,6 +123,6 @@
         </div>
         
         <script type="text/javascript" src="./bower_components/requirejs/require.js" data-main="./scripts/data-main.js"></script>
-        
+                
     </body>
 </html>

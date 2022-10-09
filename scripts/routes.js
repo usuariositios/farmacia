@@ -219,6 +219,18 @@ define([], function()
                 dependencies: [
                     'controllers/navegadorSucursalVentasController'
                 ]
+            },
+            '/navegadorAlmacenesVenta': {
+                templateUrl: '/farmacia/almacenesVenta/navegadorAlmacenesVenta.html',
+                dependencies: [
+                    'controllers/navegadorAlmacenesVentaController'
+                ]
+            },            
+            '/reporteProductosVencidos': {
+                templateUrl: '/farmacia/reportes/reporteProductosVencidos/reporteProductosVencidos.html',
+                dependencies: [
+                    'controllers/reporteProductosVencidosController'
+                ]
             }            
         }
     };

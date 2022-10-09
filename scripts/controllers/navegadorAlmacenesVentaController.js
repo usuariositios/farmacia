@@ -1,16 +1,16 @@
 define(['app'], function(app)
 {
-app.controller('navegadorEmpresasController',
+app.controller('navegadorAlmacenesVentaController',
     ['$scope','Data','$location',
     function ($scope, Data,$location) {    
     //try {
     
-    $scope.empresasBuscar = {};//empresasBuscar
-    $scope.empresa = {};//empresasBuscar
-    $scope.empresaObj = {};//empresasBuscar
-    $scope.empresasList = [];
+    $scope.almacenVentaBuscar = {};//almacenVentaBuscar
+    $scope.almacenVenta = {};//almacenVentaBuscar
+    $scope.almacenVentaObj = {};//almacenVentaBuscar
+    $scope.almacenVentaList = [];
     $scope.estadosRegistroList = [];
-    $scope.ciudadList = [];
+    $scope.sucursalVentasList = [];
     $scope.monedaList = [];
     var item = {codItem:0,nombreItem:"-NINGUNO-"};
     
@@ -21,173 +21,128 @@ app.controller('navegadorEmpresasController',
             $scope.estadosRegistroList.splice(0,0,item);
             console.log(data);
     });
-    Data.get("/ciudad/cargarCiudadItem").then(function(data){
-            $scope.ciudadList = data;
-            $scope.ciudadList.splice(0,0,item);
-            console.log(data);
-    });
-    Data.get("/moneda/cargarMonedasItem").then(function(data){
-            $scope.monedaList = data;
-            $scope.monedaList.splice(0,0,item);
+    Data.get("/sucursalVenta/cargarSucursalVentasItem").then(function(data){
+            $scope.sucursalVentasList = data;
+            $scope.sucursalVentasList.splice(0,0,item);
             console.log(data);
     });
     
     
-    Data.get('/empresas/empresas').then(function(data){
-         $scope.empresasBuscar = data;
-         $scope.empresaObj = angular.copy(data);
-         $scope.empresasBuscar.filaInicial = 0;//de este floor a 10
+    
+    Data.get('/almacenes/almacenes').then(function(data){
+         $scope.almacenVentaBuscar = data;
+         $scope.almacenVentaObj = angular.copy(data);
+         $scope.almacenVentaBuscar.filaInicial = 0;//de este floor a 10
          
-         console.log($scope.empresasBuscar);         
-         Data.post("/empresas/cargarEmpresas", $scope.empresasBuscar).then(function(data){
-            $scope.empresasList = data;
+         console.log($scope.almacenVentaBuscar);         
+         Data.post("/almacenes/cargarAlmacenes", $scope.almacenVentaBuscar).then(function(data){
+            $scope.almacenVentaList = data;
             console.log(data);
          });
     });
     
     /*navegacion de la tabla*/
     $scope.siguiente_action = function(){
-        console.log($scope.empresasBuscar);
-        $scope.empresasBuscar.filaInicial = parseInt($scope.empresasBuscar.filaInicial) + 10;
-        sessionStorage.setItem("empresas",  JSON.stringify($scope.empresasBuscar));
-        Data.post("/empresas/cargarEmpresas", $scope.empresasBuscar).then(function(data){
-            $scope.empresasList = data;
+        console.log($scope.almacenVentaBuscar);
+        $scope.almacenVentaBuscar.filaInicial = parseInt($scope.almacenVentaBuscar.filaInicial) + 10;
+        sessionStorage.setItem("almacenVenta",  JSON.stringify($scope.almacenVentaBuscar));
+        Data.post("/almacenes/cargarAlmacenes", $scope.almacenVentaBuscar).then(function(data){
+            $scope.almacenVentaList = data;
             console.log(data);
          });
     };
     $scope.atras_action = function(){
-        $scope.empresasBuscar.filaInicial = parseInt($scope.empresasBuscar.filaInicial) - 10;
-        sessionStorage.setItem("empresas",  JSON.stringify($scope.empresasBuscar));
-        Data.post("/empresas/cargarEmpresas", $scope.empresasBuscar).then(function(data){
-            $scope.empresasList = data;
+        $scope.almacenVentaBuscar.filaInicial = parseInt($scope.almacenVentaBuscar.filaInicial) - 10;
+        sessionStorage.setItem("almacenVenta",  JSON.stringify($scope.almacenVentaBuscar));
+        Data.post("/almacenes/cargarAlmacenes", $scope.almacenVentaBuscar).then(function(data){
+            $scope.almacenVentaList = data;
             console.log(data);
          });
     };
-    $scope.agregarEmpresa_action = function() {       
-        $scope.empresa = angular.copy($scope.empresaObj);
-        mostrarVentanaModal("agregarEmpresaDialog");
-        //$('#agregarEmpresaDialog').modal('show');
+    $scope.agregarAlmacenVenta_action = function() {       
+        $scope.almacenVenta = angular.copy($scope.almacenVentaObj);
+        mostrarVentanaModal("agregarAlmacenVentaDialog");
+        //$('#agregarAlmacenVentaDialog').modal('show');
         //$('.modal-backdrop').appendTo('.container');
         //$('body').removeClass();    
     };
-    $scope.guardarEmpresa_action = function() {
-        $scope.empresa.estadosRegistro.codEstado = 1;
-        $scope.empresa.logotipoEmpresa = $scope.empresa.logotipoEmpresa.replace("data:image/jpeg;base64,","");//reemplaza la primera ocurrencia
-        Data.post('/empresas/guardarEmpresas', $scope.empresa).then(function(data){            
-            $('#agregarEmpresaDialog').modal('hide');
-            Data.post("/empresas/cargarEmpresas", $scope.empresasBuscar).then(function(data){
-                $scope.empresasList = data;
+    $scope.guardarAlmacenVenta_action = function() {
+        $scope.almacenVenta.estadosRegistro.codEstado = 1;
+        
+        Data.post("/almacenes/guardarAlmacenes", $scope.almacenVenta).then(function(data){            
+            $('#agregarAlmacenVentaDialog').modal('hide');
+            Data.post("/almacenes/cargarAlmacenes", $scope.almacenVentaBuscar).then(function(data){
+                $scope.almacenVentaList = data;
                 console.log(data);
             });
         });
     };
-    $scope.editarEmpresa_action = function(e){
+    $scope.editarAlmacenVenta_action = function(e){
         /*var i=0;
-        for(i=0;i<$scope.empresasList.length;i++){
-            if($scope.empresasList[i].checked===true){
-                $scope.empresa = angular.copy($scope.empresasList[i]);                
+        for(i=0;i<$scope.almacenVentaList.length;i++){
+            if($scope.almacenVentaList[i].checked===true){
+                $scope.almacenVenta = angular.copy($scope.almacenVentaList[i]);                
                 break;
             }
         }*/
-        $scope.empresa = angular.copy(e);
-        mostrarVentanaModal("editarEmpresaDialog");
-        //$('#editarEmpresaDialog').modal('show');
+        $scope.almacenVenta = angular.copy(e);
+        mostrarVentanaModal("editarAlmacenVentaDialog");
+        //$('#editarAlmacenVentaDialog').modal('show');
         //$('.modal-backdrop').appendTo('.container');
         //$('body').removeClass();        
         
     };
     
-    $scope.guardarEditarEmpresa_action = function() {
-        $scope.empresa.logotipoEmpresa = $scope.empresa.logotipoEmpresa.replace("data:image/jpeg;base64,","");//reemplaza la primera ocurrencia
-        Data.post('/empresas/editarEmpresas', $scope.empresa).then(function(data){            
-            $('#editarEmpresaDialog').modal('hide');
-            Data.post("/empresas/cargarEmpresas", $scope.empresasBuscar).then(function(data){
-                $scope.empresasList = data;
-                console.log(data);
-            });
+    $scope.guardarEditarAlmacenesVenta_action = function() {
+        
+        Data.post('/almacenes/editarAlmacenes', $scope.almacenVenta).then(function(data){
+            $('#editarAlmacenVentaDialog').modal('hide');
+         Data.post("/almacenes/cargarAlmacenes", $scope.almacenVentaBuscar).then(function(data){
+             $scope.almacenVentaList = data;
+             console.log(data);
+         });
         });
     };
-    $scope.eliminarEmpresa_action = function(e){
+    $scope.eliminarAlmacenVenta_action = function(e){
         /*var i=0;
-        for(i=0;i<$scope.empresasList.length;i++){
-            if($scope.empresasList[i].checked===true){
-                $scope.empresa = angular.copy($scope.empresasList[i]);
-                 Data.post('/empresas/eliminarEmpresas', $scope.empresa).then(function(data){
-                    Data.post("/empresas/cargarEmpresas", $scope.empresasBuscar).then(function(data){
-                        $scope.empresasList = data;
+        for(i=0;i<$scope.almacenVentaList.length;i++){
+            if($scope.almacenVentaList[i].checked===true){
+                $scope.almacenVenta = angular.copy($scope.almacenVentaList[i]);
+                 Data.post('/almacenVenta/eliminarAlmacenesVenta', $scope.almacenVenta).then(function(data){
+                    Data.post("/almacenVenta/cargarAlmacenesVenta", $scope.almacenVentaBuscar).then(function(data){
+                        $scope.almacenVentaList = data;
                         console.log(data);
                     });
                 });
                 break;
             }
         }*/
-        if(confirm("Esta seguro de eliminar la Empresa?")===false){
+        if(confirm("Esta seguro de eliminar la AlmacenVenta?")===false){
             return;
         }
         
-        $scope.empresa = angular.copy(e);
-        Data.post('/empresas/eliminarEmpresas', $scope.empresa).then(function (data) {
-            Data.post("/empresas/cargarEmpresas", $scope.empresasBuscar).then(function (data) {
-                $scope.empresasList = data;
+        $scope.almacenVenta = angular.copy(e);
+        Data.post('/almacenVenta/eliminarAlmacenesVenta', $scope.almacenVenta).then(function (data) {
+            Data.post("/almacenes/cargarAlmacenesVenta", $scope.almacenVentaBuscar).then(function (data) {
+                $scope.almacenVentaList = data;
                 console.log(data);
             });
         });
     };
     
-    $scope.mostrarBuscarEmpresa_action = function(){
+    $scope.mostrarBuscarAlmacenVenta_action = function(){
         console.log("entro mostrar:");
-        mostrarVentanaModal("buscarEmpresaDialog");
+        mostrarVentanaModal("buscarAlmacenVentaDialog");
     };
-    $scope.buscarEmpresa_action = function(){
-        Data.post("/empresas/cargarEmpresas", $scope.empresasBuscar).then(function (data) {
-                $scope.empresasList = data;
+    $scope.buscarAlmacenVenta_action = function(){
+        Data.post("/almacenes/cargarAlmacenesVenta", $scope.almacenVentaBuscar).then(function (data) {
+                $scope.almacenVentaList = data;
                 console.log(data);
         });
          console.log("entro hide:::");
-         ocultarVentanaModal("#buscarEmpresaDialog");
+         ocultarVentanaModal("#buscarAlmacenVentaDialog");
     };
-    document.getElementById('file').onchange = function (evt) {//carga la vista previa de la imagen (carga la variable de logotipo con base64)
-        var tgt = evt.target || window.event.srcElement;
-        var files = tgt.files;
-        
-        
-        // FileReader support
-        if (FileReader && files && files.length) {
-            var fr = new FileReader();
-            fr.onload = function (e) {
-                $scope.empresa.logotipoEmpresa = e.target.result;//coloca el valor base 64 de la imagen en la variable
-                document.getElementById("previa").src = fr.result;
-            };
-            fr.readAsDataURL(files[0]);
-        }
-
-        // Not supported
-        else {
-            // fallback -- perhaps submit the input to an iframe and temporarily store
-            // them on the server until the user's session ends.
-        }
-    };
-    document.getElementById('file1').onchange = function (evt) {//carga la vista previa de la imagen (carga la variable de logotipo con base64)
-        var tgt = evt.target || window.event.srcElement;
-        var files = tgt.files;
-        
-        
-        // FileReader support
-        if (FileReader && files && files.length) {
-            var fr = new FileReader();
-            fr.onload = function (e) {
-                $scope.empresa.logotipoEmpresa = e.target.result;//coloca el valor base 64 de la imagen en la variable
-                document.getElementById("previa1").src = fr.result;
-            };
-            fr.readAsDataURL(files[0]);
-        }
-
-        // Not supported
-        else {
-            // fallback -- perhaps submit the input to an iframe and temporarily store
-            // them on the server until the user's session ends.
-        }
-    };
+    
     
     }
     ]);
