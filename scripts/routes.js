@@ -231,7 +231,19 @@ define([], function()
                 dependencies: [
                     'controllers/reporteProductosVencidosController'
                 ]
-            }            
+            },            
+            '/reporteIngresosAlmacen': {
+                templateUrl: '/farmacia/reportes/reporteIngresosAlmacen/reporteIngresosAlmacen.html',
+                dependencies: [
+                    'controllers/reporteIngresosAlmacenController'
+                ]
+            },
+            '/reporteSalidasAlmacen': {
+                templateUrl: '/farmacia/reportes/reporteSalidasAlmacen/reporteSalidasAlmacen.html',
+                dependencies: [
+                    'controllers/reporteSalidasAlmacenController'
+                ]
+            }
         }
     };
 });

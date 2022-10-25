@@ -412,16 +412,16 @@ function ($scope, Data,$location,$window,$q) {
                 
                 return false;
             }
-            if ($scope.salidasVenta.clientes.nitCliente.trim() === "") {
+            /*if ($scope.salidasVenta.clientes.nitCliente.trim() === "") {
                 $.growl.warning({title:"ADVERTENCIA!", message: "Registre el nit de cliente" });
                 
                 return false;
-            }
-            if (parseFloat($scope.salidasVenta.clientes.tiposDescuento.codTipoDescuento)===0) {
+            }*/
+            /*if (parseFloat($scope.salidasVenta.clientes.tiposDescuento.codTipoDescuento)===0) {
                 $.growl.warning({title:"ADVERTENCIA!", message: "Registre el descuento de cliente" });
                 
                 return false;
-            }
+            }*/
             if (parseFloat($scope.salidasVenta.fechaSalidaVenta)===0) {
                 $.growl.warning({title:"ADVERTENCIA!", message: "Registre la fecha" });
                 

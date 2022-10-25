@@ -25,9 +25,10 @@ app.controller('agregarIngresosVentaController',
     };
     
     
-    Data.get("/ordenesCompra/ordenesCompra").then(function(data) {
-        $scope.ordenCompraAprobada = obtenerSession("ordenCompraAprobada");
-    });
+    /*Data.get("/ordenesCompra/ordenesCompra").then(function(data) {
+        
+    });*/
+    $scope.ordenCompraAprobada = obtenerSession("ordenCompraAprobada");
     
    
     
@@ -74,6 +75,7 @@ app.controller('agregarIngresosVentaController',
                         ivd.cantRestante = $scope.ordenCompraDetalleList[i].cantidadNeta;
                         ivd.tiposEnvase.codTipoEnvase = $scope.ordenCompraDetalleList[i].tiposEnvase.codTipoEnvase;//envase
                         ivd.cantIngreso = $scope.ordenCompraDetalleList[i].cantidadNeta;//cantidad por defecto
+                        ivd.tempCantIngreso = $scope.ordenCompraDetalleList[i].cantidadNeta;//cantidad por defecto
                         ivd.estadosRegistro.codEstado = 1;
 
                         $scope.ingresosVentaDetalleList.push(ivd);
@@ -100,6 +102,7 @@ app.controller('agregarIngresosVentaController',
     
     Data.get('/tiposDocumento/cargarTiposDocumentoItem').then(function(data){
             $scope.tiposDocumentoList = data;
+            $scope.tiposDocumentoList.splice(0,0,item);
 
         });
     
@@ -523,7 +526,7 @@ app.controller('agregarIngresosVentaController',
                         $location.path("navegadorIngresosVenta");
                     });
                 });
-            }else{
+            }else if($scope.ingresosVenta.tiposDocumento.codTipoDocumento===1){
                 $scope.libroCompras.gestion = angular.copy($scope.usuarioPersonal.gestion);
                 DataCont.post('/libroCompras/guardarLibroCompras', $scope.libroCompras).then(function(libroCompras){
                     console.log(libroCompras);
@@ -534,6 +537,8 @@ app.controller('agregarIngresosVentaController',
                     });
                     
                 });
+            }else{
+                $location.path("navegadorIngresosVenta");
             }
         
             });

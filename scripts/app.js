@@ -50,7 +50,7 @@ define(['routes','services/dependencyResolverFor'], function(config, dependencyR
         //normalizar el objeto json
 
         //var serviceBase = 'https://farmacia-servicios.herokuapp.com/rest';
-        var serviceBase = 'http://henry-system:8080/FARMACIA_1_0_SERVICIOS-1.0-SNAPSHOT/rest';
+        var serviceBase = 'http://192.168.0.3:8080/FARMACIA_1_0_SERVICIOS-1.0-SNAPSHOT/rest';
 
         var obj = {};
 
@@ -110,7 +110,7 @@ app.factory("DataCont", ['$http', '$location',
 
 
         //var serviceBase = 'https://contabilidad-servicios.herokuapp.com/rest';
-        var serviceBase = 'http://henry-system:8080/CONTABILIDAD_1_0_SERVICIOS-1.0-SNAPSHOT/rest';
+        var serviceBase = 'http://192.168.0.3:8080/CONTABILIDAD_1_0_SERVICIOS-1.0-SNAPSHOT/rest';
         
         var obj = {};
 

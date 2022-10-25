@@ -60,7 +60,9 @@
                       <td data-title="NOMBRE GENERICO">&nbsp;{{p.nombreGenerico.descripcionNombreGenerico}}</td>
                       <td data-title="FORMA FARMACEUTICA">&nbsp;{{p.formaFarmaceutica.nombreFormaFarmaceutica}}</td>
                       
-                      <td data-title="IMAGEN PRODUCTO">&nbsp;<img src="data:image/jpg;base64,{{p.imagenProducto}}" width="200" /></td>
+                      <td data-title="IMAGEN PRODUCTO">&nbsp;<img src="{{p.imagenProducto}}" width="200"  ng-hide="{{p.imagenProductoJPG===1?falsy:truthy}}"  /><!--data:image/jpg;base64,-->
+                      
+                      </td>
                       <td data-title=" ">
                           <div class="dropdown">
                               <a class="btn btn-secondary dropdown-toggle" href="#" id="dropdownMenuButton" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false">
@@ -165,9 +167,13 @@
                                         </div>
                                     </div>
                                     <div class="row show-grid">
-                                        <div class="col-md-12">
+                                        <div class="col-md-6">
                                             <label>Codigo de barras:</label>
                                             <input ng-model="producto.codBarrasProducto" class="form-control"  />                                
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Categoria:</label>
+                                            <select class="form-control" ng-model="producto.categoriaProducto.codCategoriaProducto" ng-options="p.codItem as p.nombreItem for p in categoriasProductoList"></select>
                                         </div>
                                     </div>                                    
                                     <div class="row show-grid">
@@ -327,9 +333,13 @@
                                         </div>
                                     </div>
                                     <div class="row show-grid">
-                                        <div class="col-md-12">
+                                        <div class="col-md-6">
                                             <label>Codigo de barras:</label>
                                             <input ng-model="producto.codBarrasProducto" class="form-control"  />                                
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Categoria:</label>
+                                            <select class="form-control" ng-model="producto.categoriaProducto.codCategoriaProducto" ng-options="p.codItem as p.nombreItem for p in categoriasProductoList"></select>
                                         </div>
                                     </div>                                    
                                     <div class="row show-grid">
@@ -349,7 +359,7 @@
                                         </div>                            
                                         <div class="col-md-6">
                                             <label>Vista Previa:</label>
-                                            <img id="imgPreviaProductoEd" src="data:image/jpg;base64,{{producto.imagenProducto}}" />
+                                            <img id="imgPreviaProductoEd" src="{{producto.imagenProducto}}"    /><!--data:image/jpg;base64,-->
                                         </div>
                                     </div>
                                 </div>

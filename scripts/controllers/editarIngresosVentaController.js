@@ -544,7 +544,7 @@ $q.all([
                         });
                     });
                 });
-            }else{
+            }else if($scope.ingresosVenta.tiposDocumento.codTipoDocumento===1){
                 $scope.libroCompras.gestion.codGestion = angular.copy($scope.usuarioPersonal.gestion.codGestion);
                 console.log($scope.libroCompras);
                 DataCont.post('/libroCompras/eliminarLibroCompras', $scope.libroCompras).then(function(data){
@@ -559,6 +559,8 @@ $q.all([
 
                     });
                 });
+            }else{
+                $location.path("navegadorIngresosVenta");
             }
         
             });    

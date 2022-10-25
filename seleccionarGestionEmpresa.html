@@ -58,7 +58,7 @@
                                     </thead>
                                     <tbody>
                                         <tr  ng-repeat="a in empresasList" id="{{a.codEmpresa}}">
-                                            <td><img ng-click="seleccionarEmpresa_action(a)" src="data:image/jpg;base64,{{a.logotipoEmpresa}}" width="200" /></td>
+                                            <td><img ng-click="seleccionarEmpresa_action(a)" src="{{a.logotipoEmpresa}}" width="200" /><!--data:image/jpg;base64,--></td>
                                             <td><a href="" style="color: #337ab7" ng-click="seleccionarEmpresa_action(a)" >{{a.nombreEmpresa}}</a></td>                                            
                                         </tr>
                                     </tbody>

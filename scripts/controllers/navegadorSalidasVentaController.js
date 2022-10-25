@@ -284,6 +284,11 @@ function ($scope, Data,$location,$window,DataCont,$q) {
         $window.open(pathFarmaciaReportes+"/factura/reporteFacturaPdf.jsp?codSalidaVenta="+s.codSalidaVenta +"&codFacturaEmitida="+s.codFacturaEmitida+"&montoTotal="+s.montoTotal+"&codEmpresa="+$scope.usuarioPersonal.empresas.codEmpresa);
     };
     
+    $scope.reporteSalidaVenta_action = function(s){
+        console.log(s);
+        $window.open(pathFarmaciaReportes+"/salidasAlmacen/salidasAlmacenPdf/reporteSalidasAlmacenPdf.jsp?codSalidaVenta="+s.codSalidaVenta);
+    };
+    
     
     
 }

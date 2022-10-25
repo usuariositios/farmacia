@@ -38,7 +38,7 @@
                       <td data-title="IMPUESTO">&nbsp;{{e.nombreImpuesto}}</td>
                       <td data-title="PORC. IMPUESTO">&nbsp;{{e.porcentajeImpuesto}}</td>
                       <td data-title="MONEDA">&nbsp;{{e.moneda.nombreMoneda}}</td>
-                      <td data-title="LOGOTIPO">&nbsp;<img src="data:image/jpg;base64,{{e.logotipoEmpresa}}" /></td>
+                      <td data-title="LOGOTIPO">&nbsp;<img src="{{e.logotipoEmpresa}}"  style="height: 100px"/></td><!--data:image/jpg;base64,-->
                       <td data-title="">                          
                           
                           <div class="dropdown">
@@ -237,7 +237,8 @@
                             </div>                            
                             <div class="col-md-6">                            
                                 <label>Vista Previa:</label>
-                                <img id="previa1" src="data:image/jpg;base64,{{empresa.logotipoEmpresa}}" />
+                                <img id="previa1" src="{{empresa.logotipoEmpresa}}" />
+                                <!--data:image/jpg;base64,-->
                             </div>                            
                         </div>
 

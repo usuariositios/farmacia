@@ -72,7 +72,7 @@ app.controller('navegadorEmpresasController',
     };
     $scope.guardarEmpresa_action = function() {
         $scope.empresa.estadosRegistro.codEstado = 1;
-        $scope.empresa.logotipoEmpresa = $scope.empresa.logotipoEmpresa.replace("data:image/jpeg;base64,","");//reemplaza la primera ocurrencia
+        //$scope.empresa.logotipoEmpresa = $scope.empresa.logotipoEmpresa.replace("data:image/jpeg;base64,","");//reemplaza la primera ocurrencia
         Data.post('/empresas/guardarEmpresas', $scope.empresa).then(function(data){            
             $('#agregarEmpresaDialog').modal('hide');
             Data.post("/empresas/cargarEmpresas", $scope.empresasBuscar).then(function(data){
@@ -98,7 +98,7 @@ app.controller('navegadorEmpresasController',
     };
     
     $scope.guardarEditarEmpresa_action = function() {
-        $scope.empresa.logotipoEmpresa = $scope.empresa.logotipoEmpresa.replace("data:image/jpeg;base64,","");//reemplaza la primera ocurrencia
+        //$scope.empresa.logotipoEmpresa = $scope.empresa.logotipoEmpresa.replace("data:image/jpeg;base64,","");//reemplaza la primera ocurrencia
         Data.post('/empresas/editarEmpresas', $scope.empresa).then(function(data){            
             $('#editarEmpresaDialog').modal('hide');
             Data.post("/empresas/cargarEmpresas", $scope.empresasBuscar).then(function(data){

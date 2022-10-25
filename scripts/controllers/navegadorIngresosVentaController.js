@@ -1,8 +1,8 @@
 define(['app'], function(app)
 {
 app.controller('navegadorIngresosVentaController',
-    ['$scope','Data','$location','$q',
-    function ($scope, Data,$location,$q) {
+    ['$scope','Data','$location','$q','$window',
+    function ($scope, Data,$location,$q,$window) {
     console.log("entro....");
     console.log($);
     //try {    
@@ -181,6 +181,13 @@ app.controller('navegadorIngresosVentaController',
         
         
     };
+    
+    
+    $scope.reporteIngresoVenta_action = function(iv){
+        console.log(iv);
+        $window.open(pathFarmaciaReportes+"/ingresosAlmacen/ingresosAlmacenPdf/reporteIngresosAlmacenPdf.jsp?codIngresoVenta="+iv.codIngresoVenta);
+    };
+    
     
     }
     ]);

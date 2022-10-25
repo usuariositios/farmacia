@@ -438,10 +438,10 @@ function ($scope, Data,$location,$window) {
                 
                 return false;
             }
-            if ($scope.salidasVenta.clientes.nitCliente.trim() === "") {
+            /*if ($scope.salidasVenta.clientes.nitCliente.trim() === "") {
                 $.growl.warning({title:"ADVERTENCIA!", message: "Registre el nit de cliente" });
                 return false;
-            }
+            }*/
             /*if (parseFloat($scope.salidasVenta.clientes.tiposDescuento.codTipoDescuento)===0) {
                 $.growl.warning({title:"ADVERTENCIA!", message: "Registre el descuento de cliente" });
                 

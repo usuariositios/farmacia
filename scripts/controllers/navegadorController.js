@@ -2,7 +2,7 @@ define(['app'], function (app)
 {
     app.controller('navegadorController',
             ['$scope', 'Data', '$location','$window', function ($scope, Data, $location,$window) {
-                    cargarContenido(3);//cargar menu en el navegador
+                    
                     $scope.prodVenc = 0.0;
                     
                     $scope.usuarioPersonal = {};
@@ -13,7 +13,7 @@ define(['app'], function (app)
                     }
                     $scope.usuarioPersonal = obtenerSession("usuarioPersonal");
                     console.log($scope.usuarioPersonal);
-                    
+                    cargarContenido($scope.usuarioPersonal.personal.codPersonal);//cargar menu en el navegador 3
                     
                     $scope.salir_action = function () {
                         sessionStorage.setItem("usuarioPersonal",null);

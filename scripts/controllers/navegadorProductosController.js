@@ -91,6 +91,14 @@ app.controller('navegadorProductosController',
          
          console.log($scope.productosBuscar);         
          Data.post("/productos/cargarProductos", $scope.productosBuscar).then(function(data){
+             //para ver si tiene imagen jpg
+             /*for(i=0;i<data.length;i++){
+                if(data[i].length>0 && base64ToHex(data[i].imagenProducto).substring(0,2)==="FF"){
+                    data[i].imagenProductoJPG=1;                    
+                }else{
+                    data[i].imagenProductoJPG=0;
+                }
+            }*/
             $scope.productosList = data;
             console.log(data);
          });
@@ -143,7 +151,7 @@ app.controller('navegadorProductosController',
         }
         $scope.producto.estadosRegistro.codEstado = 1;
         $scope.producto.grupoProducto.codGrupoProducto = 5;//medicamentos
-        $scope.producto.imagenProducto = $scope.producto.imagenProducto.replace("data:image/jpeg;base64,","");//reemplaza la primera ocurrencia
+        //$scope.producto.imagenProducto = $scope.producto.imagenProducto.replace("data:image/jpeg;base64,","");//reemplaza la primera ocurrencia
         Data.post('/productos/guardarProductos', $scope.producto).then(function(data){            
             $('#agregarProductoDialog').modal('hide');
             Data.post("/productos/cargarProductos", $scope.productosBuscar).then(function(data){
@@ -173,7 +181,7 @@ app.controller('navegadorProductosController',
     
     $scope.guardarEditarProducto_action = function() {
         
-        $scope.producto.imagenProducto = $scope.producto.imagenProducto.replace("data:image/jpeg;base64,","");//reemplaza la primera ocurrencia
+        //$scope.producto.imagenProducto = $scope.producto.imagenProducto.replace("data:image/jpeg;base64,","");//reemplaza la primera ocurrencia
         Data.post('/productos/editarProductos', $scope.producto).then(function(data){            
             $('#editarProductoDialog').modal('hide');
             Data.post("/productos/cargarProductos", $scope.productosBuscar).then(function(data){

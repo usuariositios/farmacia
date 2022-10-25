@@ -1,20 +1,19 @@
-<section ng-controller="reporteKardexMovimientoController" ng-cloak>
+<section ng-controller="reporteIngresosAlmacenController" ng-cloak>
     <form>
         <div class="panel panel-primary" id="panel-principal">
             <div class="panel-heading">
-                <div align="center" class="panel-title">KARDEX DE MOVIMIENTO DE PRODUCTOS</div>      
+                <div align="center" class="panel-title">INGRESOS DE ALMACEN</div>      
             </div>
             <div class="panel-body">
-
                 <div class="row show-grid">
                     <div class="col-md-3">
                                             
                     </div>
                     <div class="col-md-3">
-                        <label>Capitulo:</label>
-                        <select class="form-control" ng-model="productosBuscar.grupoProducto.codGrupoProducto" >
+                        <label>Categoria:</label>
+                        <select class="form-control" ng-model="productosBuscar.categoriaProducto.codCategoriaProducto" >
                             <option value="0">-NINGUNO-</option>
-                            <option ng-repeat="p in  gruposProductoList"
+                            <option ng-repeat="p in  categoriasProductoList"
                                     value="{{p.codItem}}">
                                 {{p.nombreItem}}
                             </option>
@@ -62,27 +61,45 @@
                 
                 <br/>
 
-                <div class="row show-grid" align="center">
-                        <div class="col-md-3">
-                                            
-                        </div>
+                <div class="row" align="center">
+                    <div class="col-md-3">
+
+                    </div>
                     <div class="col-md-6">
-                                            
-                    
                         <table class="table table-bordered table-hover" >
                             <thead class="">
                                 <tr>
+                                    <th><div class="dropdown">
+                                            <a class="btn btn-secondary dropdown-toggle" href="" id="dropdownMenuButton1" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false">
+                                                <i class="fa fa-ellipsis-v"></i>
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenuButton1">                                
+                                                <li>
+                                                    <a tabindex="-1"  ng-click="seleccionar_action();">
+                                                        Seleccionar todo
+                                                    </a>                                                        
+                                                </li>                                  
+                                                <li>
+                                                    <a tabindex="-1"  ng-click="verReporte_action();">
+                                                        Ver reporte (todo)
+                                                    </a>
+                                                </li>                                  
+                                            </ul>
+                                        </div></th>
                                     <th>NOMBRE</th>                                            
-                                    <th>GRUPO</th>
-                                    <th></th>
+                                    <th>CATEGORIA</th>
+                                    <th>
+
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr  ng-repeat="m in productosList" 
-                                     id="{{m.codProducto}}">
-                                    <td>{{m.nombreProducto}}</td>                                            
-                                    <td>{{m.grupoProducto.nombreGrupoProducto}}</td>
-                                    <td><button type="button" class="btn btn-primary" ng-click="verReporte(m);">
+                                     id="{{m.producto.codProducto}}">
+                                    <td data-title=""><input type="checkbox" ng-model="m.checked"/></td>
+                                    <td>{{m.producto.nombreProducto}}</td>                                            
+                                    <td>{{m.producto.categoriaProducto.nombreCategoriaProducto}}</td>
+                                    <td><button type="button" class="btn btn-primary" ng-click="verReporteProducto_action(m.producto);">
                                             <i class="fa fa-file-text"></i>                                
                                         </button>
                                     </td>
@@ -90,10 +107,9 @@
                             </tbody>
                         </table>
                     </div>
-                        <div class="col-md-3">
-                                            
-                        </div>
-                    
+                    <div class="col-md-3">
+
+                    </div>
                 </div>
 
 
@@ -101,7 +117,7 @@
             <div class="panel-footer" align="center">
                 <div class="btn-group">
                     <p>
-                        <button type="submit" class="btn btn-primary" ng-click="verReporte()">
+                        <button type="submit" class="btn btn-primary" ng-click="verReporte_action()">
                             <i class="fa fa-file-archive-o"></i>
                             Ver Reporte
                         </button>
