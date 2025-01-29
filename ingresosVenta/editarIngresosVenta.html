@@ -3,7 +3,7 @@
 <section ng-controller="editarIngresosVentaController" ng-cloak>
     <div class="panel panel-primary" id="panel-principal">
         <div class="panel-heading">
-            <div align="center" class="panel-title">EDITAR INGRESO ALMACEN VENTA
+            <div align="center" class="panel-title">EDITAR COMPRA
                 <div class="float-right">              
                 </div>
             </div>
@@ -14,20 +14,24 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-sm-4">
-                                <label>Nro Ingreso Venta</label>
+                                <label>Nro Compra</label>
                                 <input ng-model="ingresosVenta.nroIngresoVenta" class="form-control" disabled="true"   />                                
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-2">
                                 <label>Proveedor:</label>                                
-                                    <select class="form-control" ng-model="ingresosVenta.proveedores.codProveedor" ng-options="e.codItem as e.nombreItem for e in proveedoresList"></select>                                                                    
+                                    <select class="form-control" ng-model="ingresosVenta.proveedores.codProveedor" ng-options="e.codItem as e.nombreItem for e in proveedoresList" ng-change="proveedorCompra_change()"></select>                                                                    
+                            </div>
+                            <div class="col-sm-2">
+                                <label>NIT:</label>                                
+                                <input ng-model="libroCompras.proveedores.nitProveedor" class="form-control"  disabled  />
                             </div>
                             <div class="col-sm-4">
-                                <label>Fecha ingreso almacen</label>
+                                <label>Fecha Compra</label>
                                 <input ng-model="ingresosVenta.fechaIngresoVenta" class="form-control"  datepicker  />
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-2">
                                 
                                     <label>Documento:</label>                                
                                     <div class="input-group">
@@ -37,11 +41,15 @@
                                             <i class="fa fa-caret-down"></i>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-left" role="menu" aria-labelledby="DDMBCliente">
-                                            <li><a  ng-click="registrarDocumento_action();">Registrar documento</a></li>                                        
+                                            <li><a  ng-click="registrarDocumento_action();">Documento</a></li>                                        
                                         </ul>
                                     </div>
                                 </div>
                             </div>                            
+                            <div class="col-sm-2">
+                                <label>Nro Factura:</label>
+                                <input ng-model="libroCompras.nroFactura" class="form-control"    />
+                            </div>
                             
                         </div>
                     </div>
@@ -56,43 +64,39 @@
                                 <th>NOMBRE</th>
                                 
                                 
-                                
-                                
-                                <th style="width: 7%">CANTIDAD</th>                               
-                                <th>ENVASE</th>
                                 <th>NRO LOTE</th>
-                                <th>FECHA FABRICACION</th>
-                                <th>FECHA VENCIMIENTO</th>
-                                <th>TOTAL UNID</th>
-                                <th style="width: 7%">P/Unit</th>
-                                <th>MNTO SUB TOTAL</th>
-                                <th>DCTO.</th>
-                                <th>TOTAL</th>
+                                
+                                <th>FECHA EXPIRACION</th>
+                                <th >PRECIO COMPRA</th>
+                                <th >PRECIO VENTA</th>
+                                <th>CANTIDAD</th>
+                                <th>SUBTOTAL</th>
+                                <th></th>
                                 
                                 
                             </tr>
                         </thead>
                         <tbody>
-                            <tr  ng-repeat="ivd in ingresosVentaDetalleList">
+                            <tr  ng-repeat="ivd in ingresosVentaDetalleList" >
                                 
                                 <td data-title="NOMBRE">&nbsp;{{ivd.productos.nombreProducto}}</td>
                                 
                                 
                                 
                                 
-                                <td data-title="CANT. INGRESAR"><input ng-model="ivd.tempCantIngreso" class="form-control" ng-keyup="envaseProducto_change(ivd)" /></td>
-                                <td data-title="ENVASE">
-                                <select class="form-control" ng-model="ivd.tiposEnvase.codTipoEnvase" ng-options="e.codItem as e.nombreItem for e in tiposEnvaseList" ng-change="envaseProducto_change(ivd)"></select>
                                     
-                                </td>
+                                
                                 <td data-title="NRO LOTE"><input ng-model="ivd.nroLote" class="form-control" required="true"/></td>
-                                <td data-title="FECHA FABRICACION"><input ng-model="ivd.fechaFabricacion" class="form-control" required="true" datepicker /></td>
-                                <td data-title="FECHA VENCIMIENTO"><input ng-model="ivd.fechaVencimiento" class="form-control" required="true" datepicker /></td>
-                                <td data-title="UNID.">{{ivd.cantIngreso}}</td>
-                                <td data-title="P/Unit"><input ng-model="ivd.precioUnitario" class="form-control"  ng-keyup="pUnitPorcDesc_change(ivd)" /></td>
-                                <td data-title="SUB TOTAL">{{ivd.subTotalMonto}}</td>
-                                <td data-title="CANT TOTAL"><input ng-model="ivd.porcentajeDescuento" class="form-control" required="true" ng-keyup="pUnitPorcDesc_change(ivd)" /></td>
-                                <td data-title="TOTAL"><input ng-model="ivd.totalMonto" class="form-control"  /></td>
+                                
+                                <td data-title="FECHA EXPIRACION"><input ng-model="ivd.fechaVencimiento" class="form-control" required="true" datepicker /></td>
+                                <td data-title="PRECIO COMPRA"><input ng-model="ivd.precioCompra" class="form-control"  ng-keyup="precioCantidad_change(ivd)" required="true" type="number" step="any" /></td>
+                                <td data-title="PRECIO VENTA"><input ng-model="ivd.precioVenta" class="form-control"  ng-keyup="precioCantidad_change(ivd)" required="true" type="number" step="any" /></td>
+                                <td data-title="CANTIDAD"><input ng-model="ivd.cantIngreso" class="form-control" ng-keyup="precioCantidad_change(ivd)" required="true" type="number" step="any"/></td>
+                                
+                                
+                                
+                                
+                                <td data-title="SUBTOTAL"><input ng-model="ivd.subTotalMonto" class="form-control"  /></td>
                                 
                                 
                                 
@@ -105,6 +109,15 @@
                                 </td>
                             </tr>
                         </tbody>
+                        <tfoot style="width: 100%">
+                            <tr ng-class="ingresosVentaDetalleList.length===0?'hidden':''">                                
+                                
+                                <td data-title="" colspan="5">&nbsp;</td>                                
+                                <td data-title="TOTAL">&nbsp;TOTAL</td>
+                                <td data-title="MONTO TOTAL">&nbsp;{{totalMonto}}</td>
+                                <td >&nbsp;</td>
+                            </tr>                            
+                        </tfoot>
                     </table>
                 </div>
             </section>
@@ -184,28 +197,7 @@
                     <div class="modal-body">
                         <form>
                         <div class="row show-grid">
-                            <div class="col-md-6">
-                                <label>Grupo:</label>
-                                <select class="form-control" ng-model="productosBuscar.grupoProducto.codGrupoProducto" ng-change="grupoProducto_change()">
-                                    <option value="0">-NINGUNO-</option>
-                                    <option ng-repeat="p in gruposProductoList"
-                                            value="{{p.codItem}}">
-                                            {{p.nombreItem}}
-                                    </option>
-                                </select>
-                            </div>                        
-                            <div class="col-md-6">
-                                <label>Sub Grupo:</label>
-                                <select class="form-control" ng-model="productosBuscar.subGruposProducto.codSubgrupo">
-                                    <option value="0">-NINGUNO-</option>
-                                    <option ng-repeat="p in subGruposList"
-                                            value="{{p.codItem}}">
-                                            {{p.nombreItem}}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row show-grid">
+                            <div class="row show-grid">
                             <div class="col-md-12">
                                 <label>Nombre:</label>                                
                                 <div class="input-group">                                    
@@ -217,7 +209,29 @@
                                     </span>
                                 </div>
                             </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Laboratorio:</label>
+                                <select class="form-control" ng-model="productosBuscar.proveedores1.codProveedor" >
+                                    <option value="0">-NINGUNO-</option>
+                                    <option ng-repeat="p in proveedoresList"
+                                            value="{{p.codItem}}">
+                                            {{p.nombreItem}}
+                                    </option>
+                                </select>
+                            </div>                        
+                            <div class="col-md-6">
+                                <label>Accion terapeutica:</label>
+                                <select class="form-control" ng-model="productosBuscar.accionTerapeutica.codAccionTerapeutica">
+                                    <option value="0">-NINGUNO-</option>
+                                    <option ng-repeat="p in accionTerapeuticaList"
+                                            value="{{p.codItem}}">
+                                            {{p.nombreItem}}
+                                    </option>
+                                </select>
+                            </div>
                         </div>
+                        
                         
                         <br/>
                         
@@ -242,7 +256,7 @@
                                             <td>{{p.PorcentajeDescuentoMaximo}}</td>
                                             <td>{{p.stockMinimo}}</td>
                                             <td>{{p.stockMaximo}}</td>
-                                            <td>{{p.precioTienda}}</td>                                            
+                                            <td>{{p.precioVenta}}</td>                                            
                                         </tr>
                                     </tbody>
                                 </table>
@@ -490,16 +504,16 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title"><i class="fa fa-check"></i>Libro de compras</h4>
+                        <h4 class="modal-title"><i class="fa fa-check"></i>Datos Factura</h4>
                     </div>
                     <div class="modal-body">    
                         <div class="row show-grid">
                             <div class="col-md-6">
                                 <label>Proveedor *</label>                                
                                 <div class="input-group">
-                                    <select class="form-control" ng-model="libroCompras.proveedores.codProveedor" ng-options="e.codItem as e.nombreItem for e in proveedoresList" ng-change="proveedor_change()"></select>
+                                    <select class="form-control" ng-model="libroCompras.proveedores.codProveedor" ng-options="e.codItem as e.nombreItem for e in proveedoresList" ng-change="proveedor_change()" disabled></select>
                                     <div class="input-group-btn">                    
-                                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButtonPL" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false">
+                                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButtonPL" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false" disabled>
                                             <i class="fa fa-caret-down"></i>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-left" role="menu" aria-labelledby="dropdownMenuButtonPL">
@@ -517,7 +531,7 @@
                         <div class="row show-grid">
                             <div class="col-md-6">
                                 <label>Nro Factura *</label>
-                                <input class="form-control" ng-model="libroCompras.nroFactura" />
+                                <input class="form-control" ng-model="libroCompras.nroFactura" disabled />
                             </div>                            
                             <div class="col-md-6">
                                 <label>Nro DUI </label>
@@ -608,16 +622,16 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title"><i class="fa fa-check"></i>Recibo de compras</h4>
+                        <h4 class="modal-title"><i class="fa fa-check"></i>Recibo</h4>
                     </div>
                     <div class="modal-body">    
                         <div class="row show-grid">
                             <div class="col-md-6">
                                 <label>Proveedor:</label>
                                 <div class="input-group">
-                                    <select class="form-control" ng-model="reciboCompras.proveedor.codProveedor" ng-options="e.codItem as e.nombreItem for e in proveedoresList" ng-change="proveedor_change1()"></select>
+                                    <select class="form-control" ng-model="reciboCompras.proveedor.codProveedor" ng-options="e.codItem as e.nombreItem for e in proveedoresList" ng-change="proveedor_change1()" disabled></select>
                                     <div class="input-group-btn">                    
-                                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false">
+                                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false" disabled>
                                             <i class="fa fa-caret-down"></i>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-left" role="menu" aria-labelledby="dropdownMenuButton">

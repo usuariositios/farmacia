@@ -47,9 +47,19 @@ function ($scope, Data, $location,$window) {
     });
     
     
-    Data.get('/gruposProducto/cargarGruposProductoItem').then(function(data){
+    /*Data.get('/gruposProducto/cargarGruposProductoItem').then(function(data){
             console.log(data);
             $scope.gruposProductoList = data;
+    });*/
+    
+    Data.get('/tablaDetalle/tablaDetalle').then(function (data) {
+        $scope.tablaDetalle = data;
+        
+        $scope.tablaDetalle.tabla.nombreTabla = "ACCION_TERAPEUTICA";
+        Data.post("/tablaDetalle/cargarTablaDetalleItem", $scope.tablaDetalle).then(function (data) {
+            $scope.accionTerapeuticaList = data;
+            console.log(data);
+        });
     });
     
    

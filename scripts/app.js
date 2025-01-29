@@ -50,7 +50,8 @@ define(['routes','services/dependencyResolverFor'], function(config, dependencyR
         //normalizar el objeto json
 
         //var serviceBase = 'https://farmacia-servicios.herokuapp.com/rest';
-        var serviceBase = 'http://192.168.0.3:8080/FARMACIA_1_0_SERVICIOS-1.0-SNAPSHOT/rest';
+        var serviceBase = 'http://192.168.0.4:8080/FARMACIA_1_0_SERVICIOS-1.0-SNAPSHOT/rest'; //https://localhost:8181
+        //var serviceBase = 'https://f475-181-188-161-108.ngrok-free.app/FARMACIA_1_0_SERVICIOS-1.0-SNAPSHOT/rest';
 
         var obj = {};
 
@@ -110,7 +111,56 @@ app.factory("DataCont", ['$http', '$location',
 
 
         //var serviceBase = 'https://contabilidad-servicios.herokuapp.com/rest';
-        var serviceBase = 'http://192.168.0.3:8080/CONTABILIDAD_1_0_SERVICIOS-1.0-SNAPSHOT/rest';
+        //var serviceBase = 'https://localhost:8181/CONTABILIDAD_1_0_SERVICIOS-1.0-SNAPSHOT/rest';
+        var serviceBase = 'https://f475-181-188-161-108.ngrok-free.app/CONTABILIDAD_1_0_SERVICIOS-1.0-SNAPSHOT/rest';
+        
+        var obj = {};
+
+        obj.get = function (q) {            
+            return $http.get(serviceBase + q).then(function (results) {
+                return results.data;
+            });
+        };
+        obj.post = function (q, object) {
+            var strJson = JSON.stringify(object,function (key, value) {//reemplazar los valores falsy en 0
+                        if(isNaN(value) && (typeof value ==="number"))//buscaria los valores de tipo entero
+                        {    value = 0;}
+                        
+                        return value;        
+                      });
+            object = JSON.parse(strJson);//retornar el objeto depurado al objeto origen
+            return $http.post(serviceBase + q, object).then(function (results) {
+                return results.data;
+            });
+        };
+        obj.put = function (q, object) {
+            var strJson = JSON.stringify(object,function (key, value) {//reemplazar los valores falsy en 0
+                        if(isNaN(value) && (typeof value ==="number"))//buscaria los valores de tipo entero
+                        {    value = 0;}
+                        
+                        return value;
+                      });
+            object = JSON.parse(strJson);//retornar el objeto depurado al objeto origen
+            return $http.put(serviceBase + q, object).then(function (results) {
+                return results.data;
+            });
+        };
+        obj.delete = function (q) {            
+            return $http.delete(serviceBase + q).then(function (results) {
+                return results.data;
+            });
+        };
+        return obj;
+}]);
+
+
+app.factory("DataFact", ['$http', '$location',
+    function ($http, $location) {
+
+
+        //var serviceBase = 'https://contabilidad-servicios.herokuapp.com/rest';
+        //var serviceBase = 'https://localhost:8181/CONTABILIDAD_1_0_SERVICIOS-1.0-SNAPSHOT/rest';
+        var serviceBase = 'http://192.168.0.4:8080/MavenSoapService-1.0-SNAPSHOT/rest';
         
         var obj = {};
 

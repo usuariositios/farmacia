@@ -15,16 +15,21 @@ app.controller('navegadorClientesController',
     
     var item = {codItem:0,nombreItem:"-NINGUNO-"};
     
-    Data.get("/ciudad/cargarCiudadItem").then(function(data){
+    Data.get('/ciudad/ciudad').then(function(data){
+        $scope.ciudad = data;
+        $scope.ciudad.pais.codPais=3;//Bolivia
+        Data.post("/ciudad/cargarCiudad",$scope.ciudad).then(function(data){
             $scope.ciudadesList = data;
             $scope.ciudadesList.splice(0,0,item);//index,?,item
             console.log(data);
     });
-    Data.get("/pais/cargarPaisItem").then(function(data){
+    });
+    
+    /*Data.get("/pais/cargarPaisItem").then(function(data){
             $scope.paisesList = data;
             $scope.paisesList.splice(0,0,item);//index,?,item
             console.log(data);
-    });
+    });*/
     Data.get("/tiposDescuento/cargarTiposDescuentoItem").then(function(data){
             $scope.tiposDescuentoList = data;
             $scope.tiposDescuentoList.splice(0,0,item);//index,?,item

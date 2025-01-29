@@ -39,9 +39,19 @@ function ($scope, Data, $location,$window) {
             });
     
     
-    Data.get('/productos/productos').then(function(data){
+    /*Data.get('/productos/productos').then(function(data){
         $scope.productosBuscar = data;
         
+    });*/
+    
+    Data.get('/tablaDetalle/tablaDetalle').then(function (data) {
+        $scope.tablaDetalle = data;
+        
+        $scope.tablaDetalle.tabla.nombreTabla = "ACCION_TERAPEUTICA";
+        Data.post("/tablaDetalle/cargarTablaDetalleItem", $scope.tablaDetalle).then(function (data) {
+            $scope.accionTerapeuticaList = data;
+            console.log(data);
+        });
     });
     
     

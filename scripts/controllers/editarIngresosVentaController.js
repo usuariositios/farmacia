@@ -21,7 +21,9 @@ function ($scope, Data, $location,$timeout,DataCont,$window,$q) {
     $scope.ingresosVentaBusiness ={};
     $scope.subGruposList = [];
     $scope.usuarioPersonal = obtenerSession("usuarioPersonal");
+    console.log($scope.usuarioPersonal);
     $scope.tiposDocumentoList = [];
+    $scope.totalMonto = 0;
     //console.log($scope.ordenCompraAprobada);
     
     $scope.tipoDocumentoSeleccionado = obtenerSession("tipoDocumentoSeleccionado");//buscarlo y cargarlo en el boton editar
@@ -33,7 +35,57 @@ function ($scope, Data, $location,$timeout,DataCont,$window,$q) {
         totalDocumento:0,
         descuentoDocumento:0,
         importePagadoDocumento:0
+        
     };
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     //$scope.ingresosVenta =JSON.parse(sessionStorage.getItem("ingresosVentaEditar"));
@@ -53,11 +105,7 @@ function ($scope, Data, $location,$timeout,DataCont,$window,$q) {
         $scope.ingresosVentaDetalleList = angular.copy(data);
         console.log($scope.ingresosVentaDetalleList);
         for(i=0;i<$scope.ingresosVentaDetalleList.length;i++){
-            
-            $scope.ingresosVentaDetalleList[i].tempCodProducto = $scope.ingresosVentaDetalleList[i].productos.codProducto;
-            $scope.ingresosVentaDetalleList[i].tempCantIngreso = $scope.ingresosVentaDetalleList[i].cantIngreso;
-            
-            
+            $scope.totalMonto = $scope.totalMonto + parseFloat($scope.ingresosVentaDetalleList[i].subTotalMonto);            
             $scope.buscarProducto($scope.ingresosVentaDetalleList[i].productos,$scope.ingresosVentaDetalleList[i]);
         }
     });
@@ -193,6 +241,13 @@ function ($scope, Data, $location,$timeout,DataCont,$window,$q) {
             $scope.libroCompras.proveedores.nitProveedor = data.nitProveedor;            
         });
     };
+    $scope.proveedorCompra_change = function(){
+        DataCont.post('/proveedor/buscarProveedor', $scope.ingresosVenta.proveedores).then(function (data) {
+            console.log(data);
+            $scope.libroCompras.proveedores = angular.copy(data);
+            $scope.reciboCompras.proveedor= angular.copy(data);
+        });
+    };
     $scope.proveedor_change1 = function(){
         DataCont.post('/proveedor/buscarProveedor', $scope.reciboCompras.proveedor).then(function (data) {
             console.log(data);
@@ -227,7 +282,7 @@ function ($scope, Data, $location,$timeout,DataCont,$window,$q) {
                 
                 return false;
         }
-        if (  $scope.libroCompras.nroAutorizacion.trim() === "") {
+        /*if (  $scope.libroCompras.nroAutorizacion.trim() === "") {
                 $.growl.warning({title:"ADVERTENCIA!", message: "Registre el nro de autorizacion" });
                 
                 
@@ -256,7 +311,7 @@ function ($scope, Data, $location,$timeout,DataCont,$window,$q) {
                 
                 
                 return false;
-        }
+        }*/
         return true;
     };
     $scope.guardarLibroCompras_action = function(){
@@ -422,13 +477,14 @@ function ($scope, Data, $location,$timeout,DataCont,$window,$q) {
         
         id.fechaFabricacion = fechaActualDDMMYYYY();
         id.fechaVencimiento = fechaActualDDMMYYYY();
-        id.precioUnitario=id.productos.precioCompra;
+            id.precioCompra= id.productos.precioCompra;
+            id.precioVenta= id.productos.precioVenta;
 
 
         id.tempCodEnvase = "1";//envase
         id.tempCantIngreso = 1;//cantidad por defecto
         $scope.ingresosVentaDetalleList.push(id);
-        $scope.envaseProducto_change(id);
+            //$scope.envaseProducto_change(id);
         console.log("entro hide agregarProdIngrVentaDialog");
         $('#agregarProdIngrVentaDialog').modal('hide');  
         
@@ -437,18 +493,49 @@ function ($scope, Data, $location,$timeout,DataCont,$window,$q) {
         
     };
     $scope.validarDetalleTotal_action = function(){
-        var totalDetalle = 0;
-        for(i=0;i<$scope.ingresosVentaDetalleList.length;i++){
-            totalDetalle = totalDetalle+parseFloat($scope.ingresosVentaDetalleList[i].totalMonto);            
+        
+        if($scope.ingresosVenta.proveedores.codProveedor<=0){
+            $.growl.warning({title:"ADVERTENCIA!", message: "Registre el proveedor"});
+            return false;
         }
+        
+        var cantIngreso = 0;
+        for(i=0;i<$scope.ingresosVentaDetalleList.length;i++){
+            cantIngreso = cantIngreso+parseFloat($scope.ingresosVentaDetalleList[i].cantIngreso);
+            if($scope.ingresosVentaDetalleList[i].nroLote.trim()===""){
+                $.growl.warning({title:"ADVERTENCIA!", message: "Ingrese los numeros de lote"});
+                return false;
+        }
+            if($scope.ingresosVentaDetalleList[i].fechaVencimiento.trim()===""){
+                $.growl.warning({title:"ADVERTENCIA!", message: "Ingrese las fechas de vencimiento"});
+                return false;
+            }
+            
+            if(parseFloat($scope.ingresosVentaDetalleList[i].precioCompra)<=0 || parseFloat($scope.ingresosVentaDetalleList[i].precioVenta)<=0
+                    || parseFloat($scope.ingresosVentaDetalleList[i].cantIngreso)<=0 || parseFloat($scope.ingresosVentaDetalleList[i].subTotalMonto)<=0){
+                $.growl.warning({title:"ADVERTENCIA!", message: "Datos no validos en el detalle de productos"});
+                return false;
+            }
+        }
+        
+        
         if($scope.ingresosVentaDetalleList.length<=0){
-            $.growl.warning({title:"ADVERTENCIA!", message: "Registre el detalle"});
+            $.growl.warning({title:"ADVERTENCIA!", message: "Registre los productos"});
+            return false;
+        }
+        if(cantIngreso<=0){
+            $.growl.warning({title:"ADVERTENCIA!", message: "Registre la cantidad"});
+            return false;
+        }
+        if($scope.totalMonto<=0){
+            $.growl.warning({title:"ADVERTENCIA!", message: "Monto total invalido"});
             return false;
         }
         /*if(parseFloat(totalDetalle)!==parseFloat($scope.infDocumento.importePagadoDocumento)){
             $.growl.warning({title:"ADVERTENCIA!", message: "El detalle no coincide con el total del documento"});
             return false;
         }*/
+        return true;
     
     
     };
@@ -467,6 +554,9 @@ function ($scope, Data, $location,$timeout,DataCont,$window,$q) {
             if($scope.validarDetalleTotal_action()===false){
                 return null;
         }
+            if(confirm("esta seguro de guardar la compra?")===false){
+                return null;
+            }
         
         
         
@@ -479,8 +569,8 @@ function ($scope, Data, $location,$timeout,DataCont,$window,$q) {
             for(i=0;i<$scope.ingresosVentaDetalleList.length;i++){
                 delete $scope.ingresosVentaDetalleList[i].tempCantIngreso;
                 delete $scope.ingresosVentaDetalleList[i].tempCodEnvase;
-                delete $scope.ingresosVentaDetalleList[i].tempCodProducto;
                 $scope.ingresosVentaDetalleList[i].cantRestante=$scope.ingresosVentaDetalleList[i].cantIngreso;
+                
             }
         
             $scope.ingresosVentaBusiness.ingresosVenta = angular.copy($scope.ingresosVenta);
@@ -564,9 +654,6 @@ $q.all([
             }
         
             });    
-            //});
-            //}
-            
             
             
             
@@ -601,7 +688,7 @@ $q.all([
         }        
     };
     $scope.cantidadProducto_change = function(iad){
-        //iad.precioUnitario = parseFloat(iad.totalMonto)/parseFloat(iad.cantIngreso);
+        //iad.precioCompra = parseFloat(iad.totalMonto)/parseFloat(iad.cantIngreso);
         
         //if(parseInt($scope.ingresosVenta.conIva) == 1){//con iva
            //console.log("iva " + $scope.ingresosVenta.conIva);
@@ -612,11 +699,11 @@ $q.all([
                 
     };
     $scope.totalProducto_change = function(iad){
-        iad.precioUnitario = parseFloat(iad.totalMonto)/parseFloat(iad.cantIngreso);
+        iad.precioCompra = parseFloat(iad.totalMonto)/parseFloat(iad.cantIngreso);
         
         if(parseInt($scope.ingresosVenta.conIva) === 1){//con iva
             console.log("iva " + $scope.ingresosVenta.conIva);
-           iad.costoUnitario = (parseFloat(iad.totalMonto)/parseFloat(iad.cantIngreso))*(1-0.13);//el monto menos el trece% por que ya esta en la factura el 13%
+           iad.precioVenta = (parseFloat(iad.totalMonto)/parseFloat(iad.cantIngreso))*(1-0.13);//el monto menos el trece% por que ya esta en la factura el 13%
            iad.subTotalMonto = parseFloat(iad.totalMonto) * (1-0.13);
         }                
                 
@@ -652,12 +739,21 @@ $q.all([
             ivd.totalMonto = ivd.tempCantIngreso * ivd.productos.precioCompraCaja;
         }
         ivd.totalMonto = redondeaDouble(ivd.subTotalMonto *(1- (ivd.porcentajeDescuento/100)));//con el descuento
-        ivd.precioUnitario = redondeaDouble(ivd.subTotalMonto/ivd.cantIngreso);
+        ivd.precioCompra = redondeaDouble(ivd.subTotalMonto/ivd.cantIngreso);
         
     };
     $scope.pUnitPorcDesc_change = function(ivd){
-        ivd.subTotalMonto = redondeaDouble(ivd.precioUnitario * ivd.cantIngreso);
+        ivd.subTotalMonto = redondeaDouble(ivd.precioCompra * ivd.cantIngreso);
         ivd.totalMonto = redondeaDouble(ivd.subTotalMonto *(1- (ivd.porcentajeDescuento/100)));//con el descuento
+    };
+    $scope.precioCantidad_change = function(ivd){
+        ivd.subTotalMonto = redondeaDouble(ivd.precioCompra * ivd.cantIngreso);
+        var i = 0;        
+        $scope.totalMonto = 0;
+        for(i=0;i<$scope.ingresosVentaDetalleList.length;i++){
+                $scope.totalMonto = $scope.totalMonto +  parseFloat($scope.ingresosVentaDetalleList[i].subTotalMonto);                
+            }
+        $scope.totalMonto = redondeaDouble($scope.totalMonto);
     };
     $scope.actualizarProveedores_action = function(){
         Data.get('/proveedores/cargarProveedoresItem').then(function (data) {

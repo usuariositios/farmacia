@@ -11,14 +11,14 @@
                                             
                     </div>
                     <div class="col-md-3">
-                        <label>Capitulo:</label>
-                        <select class="form-control" ng-model="productosBuscar.grupoProducto.codGrupoProducto" >
-                            <option value="0">-NINGUNO-</option>
-                            <option ng-repeat="p in  gruposProductoList"
-                                    value="{{p.codItem}}">
-                                {{p.nombreItem}}
-                            </option>
-                        </select>
+                                <label>Accion terapeutica:</label>
+                                <select class="form-control" ng-model="productosBuscar.accionTerapeutica.codAccionTerapeutica">
+                                    <option value="0">-NINGUNO-</option>
+                                    <option ng-repeat="p in accionTerapeuticaList"
+                                            value="{{p.codItem}}">
+                                            {{p.nombreItem}}
+                                    </option>
+                                </select>
                     </div>
                     <div class="col-md-3">
                         <label>Producto:</label>

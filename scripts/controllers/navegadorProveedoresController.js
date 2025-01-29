@@ -71,6 +71,11 @@ app.controller('navegadorProveedoresController',
         });
     });
     
+    
+    Data.get('/ciudad/ciudad').then(function(data){
+        $scope.ciudad = data;        
+    });
+    
     //busca el objeto proveedor luego carga la lista de proveedores
     Data.get('/proveedores/proveedores').then(function(data){
          $scope.proveedoresBuscar = data;
@@ -219,6 +224,14 @@ app.controller('navegadorProveedoresController',
             });
          console.log("entro hide:::");
          ocultarVentanaModal("#buscarProveedorDialog");
+    };
+    
+    $scope.pais_change=function(){
+            $scope.ciudad.pais.codPais = $scope.proveedor.pais.codPais;
+            Data.post("/ciudad/cargarCiudad", $scope.ciudad).then(function (data) {
+                $scope.ciudadList = data;
+                $scope.ciudadList.splice(0,0,item);//index,?,item
+            });
     };
     
     }

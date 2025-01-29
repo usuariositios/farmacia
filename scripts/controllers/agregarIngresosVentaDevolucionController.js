@@ -201,8 +201,8 @@ app.controller('agregarIngresosVentaDevolucionController',
         $scope.sd.productos=angular.copy(p);
         $scope.sd.unidadesMedida = angular.copy(p.unidadesMedida);
         $scope.sd.salidasVenta = angular.copy($scope.salidasVenta);
-        $scope.sd.costoUnitario = angular.copy(p.precioTienda);
-        console.log("costo unitario"+p.precioTienda);
+        $scope.sd.costoUnitario = angular.copy(p.precioVenta);
+        console.log("costo unitario"+p.precioVenta);
         $scope.sadi.ingresosVentaDetalle.ingresosVenta.almacenesVenta = angular.copy($scope.usuarioPersonal.almacenesVenta);//que muestre del almacen y producto su cantidad restante
         $scope.sadi.ingresosVentaDetalle.productos = angular.copy(p);
         
@@ -539,7 +539,7 @@ app.controller('agregarIngresosVentaDevolucionController',
                 dt.productos = angular.copy(sd.productos);
                 dt.cantidadDevuelta = parseFloat(sd.cantidadRetornar);
                 dt.unidadesMedida = angular.copy(sd.unidadesMedida);
-                dt.precioUnitario = parseFloat(sd.costoUnitario);
+                dt.precioCompra = parseFloat(sd.costoUnitario);
                 dt.precioTotal = parseFloat(sd.montoTotal);
                 dt.almacenesVenta =  angular.copy($scope.salidasVenta.almacenesVenta);
                 $scope.devolucionBusiness.devolucionesDetalleList.push(dt);

@@ -36,34 +36,40 @@
   </div>
     <div class="panel-body">      
       <section id="no-more-tables">
+          <!--class="no-border" para ocultar el menu derecho-->
           <table class="table table-bordered table-hover table-condensed"  >
               <thead class="cf">
                   <tr>
                       <th>CODIGO</th>
-                      <th>NOMBRE</th>
-                      <th>LABORATORIO</th>
-                      <th>UNID.</th>
-                      <th>NOMBRE GENERICO</th>
+                      <th>NOMBRE COMERCIAL</th>
+                      <th>LABORATORIO</th>                      
+                      <th>PRINCIPIO ACTIVO</th>
+                      <th>ACCION TERAPEUTICA</th>                      
                       <th>FORMA FARMACEUTICA</th>
-                      <th>IMAGEN PRODUCTO</th>
+                      <th>NOMBRE GENERICO</th>
+                      <th>PRECIO COMPRA</th>
+                      <th>PRECIO VENTA</th>                      
+                      <th>STOCK MINIMO</th>
                       <th><p style="padding: 1em"></p></th>
                   </tr>
               </thead>
               <tbody>
-                  <tr class="no-border" ng-repeat="p in productosList" 
+                  
+                  <tr  ng-repeat="p in productosList" 
                        id="{{p.codProducto}}"
                        >
                       <td data-title="CODIGO">&nbsp;{{p.codigoProducto}}</td>
-                      <td data-title="NOMBRE">&nbsp;{{p.nombreProducto}}</td>
+                      <td data-title="NOMBRE COMERCIAL">&nbsp;{{p.nombreProducto}}</td>
                       <td data-title="LABORATORIO">&nbsp;{{p.proveedores1.nombreProveedor}}</td>
-                      <td data-title="UNID.">&nbsp;{{p.unidadesMedida.nombreUnidadMedida}}</td>
+                      <td data-title="PRINCIPIO ACTIVO">&nbsp;{{p.principioActivo}}</td>                      
+                      <td data-title="ACCION TERAPEUTICA">&nbsp;{{p.accionTerapeutica.nombreAccionTerapeutica}}</td>                      
+                      <td data-title="FORMA FARMACEUTICA">&nbsp;{{p.formaFarmaceutica.nombreFormaFarmaceutica}}</td>                     
                       <td data-title="NOMBRE GENERICO">&nbsp;{{p.nombreGenerico.descripcionNombreGenerico}}</td>
-                      <td data-title="FORMA FARMACEUTICA">&nbsp;{{p.formaFarmaceutica.nombreFormaFarmaceutica}}</td>
+                      <td data-title="PRECIO COMPRA">&nbsp;{{p.precioCompra}}</td>
+                      <td data-title="PRECIO VENTA">&nbsp;{{p.precioVenta}}</td>
+                      <td data-title="STOCK MINIMO">&nbsp;{{p.stockMinimo}}</td>
                       
-                      <td data-title="IMAGEN PRODUCTO">&nbsp;<img src="{{p.imagenProducto}}" width="200"  ng-hide="{{p.imagenProductoJPG===1?falsy:truthy}}"  /><!--data:image/jpg;base64,-->
-                      
-                      </td>
-                      <td data-title=" ">
+                      <td data-title="">
                           <div class="dropdown">
                               <a class="btn btn-secondary dropdown-toggle" href="#" id="dropdownMenuButton" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false">
                                   <i class="fa fa-ellipsis-v"></i>
@@ -137,7 +143,7 @@
                                 <li role="presentation" class="active"><a href="#datos1Tab" aria-controls="datos1Tab" role="tab" data-toggle="tab">Producto</a>
 
                                 </li>
-                                <li role="presentation"><a href="#datos2Tab" aria-controls="datos2Tab" role="tab" data-toggle="tab">Costos y stock</a>
+                                <li role="presentation"><a href="#datos2Tab" aria-controls="datos2Tab" role="tab" data-toggle="tab">Precios y stock</a>
 
                                 </li>
                             </ul>
@@ -152,7 +158,7 @@
                                     </div>
                                     <div class="row show-grid">
                                         <div class="col-md-12">
-                                            <label>Nombre:</label>
+                                            <label>Nombre Comercial:</label>
                                             <input class="form-control" ng-model="producto.nombreProducto" />
                                         </div>
                                     </div>
@@ -162,26 +168,22 @@
                                             <select class="form-control" ng-model="producto.proveedores1.codProveedor" ng-options="p.codItem as p.nombreItem for p in proveedoresList"></select>
                                         </div>
                                         <div class="col-md-6">                            
-                                            <label>Presentacion:</label>
-                                            <select class="form-control" ng-model="producto.presentacionesProducto.codPresentacionProducto" ng-options="p.codItem as p.nombreItem for p in presentacionesProductoList"></select>
+                                            <label>Principio Activo:</label>
+                                            <input class="form-control" ng-model="producto.principioActivo" />
                                         </div>
                                     </div>
                                     <div class="row show-grid">
                                         <div class="col-md-6">
-                                            <label>Codigo de barras:</label>
-                                            <input ng-model="producto.codBarrasProducto" class="form-control"  />                                
+                                            <label>Accion Terapeutica:</label>
+                                            <select class="form-control" ng-model="producto.accionTerapeutica.codAccionTerapeutica" ng-options="p.codItem as p.nombreItem for p in accionTerapeuticaList"></select>
                                         </div>
-                                        <div class="col-md-6">
-                                            <label>Categoria:</label>
-                                            <select class="form-control" ng-model="producto.categoriaProducto.codCategoriaProducto" ng-options="p.codItem as p.nombreItem for p in categoriasProductoList"></select>
-                                        </div>
-                                    </div>                                    
-                                    <div class="row show-grid">
                                         <div class="col-md-6">
                                             <label>Forma farmaceutica:</label>
                                             <select class="form-control" ng-model="producto.formaFarmaceutica.codFormaFarmaceutica" ng-options="p.codItem as p.nombreItem for p in formaFarmaceuticaList"></select>
                                         </div>
-                                        <div class="col-md-6">
+                                    </div>                                    
+                                    <div class="row show-grid">                                        
+                                        <div class="col-md-12">
                                             <label>Nombre generico:</label>
                                             <select class="form-control" ng-model="producto.nombreGenerico.codNombreGenerico" ng-options="p.codItem as p.nombreItem for p in nombreGenericoList"></select>
                                         </div>
@@ -200,63 +202,27 @@
                                 <div role="tabpanel" class="tab-pane" id="datos2Tab">
                                     
                                     
-                                    <div class="row show-grid">
-                                        <div class="col-md-6">
-                                            <label>Stock Minimo:</label>
-                                            <input ng-model="producto.stockMinimo" class="form-control"  />                                
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label>Unidad:</label>
-                                            <select class="form-control" ng-model="producto.unidadesMedida.codUnidadMedida" ng-options="p.codItem as p.nombreItem for p in unidadesMedidaList"></select>
-                                        </div>
-                                    </div>
+                                    
                                     <fieldset>
-                                        <legend class="h5">Unidad:</legend>                                    
+                                    <!--legend class="h5">Precio:</legend-->                                    
                                     <div class="row">
                                             <div class="col-md-4">
-                                                <label>Costo de compra:</label>
+                                                <label>Precio compra:</label>
                                                 <input ng-model="producto.precioCompra" class="form-control"  />                                
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Precio de venta:</label>
-                                                <input ng-model="producto.precioTienda" class="form-control"  />                                
+                                                <label>Precio venta:</label>
+                                                <input ng-model="producto.precioVenta" class="form-control"  />                                
                                             </div>
                                     </div>
                                     </fieldset>
-                                    <fieldset class="">
-                                        <legend class="h5">Blister:</legend>
-                                        <div class="row">
-                                        <div class="col-md-4">
-                                            <label>Costo de compra:</label>
-                                            <input ng-model="producto.precioCompraBlister" class="form-control"  />                                
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label>Precio de venta:</label>
-                                            <input ng-model="producto.precioVentaBlister" class="form-control"  />                                
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label>contiene:</label>
-                                            <input ng-model="producto.cantUnidadesBlister" class="form-control"  />                                
-                                        </div>
-                                        </div>
-                                    </fieldset>
-                                    <fieldset>
-                                        <legend class="h5">Caja:</legend>
-                                        <div class="row">
-                                        <div class="col-md-4">
-                                            <label>Costo de compra:</label>
-                                            <input ng-model="producto.precioCompraCaja" class="form-control"  />                                
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label>Precio de venta:</label>
-                                            <input ng-model="producto.precioVentaCaja" class="form-control"  />                                
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label>contiene:</label>
-                                            <input ng-model="producto.cantUnidadesCaja" class="form-control"  />                                
-                                        </div>
-                                            </div>
-                                    </fieldset>
+                                    <div class="row show-grid">
+                                        <div class="col-md-12">
+                                            <label>Stock Minimo:</label>
+                                            <input ng-model="producto.stockMinimo" class="form-control"  />                                
+                                        </div>                                        
+                                    </div>                                    
+                                    
                                 </div>
                             </div>
                         </div>
@@ -318,7 +284,7 @@
                                     </div>
                                     <div class="row show-grid">
                                         <div class="col-md-12">
-                                            <label>Nombre:</label>
+                                            <label>Nombre Comercial:</label>
                                             <input class="form-control" ng-model="producto.nombreProducto" />
                                         </div>
                                     </div>
@@ -328,26 +294,22 @@
                                             <select class="form-control" ng-model="producto.proveedores1.codProveedor" ng-options="p.codItem as p.nombreItem for p in proveedoresList"></select>
                                         </div>
                                         <div class="col-md-6">                            
-                                            <label>Presentacion:</label>
-                                            <select class="form-control" ng-model="producto.presentacionesProducto.codPresentacionProducto" ng-options="p.codItem as p.nombreItem for p in presentacionesProductoList"></select>
+                                            <label>Principio Activo:</label>
+                                            <input class="form-control" ng-model="producto.principioActivo" />
                                         </div>
                                     </div>
                                     <div class="row show-grid">
                                         <div class="col-md-6">
-                                            <label>Codigo de barras:</label>
-                                            <input ng-model="producto.codBarrasProducto" class="form-control"  />                                
+                                            <label>Accion Terapeutica:</label>
+                                            <select class="form-control" ng-model="producto.accionTerapeutica.codAccionTerapeutica" ng-options="p.codItem as p.nombreItem for p in accionTerapeuticaList"></select>
                                         </div>
-                                        <div class="col-md-6">
-                                            <label>Categoria:</label>
-                                            <select class="form-control" ng-model="producto.categoriaProducto.codCategoriaProducto" ng-options="p.codItem as p.nombreItem for p in categoriasProductoList"></select>
-                                        </div>
-                                    </div>                                    
-                                    <div class="row show-grid">
                                         <div class="col-md-6">
                                             <label>Forma farmaceutica:</label>
                                             <select class="form-control" ng-model="producto.formaFarmaceutica.codFormaFarmaceutica" ng-options="p.codItem as p.nombreItem for p in formaFarmaceuticaList"></select>
                                         </div>
-                                        <div class="col-md-6">
+                                    </div>                                    
+                                    <div class="row show-grid">                                        
+                                        <div class="col-md-12">
                                             <label>Nombre generico:</label>
                                             <select class="form-control" ng-model="producto.nombreGenerico.codNombreGenerico" ng-options="p.codItem as p.nombreItem for p in nombreGenericoList"></select>
                                         </div>
@@ -359,70 +321,32 @@
                                         </div>                            
                                         <div class="col-md-6">
                                             <label>Vista Previa:</label>
-                                            <img id="imgPreviaProductoEd" src="{{producto.imagenProducto}}"    /><!--data:image/jpg;base64,-->
+                                            <img id="imgPreviaProductoEd" />
                                         </div>
                                     </div>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="datos2ETab">
                                     
-                                    
-                                    <div class="row show-grid">
-                                        <div class="col-md-6">
-                                            <label>Stock Minimo:</label>
-                                            <input ng-model="producto.stockMinimo" class="form-control"  />                                
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label>Unidad:</label>
-                                            <select class="form-control" ng-model="producto.unidadesMedida.codUnidadMedida" ng-options="p.codItem as p.nombreItem for p in unidadesMedidaList"></select>
-                                        </div>
-                                    </div>
                                     <fieldset>
-                                        <legend class="h5">Unidad:</legend>                                    
+                                    <!--legend class="h5">Precio:</legend-->                                    
                                     <div class="row">
                                             <div class="col-md-4">
-                                                <label>Costo de compra:</label>
+                                                <label>Precio compra:</label>
                                                 <input ng-model="producto.precioCompra" class="form-control"  />                                
                                             </div>
                                             <div class="col-md-4">
-                                                <label>Precio de venta:</label>
-                                                <input ng-model="producto.precioTienda" class="form-control"  />                                
+                                                <label>Precio venta:</label>
+                                                <input ng-model="producto.precioVenta" class="form-control"  />                                
                                             </div>
                                     </div>
                                     </fieldset>
-                                    <fieldset class="">
-                                        <legend class="h5">Blister:</legend>
-                                        <div class="row">
-                                        <div class="col-md-4">
-                                            <label>Costo de compra:</label>
-                                            <input ng-model="producto.precioCompraBlister" class="form-control"  />                                
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label>Precio de venta:</label>
-                                            <input ng-model="producto.precioVentaBlister" class="form-control"  />                                
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label>contiene:</label>
-                                            <input ng-model="producto.cantUnidadesBlister" class="form-control"  />                                
-                                        </div>
-                                        </div>
-                                    </fieldset>
-                                    <fieldset>
-                                        <legend class="h5">Caja:</legend>
-                                        <div class="row">
-                                        <div class="col-md-4">
-                                            <label>Costo de compra:</label>
-                                            <input ng-model="producto.precioCompraCaja" class="form-control"  />                                
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label>Precio de venta:</label>
-                                            <input ng-model="producto.precioVentaCaja" class="form-control"  />                                
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label>contiene:</label>
-                                            <input ng-model="producto.cantUnidadesCaja" class="form-control"  />                                
-                                        </div>
-                                            </div>
-                                    </fieldset>
+                                    <div class="row show-grid">
+                                        <div class="col-md-12">
+                                            <label>Stock Minimo:</label>
+                                            <input ng-model="producto.stockMinimo" class="form-control"  />                                
+                                        </div>                                        
+                                    </div>      
+                                    
                                 </div>
                             </div>
                         </div>
@@ -465,16 +389,6 @@
                                 <label>Nombre:</label>
                                 <input class="form-control" ng-model="productosBuscar.nombreProducto" />
                             </div>                            
-                        </div>
-                        <div class="row show-grid">
-                            <div class="col-md-6">
-                                <label>Grupo:</label>
-                                <select class="form-control" ng-model="productosBuscar.grupoProducto.codGrupoProducto" ng-options="p.codItem as p.nombreItem for p in gruposProductoList"></select>                                
-                            </div>
-                            <div class="col-md-6">
-                                <label>Medida:</label>
-                                <select class="form-control" ng-model="productosBuscar.unidadesMedida.codUnidadMedida" ng-options="p.codItem as p.nombreItem for p in unidadesMedidaList"></select>
-                            </div>
                         </div>                        
                     </div>
                     <div class="modal-footer">

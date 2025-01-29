@@ -84,7 +84,7 @@
                                 <td data-title="UNID.">&nbsp;{{row.productos.unidadesMedida.nombreUnidadMedida}}</td>
                                 <td data-title="CANT. INGRESAR"><input ng-model="row.cantIngreso" class="form-control" ng-keyup="cantidadProducto_change(row)" /></td>
                                 <td data-title="TOTAL BS. (CON DCTO.)"><input ng-model="row.totalMonto" class="form-control" ng-keyup="totalProducto_change(row)" /></td>
-                                <td data-title="PRECIO / U BS.">&nbsp;{{row.precioUnitario}}</td>                                
+                                <td data-title="PRECIO / U BS.">&nbsp;{{row.precioCompra}}</td>                                
                                 
                                 
                                 <td data-title="">
@@ -233,7 +233,7 @@
                                             <td>{{m.PorcentajeDescuentoMaximo}}</td>
                                             <td>{{m.stockMinimo}}</td>
                                             <td>{{m.stockMaximo}}</td>
-                                            <td>{{m.precioTienda}}</td>
+                                            <td>{{m.precioVenta}}</td>
                                             
                                         </tr>
                                     </tbody>

@@ -134,7 +134,7 @@
                         <div class="row show-grid">                        
                             <div class="col-md-6">                            
                                 <label>Pais:</label>
-                                <select class="form-control" ng-model="proveedor.pais.codPais" ng-options="e.codItem as e.nombreItem for e in paisList"></select>
+                                <select class="form-control" ng-model="proveedor.pais.codPais" ng-options="e.codItem as e.nombreItem for e in paisList" ng-change="pais_change()"></select>
                             </div>
                             <div class="col-md-6">
                                 <label>Ciudad:</label>
@@ -226,7 +226,7 @@
                         <div class="row show-grid">                        
                             <div class="col-md-6">                            
                                 <label>Pais:</label>
-                                <select class="form-control" ng-model="proveedor.pais.codPais" ng-options="e.codItem as e.nombreItem for e in paisList"></select>
+                                <select class="form-control" ng-model="proveedor.pais.codPais" ng-options="e.codItem as e.nombreItem for e in paisList" ng-change="pais_change()"></select>
                             </div>
                             <div class="col-md-6">
                                 <label>Ciudad:</label>

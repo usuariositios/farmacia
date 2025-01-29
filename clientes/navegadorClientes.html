@@ -313,22 +313,23 @@
                         <h4 class="modal-title"><i class="fa fa-search"></i> Buscar Clientes</h4>
                     </div>
                     <div class="modal-body">
+                        <div class="row show-grid">
+                             <div class="col-md-12">
+                                 <label>Nombre:</label>
+                                <input class="form-control" ng-model="clienteBuscar.nombreCliente" />                                
+                            </div>
+                        </div>
                         <div class="row show-grid">                        
                             <div class="col-md-6">
                                 <label>NIT:</label>
                                 <input class="form-control" ng-model="clienteBuscar.nitCliente"  />
                             </div>
                             <div class="col-md-6">
-                                <label>Nombre:</label>
-                                <input class="form-control" ng-model="clienteBuscar.nombreCliente" />
-                            </div>                            
-                        </div>
-                        <div class="row show-grid">
-                             <div class="col-md-12">
                                 <label>Direccion:</label>
                                 <input class="form-control" ng-model="clienteBuscar.direccionCliente" />
-                            </div>
+                            </div>                            
                         </div>
+                        
                         <div class="row show-grid">
                         <div class="col-md-6">
                             <label>Ciudad:</label>

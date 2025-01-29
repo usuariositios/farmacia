@@ -59,6 +59,8 @@ function ($scope, Data,$location,$window,DataCont,$q) {
         });
     });
     
+    $scope.cajaChica = angular.copy(obtenerSession("cajaChica"));    
+    
     
     
         
@@ -115,7 +117,15 @@ function ($scope, Data,$location,$window,DataCont,$q) {
     };
     $scope.agregarSalidaVenta_action = function() {        
         //window.location = "agregarSalidasVenta.html";
-        $location.path("agregarSalidasVenta");
+        //validar si tiene caja chica
+        console.log($scope.cajaChica);
+        if($scope.cajaChica.personal.codPersonal>0){//existe la caja chica con el personal
+            $location.path("agregarSalidasVenta");
+        }else{
+            $.growl.error({title:"ADVERTENCIA!", message: " Debe aperturar la caja chica " });
+            return null;
+        }
+        
     };
     $scope.editarSalidaVenta_action = function(){
         //validaciones

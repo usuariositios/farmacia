@@ -243,6 +243,18 @@ define([], function()
                 dependencies: [
                     'controllers/reporteSalidasAlmacenController'
                 ]
+            },
+            '/navegadorCajaChica': {
+                templateUrl: '/farmacia/cajaChica/navegadorCajaChica.html',
+                dependencies: [
+                    'controllers/navegadorCajaChicaController'
+                ]
+            },
+            '/navegadorCajaChicaDetalle': {
+                templateUrl: '/farmacia/cajaChicaDetalle/navegadorCajaChicaDetalle.html',
+                dependencies: [
+                    'controllers/navegadorCajaChicaDetalleController'
+                ]
             }
         }
     };

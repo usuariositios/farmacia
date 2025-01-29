@@ -1,8 +1,8 @@
 define(['app'], function(app)
 {
 app.controller('agregarFacturaController',
-    ['$scope','Data','$location','$window','DataCont','$q',
-function ($scope, Data,$location,$window,DataCont,$q) {    
+    ['$scope','Data','$location','$window','DataCont','$q','DataFact',
+function ($scope, Data,$location,$window,DataCont,$q,DataFact) {    
     
     $scope.salidasVenta = {};
     $scope.salidasVentaTotal = {};//de la fila total
@@ -16,11 +16,15 @@ function ($scope, Data,$location,$window,DataCont,$q) {
     $scope.subGruposList = [];
     $scope.desabilitarBotonGuardar = false;
     $scope.usuarioPersonal = obtenerSession("usuarioPersonal");
-   
+    $scope.tiposPagoList = [];
+    $scope.paramFacturaList = [];
+    $scope.paramFactura = {};
+    
     
     
     //$scope.salidasVenta =JSON.parse(sessionStorage.getItem("salidasVentaEditar"));
-    //console.log($scope.salidasVenta);    
+    //console.log($scope.salidasVenta);
+    
     
     Data.get("/salidasVenta/salidasVenta").then(function(data) {
             console.log(data);
@@ -45,6 +49,136 @@ function ($scope, Data,$location,$window,DataCont,$q) {
                 });
             });
     });
+    
+    //cargar datos para facturacion
+    
+    var obtieneParametroFactura = function(nombreParam){
+                
+                for(var i=0;i<$scope.paramFacturaList.length;i++){
+                    if($scope.paramFacturaList[i].nombre===nombreParam){
+                        return $scope.paramFacturaList[i].valor;
+                    }
+                }
+                return "";
+    };
+    
+    DataFact.get("/facturacionelectronica/parametrosfactura").then(function(data) {
+        $scope.paramFactura = data;
+        
+        DataFact.post("/facturacionelectronica/cargarParametrosFactura",$scope.paramFactura).then(function(data) {
+                $scope.paramFacturaList = data;        
+                console.log($scope.paramFacturaList);
+                
+                DataFact.get("/facturacionelectronica/parametros").then(function(data) {
+                        $scope.parametros = angular.copy(data); //datos de facturacion electronica
+                        $scope.parametrosFechaHora = angular.copy(data); //datos de facturacion electronica
+                        $scope.parametros.codigoSistema = obtieneParametroFactura("CODSIS");
+                        $scope.parametros.codigoAmbiente = parseInt(obtieneParametroFactura("CODAMB"));
+                        
+                        $scope.parametros.nit = parseInt(obtieneParametroFactura("NIT"));
+                        $scope.parametros.codigoSucursal = parseInt(obtieneParametroFactura("SUC"));
+                        
+                        $scope.parametros.codigoPuntoVenta = parseInt(obtieneParametroFactura("POS"));                        
+                        $scope.parametros.codigoParametrica = "";//falta
+                        $scope.parametros.codigoModalidad = parseInt(obtieneParametroFactura("CODMOD"));
+                        
+                        $scope.parametros.codigoDocumentoSector = 0;//falta
+                        $scope.parametros.codigoEmision = 0;//falta
+                        
+                        $scope.parametros.tipoFacturaDocumento = parseInt(obtieneParametroFactura("TIPOFAC"));
+                        
+                        //$scope.parametros.direccion = obtieneParametroFactura("DIR");
+                        
+                        console.log($scope.parametros);
+                        DataFact.post("/codigos/obtenerCUIS",$scope.parametros).then(function(data) {                                
+                                $scope.parametros.cuis = data.cuis;                                
+                                console.log(data);
+                                DataFact.post("/codigos/obtenerCUFD",$scope.parametros).then(function(data) {//obtener cufd
+                                    $scope.parametros.cufd = data.cufd;
+                                    console.log(data);
+                                });
+                                
+                                $scope.parametros.codigoParametrica = "fechaHora";//tiene que tener los datos de sistema
+                        
+                                DataFact.post("/sincronizacion/sincronizar",$scope.parametros).then(function(data) {                                
+                                        console.log(data);
+                                        $scope.fechaHoraEmision = data.fechaHora;
+                                        $scope.parametros.fechaEnvio = data.fechaHora;
+
+                                });
+                        });
+                        
+                        DataFact.get("/facturacionelectronica/facturaElectronicaCompraVenta").then(function(data) {//para agregar a parametros.facturaElectronicaCompraVentaList
+                                $scope.facturaElectronicaCompraVentaObj = angular.copy(data);
+                                $scope.facturaElectronicaCompraVenta = angular.copy(data);
+                                //para agre
+                                console.log($scope.facturaElectronicaCompraVenta);
+                        });
+                        DataFact.get("/facturacionelectronica/detalleFacturaCompraVenta").then(function(data) {//para agregar a parametros.facturaElectronicaCompraVentaList
+                                $scope.detalleFacturaCompraVentaObj = angular.copy(data);
+                                $scope.detalleFacturaCompraVenta = angular.copy(data);
+                                //para agre
+                                console.log($scope.detalleFacturaCompraVenta);
+                        });
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                });
+        
+        });
+        
+        
+        
+        
+        
+        
+    });
+    
+    
+    
+    DataFact.get('/sincronizacion/parametricasdto').then(function(data){//tipos de pago
+        console.log(data);
+        $scope.parametricasdto = angular.copy(data);
+        $scope.parametricasdto.codParametrica = "tipoMetodoPago";
+        $scope.parametricasdto.descripcion = "EFECTIVO";
+        console.log($scope.parametricasdto);
+        
+        DataFact.post("/sincronizacion/cargarparametricasdtoItem",$scope.parametricasdto).then(function(data) {
+                $scope.tiposPagoList = data;
+                console.log($scope.tiposPagoList);
+        });
+        
+        $scope.parametricasdto1 = angular.copy(data);
+        $scope.parametricasdto1.codParametrica = "leyendasFactura";
+        $scope.parametricasdto1.descripcion = "Tienes";
+        DataFact.post("/sincronizacion/cargarparametricasdtoItem",$scope.parametricasdto1).then(function(data) {
+                $scope.leyendasList = data;
+                console.log($scope.leyendasList);
+        });
+        $scope.parametricasdto2 = angular.copy(data);
+        $scope.parametricasdto2.codParametrica = "actividades";
+        $scope.parametricasdto2.descripcion = "";
+        DataFact.post("/sincronizacion/cargarparametricasdtoItem",$scope.parametricasdto2).then(function(data) {
+                $scope.actividadesList = data;
+                console.log($scope.actividadesList);
+        });
+        $scope.parametricasdto3 = angular.copy(data);
+        $scope.parametricasdto3.codParametrica = "productosServicios";
+        $scope.parametricasdto3.descripcion = "";
+        DataFact.post("/sincronizacion/cargarparametricasdtoItem",$scope.parametricasdto3).then(function(data) {
+                $scope.productosList = data;
+                console.log($scope.productosList);
+        });
+    });
+    
+    
+    
+    
+    
     
     
             
@@ -91,6 +225,16 @@ function ($scope, Data,$location,$window,DataCont,$q) {
         $scope.productosBuscar = angular.copy($scope.productos);//para buscar en agregar producto
     });
     
+    /*Data.get('/tiposPago/cargarTiposPagoItem').then(function(data){
+        var i = 0;        
+        for(i=0;i<data.length;i++){
+            if(data[i].codItem===2 || data[i].codItem===9){ //en fectivo, tarjeta o deposito
+            $scope.tiposPagoList.splice(0,0,data[i]);
+            }
+        }
+        //$scope.tiposPagoList = data;
+    });*/
+
     /*Data.get('/gruposProducto/cargarGruposProductoItem').then(function(data){
         $scope.gruposProductoList = data;
     });*/
@@ -131,10 +275,39 @@ function ($scope, Data,$location,$window,DataCont,$q) {
     
     
     $scope.agregarProducto_action = function(){
-        //$scope.productosBuscarList=[];
-        
-        console.log($scope.productosBuscar);
         mostrarVentanaModal("agregarProductoDialog");
+    };
+    $scope.agregarFormaDePago_action = function(){
+        if($scope.validarDetalle()===false){
+                return null;
+        }
+            //validaciones
+        if($scope.validarSalidaVenta()===false){
+                return null;
+        }
+        mostrarVentanaModal("FormasDePagoDialog");
+    };
+    $scope.guardarFormaDePago_action = function(){        
+        
+        if(parseFloat($scope.facturaEmitida.tiposPago.codTipoPago) <=0){
+                $.growl.warning({title:"ADVERTENCIA!", message: "Tipo de pago invalido" });
+                return null;
+        }
+        if(parseFloat($scope.facturaEmitida.montoVuelto) <0){
+                $.growl.warning({title:"ADVERTENCIA!", message: "Monto Cambio invalido" });
+                return null;
+        }
+        if(parseFloat($scope.facturaEmitida.montoEfectivo) <=0){
+                $.growl.warning({title:"ADVERTENCIA!", message: "Monto Efectivo invalido" });
+                return null;
+        }
+        
+        $scope.guardarSalidaVenta_action();
+        $('#FormasDePagoDialog').modal('hide');
+    };
+    
+    $scope.calculaVuelto = function(){
+        $scope.facturaEmitida.montoVuelto = parseFloat($scope.facturaEmitida.montoEfectivo) - parseFloat($scope.salidasVentaTotal.montoTotal);
     };
     
     $scope.buscarProducto_action = function(){
@@ -173,10 +346,10 @@ function ($scope, Data,$location,$window,DataCont,$q) {
         $scope.sd.productos=angular.copy(p);
         $scope.sd.unidadesMedida = angular.copy(p.unidadesMedida);
         $scope.sd.salidasVenta = angular.copy($scope.salidasVenta);
-        $scope.sd.costoUnitario = angular.copy(p.precioTienda);
+        $scope.sd.costoUnitario = angular.copy(p.precioVenta);
         $scope.sd.salidasVenta.almacenesVenta = angular.copy($scope.usuarioPersonal.almacenesVenta);
         console.log($scope.sd);
-        console.log("costo unitario"+p.precioTienda);
+        console.log("costo unitario"+p.precioVenta);
         $scope.sadi.ingresosVentaDetalle.ingresosVenta.almacenesVenta = angular.copy($scope.usuarioPersonal.almacenesVenta);//que muestre del almacen y producto su cantidad restante
         $scope.sadi.ingresosVentaDetalle.productos = angular.copy(p);
                
@@ -188,6 +361,7 @@ function ($scope, Data,$location,$window,DataCont,$q) {
             //para despliegue en la parte inferior de modal            
             $scope.productosSalida.cantRestante = parseInt(data);
             $scope.productosSalida.unidadesMedida = angular.copy(p.unidadesMedida);            
+            p.cantPCompraVenta = parseInt(data);//para desplegar en la tabla
         });
     };
     
@@ -224,6 +398,9 @@ function ($scope, Data,$location,$window,DataCont,$q) {
            calculaDescuentoDetalle(sad);
            obtieneCantidadTotal();
                 
+    };
+    $scope.descuento_change = function(){
+           obtieneCantidadTotal();
     };
     $scope.totalProducto_change = function(sad){
            sad.montoSubTotal = parseFloat(sad.cantSalida) * parseFloat(sad.costoUnitario);
@@ -263,7 +440,7 @@ function ($scope, Data,$location,$window,DataCont,$q) {
         
            $scope.sd.cantSalida = parseFloat($scope.productosSalida.cantSalida);
            $scope.sd.montoSubTotal = Math.round(parseFloat($scope.sd.cantSalida)*parseFloat($scope.sd.costoUnitario)*100)/100;
-           $scope.sd.montoTotal = parseFloat($scope.sd.montoSubTotal) -parseFloat($scope.sd.porcDescuento)/100 * parseFloat($scope.sd.montoSubTotal);//con el descuendo porcentual
+           $scope.sd.montoTotal = parseFloat($scope.sd.montoSubTotal) -parseFloat($scope.sd.porcDescuento)/100 * parseFloat($scope.sd.montoSubTotal);//con el descuendo porcentual           
            
            
            
@@ -271,6 +448,7 @@ function ($scope, Data,$location,$window,DataCont,$q) {
             Data.post('/salidasVentaDetalleIngreso/etiquetasSalidaVentaDetalleIngreso', $scope.sadi).then(function(data){                
                 $scope.sd.salidasVentaDetalleIngresosList = angular.copy(data);
                 detalleCantSacarSalidaVenta($scope.sd.salidasVentaDetalleIngresosList);
+                $scope.sd.costoUnitario = $scope.sd.salidasVentaDetalleIngresosList[0].ingresosVentaDetalle.precioVenta!==0?$scope.sd.salidasVentaDetalleIngresosList[0].ingresosVentaDetalle.precioVenta:$scope.productosSalida.precioVenta; //colocamos primero el precio del primer ingreso si es cero colocamos el precio de venta del registro producto
                 console.log($scope.sd);
                 $scope.salidasVentaDetalleList.push($scope.sd);
                 obtieneCantidadTotal();
@@ -286,20 +464,22 @@ function ($scope, Data,$location,$window,DataCont,$q) {
                 //colocar el total en la ultima fila
                 $scope.salidasVentaTotal.montoSubTotal = 0;
                 $scope.salidasVentaTotal.montoCancelado = 0;
-                $scope.salidasVentaTotal.montoDescuento = 0;
+                //$scope.salidasVentaTotal.montoDescuento = 0;
                 $scope.salidasVentaTotal.montoTotal = 0;
                 
                 for(i=0;i<$scope.salidasVentaDetalleList.length;i++){
                     $scope.salidasVentaTotal.montoSubTotal = $scope.salidasVentaTotal.montoSubTotal + $scope.salidasVentaDetalleList[i].montoSubTotal;
                     $scope.salidasVentaTotal.montoCancelado = $scope.salidasVentaTotal.montoCancelado + $scope.salidasVentaDetalleList[i].montoCancelado;
-                    $scope.salidasVentaTotal.montoDescuento = $scope.salidasVentaTotal.montoDescuento + $scope.salidasVentaDetalleList[i].montoDescuento;
-                    $scope.salidasVentaTotal.montoTotal = $scope.salidasVentaTotal.montoTotal + $scope.salidasVentaDetalleList[i].montoTotal;
+                    //$scope.salidasVentaTotal.montoDescuento = $scope.salidasVentaTotal.montoDescuento + $scope.salidasVentaDetalleList[i].montoDescuento;
+                    //$scope.salidasVentaTotal.montoTotal = $scope.salidasVentaTotal.montoTotal + $scope.salidasVentaDetalleList[i].montoTotal;
                 }
                 
                 $scope.salidasVentaTotal.montoSubTotal = Math.round($scope.salidasVentaTotal.montoSubTotal*100)/100;
                 $scope.salidasVentaTotal.montoCancelado = Math.round($scope.salidasVentaTotal.montoCancelado*100)/100;
                 $scope.salidasVentaTotal.montoDescuento = Math.round($scope.salidasVentaTotal.montoDescuento*100)/100;
+                $scope.salidasVentaTotal.montoTotal = $scope.salidasVentaTotal.montoSubTotal-$scope.salidasVentaTotal.montoDescuento;
                 $scope.salidasVentaTotal.montoTotal = Math.round($scope.salidasVentaTotal.montoTotal*100)/100;
+                
     };
     $scope.editarDescuento_action = function(sd){
         $scope.sadSeleccionado = sd;
@@ -444,6 +624,11 @@ function ($scope, Data,$location,$window,DataCont,$q) {
         
     };
     
+    
+    
+    
+    
+    
     $scope.generarFactura_action = function(sa){
         
         if (parseFloat(sa.nroFactura)>0) {                
@@ -503,15 +688,12 @@ function ($scope, Data,$location,$window,DataCont,$q) {
         
     };
     
-    $scope.guardarSalidaVenta_action = function(){
+    $scope.guardarSalidaVenta_action = function(){//funcion principal
+        
+            $scope.cajaChica = angular.copy(obtenerSession("cajaChica"));
             
-            if($scope.validarDetalle()===false){
-                return null;
-            }    
-            //validaciones
-            if($scope.validarSalidaVenta()===false){
-                return null;
-            }
+            
+            
             if(confirm("esta seguro de generar la factura?")===false){
                 return null;
             }
@@ -541,7 +723,9 @@ function ($scope, Data,$location,$window,DataCont,$q) {
             
             
             $scope.salidasVentaBusiness.salidasVenta = angular.copy($scope.salidasVenta);
-            $scope.salidasVentaBusiness.salidasVentaDetalleList = angular.copy($scope.salidasVentaDetalleList);
+            $scope.salidasVentaBusiness.salidasVentaDetalleList = angular.copy($scope.salidasVentaDetalleList);            
+            $scope.salidasVentaBusiness.facturasEmitidas = angular.copy($scope.facturaEmitida);
+            $scope.salidasVentaBusiness.cajaChica = angular.copy($scope.cajaChica);//incluyendo caja chica
             console.log($scope.salidasVenta);
             console.log($scope.salidasVentaDetalleList);
             
@@ -553,7 +737,70 @@ function ($scope, Data,$location,$window,DataCont,$q) {
                 //generar factura
                 //console.log(data.salidasVenta);
                 //$scope.generarFactura_action(data.salidasVenta); verificar luego generacion de facturas
-                $location.path("navegadorFacturasEmitidas");                
+                if(data.salidasVenta.codSalidaVenta>0){//se guardo sin error
+                    //preparar para enviar al servicio de facturacion electronica
+                    //cafc
+                    $scope.facturaElectronicaCompraVenta.cabecera.codigoCliente = $scope.salidasVenta.clientes.nitCliente; //nit de cliente
+                    $scope.facturaElectronicaCompraVenta.cabecera.codigoDocumentoSector = $scope.parametros.codigoDocumentoSector; // 0
+                    $scope.facturaElectronicaCompraVenta.cabecera.codigoExcepcion = "";
+                    $scope.facturaElectronicaCompraVenta.cabecera.codigoMetodoPago = $scope.facturaEmitida.tiposPago.codTipoPago;
+                    $scope.facturaElectronicaCompraVenta.cabecera.codigoMoneda = 1;//Boliviano
+                    $scope.facturaElectronicaCompraVenta.cabecera.codigoPuntoVenta = $scope.parametros.codigoPuntoVenta;
+                    $scope.facturaElectronicaCompraVenta.cabecera.codigoSucursal = $scope.parametros.codigoSucursal;
+                    $scope.facturaElectronicaCompraVenta.cabecera.codigoTipoDocumentoIdentidad = 1;//"CI - CEDULA DE IDENTIDAD"
+                    DataFact.post("/facturacionelectronica/generaCUF",$scope.facturaElectronicaCompraVenta).then(function(data) {
+                        $scope.facturaElectronicaCompraVenta.cabecera.cuf = data;//generar el codigo unico de factura
+                    });
+                    $scope.facturaElectronicaCompraVenta.cabecera.cufd = $scope.parametros.cufd;
+                    $scope.facturaElectronicaCompraVenta.cabecera.descuentoAdicional = 0;
+                    $scope.facturaElectronicaCompraVenta.cabecera.direccion = $scope.parametros.direccion;                    
+                    $scope.facturaElectronicaCompraVenta.cabecera.fechaEmision = $scope.fechaHoraEmision;                    
+                    $scope.facturaElectronicaCompraVenta.cabecera.leyenda = $scope.leyendasList[0].nombreItem;
+                    $scope.facturaElectronicaCompraVenta.cabecera.montoGiftCard = null;
+                    $scope.facturaElectronicaCompraVenta.cabecera.montoTotal = $scope.salidasVenta.montoTotal;
+                    $scope.facturaElectronicaCompraVenta.cabecera.montoTotalMoneda = $scope.salidasVenta.montoTotal;
+                    $scope.facturaElectronicaCompraVenta.cabecera.montoTotalSujetoIva = $scope.salidasVenta.montoTotal;
+                    $scope.facturaElectronicaCompraVenta.cabecera.municipio = obtieneParametroFactura("MUNICIPIO");
+                    $scope.facturaElectronicaCompraVenta.cabecera.nitEmisor = $scope.parametros.nit;
+                    $scope.facturaElectronicaCompraVenta.cabecera.nombreRazonSocial = $("#codCliente option:selected").text();//a la cual se emite la factura
+                    $scope.facturaElectronicaCompraVenta.cabecera.numeroDocumento = $scope.salidasVenta.clientes.nitCliente;//nro doc del cliente
+                    $scope.facturaElectronicaCompraVenta.cabecera.numeroFactura = data.facturasEmitidas.nroFactura;//nro de factura generada
+                    $scope.facturaElectronicaCompraVenta.cabecera.numeroTarjeta = null;
+                    $scope.facturaElectronicaCompraVenta.cabecera.razonSocialEmisor = $scope.usuarioPersonal.empresas.nombreEmpresa;
+                    $scope.facturaElectronicaCompraVenta.cabecera.telefono = $scope.usuarioPersonal.empresas.telefono;//telefono del emisor
+                    $scope.facturaElectronicaCompraVenta.cabecera.tipoCambio = 1;
+                    $scope.facturaElectronicaCompraVenta.cabecera.usuario = $scope.usuarioPersonal.personal.nombrePersonal;
+                    
+                    //obtener de la lista el primer registro
+                    for(i=0;i<$scope.salidasVentaDetalleList.length;i++){
+                        $scope.detalleFacturaCompraVenta = angular.copy($scope.detalleFacturaCompraVentaObj);
+                        $scope.detalleFacturaCompraVenta.actividadEconomica = $scope.actividadesList[0].codItem;
+                        $scope.detalleFacturaCompraVenta.codigoProductoSin = $scope.productosList[0].codItem;
+                        $scope.detalleFacturaCompraVenta.codigoProducto = $scope.salidasVentaDetalleList[i].productos.codProducto;
+                        $scope.detalleFacturaCompraVenta.descripcion = $scope.salidasVentaDetalleList[i].productos.nombreProducto;
+                        $scope.detalleFacturaCompraVenta.cantidad = $scope.salidasVentaDetalleList[i].cantSalida;
+                        $scope.detalleFacturaCompraVenta.unidadMedida = 57;//"UNIDAD (BIENES)"
+                        $scope.detalleFacturaCompraVenta.precioUnitario = $scope.salidasVentaDetalleList[i].costoUnitario;
+                        $scope.detalleFacturaCompraVenta.montoDescuento = 0;
+                        $scope.detalleFacturaCompraVenta.subTotal = $scope.salidasVentaDetalleList[i].montoSubTotal;
+                        $scope.detalleFacturaCompraVenta.numeroSerie = "";//numero serie del producto
+                        $scope.detalleFacturaCompraVenta.numeroImei = "";//imei del celular
+                        $scope.facturaElectronicaCompraVenta.detalle.push($scope.detalleFacturaCompraVenta);                    
+                    }                    
+                    
+                    
+                    $scope.parametros.facturaElectronicaCompraVentaList.push($scope.facturaElectronicaCompraVenta);//una sola factura 
+                    console.log($scope.parametros);
+                    //peticion para enviar a facturacion electronica
+                    DataFact.post("/facturacionCompraVenta/enviarFacturaCompraVenta",$scope.parametros).then(function(data) {                                
+                            console.log(data);
+                        
+                            //$location.path("navegadorFacturasEmitidas");                                
+                    });
+                    //guardar un ingreso en caja chica
+                    
+                }
+                
             });
             
            
@@ -608,9 +855,9 @@ function ($scope, Data,$location,$window,DataCont,$q) {
             $scope.sd.productos=angular.copy(producto);
             $scope.sd.unidadesMedida = angular.copy(producto.unidadesMedida);
             $scope.sd.salidasVenta = angular.copy($scope.salidasVenta);
-            $scope.sd.costoUnitario = angular.copy(producto.precioTienda);
+            $scope.sd.costoUnitario = angular.copy(producto.precioVenta);
             console.log($scope.sd);
-            console.log("costo unitario"+producto.precioTienda);
+            console.log("costo unitario"+producto.precioVenta);
             $scope.sadi.ingresosVentaDetalle.ingresosVenta.almacenesVenta = angular.copy($scope.usuarioPersonal.almacenesVenta);//que muestre del almacen y producto su cantidad restante
             $scope.sadi.ingresosVentaDetalle.productos = angular.copy(producto);
             $q.all([

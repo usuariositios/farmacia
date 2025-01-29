@@ -65,7 +65,7 @@
                             
                             <div class="btn-group">
                                 <button class="button dropdown-toggle" type="button" id="dropdownMenuAlertas" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false">
-                                    <i class="fa {{prodVenc>0?'fa-bell':'fa-bell-o'}}"></i>
+                                    <i class="fa {{prodVenc>0?'fa-bell':'fa-bell-o'}}" style="{{prodVenc>0?'color: red':''}}"></i>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenuAlertas">
                                     <li><a href="#" ng-click="verReporte_prodVencidos()"><i class="fa fa-product-hunt"></i> Productos vencidos: {{prodVenc}}</a></li>

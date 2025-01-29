@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<section ng-controller="navegadorCajaChicaDetalleController">
+<div class="panel panel-primary" id="panel-principal">
+    <div class="panel-heading">
+        <div align="center" class="panel-title"><a style="cursor:pointer;" ng-click="mostrarBuscarCajaChicaDetalle_action();"><i class="fa fa-search-plus"></i>&nbsp;MOVIMIENTOS DE CAJA CHICA</a></div>
+    </div>
+  <div class="panel-body">
+      <div>
+                <div align="center">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label>Nro Caja Chica</label>
+                                <input ng-model="cajaChica.codCajaChica" class="form-control" disabled="true"   />                                
+                            </div>
+                            <div class="col-sm-3">
+                                <label>Fecha Turno:</label>                                
+                                <input ng-model="cajaChica.fechaTurno" class="form-control" disabled="true"   />
+                            </div>
+                            <div class="col-sm-3">
+                                <label>Monto Inicial:</label>                                
+                                <input ng-model="cajaChica.montoInicial" class="form-control"  disabled  />
+                            </div>
+                            <div class="col-sm-3">
+                                <label>Estado</label>
+                                <input ng-model="cajaChica.estadoApertura.nombreApertura" class="form-control"  disabled  />
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
+      </div>
+      <section id="no-more-tables">
+          <table class="table table-bordered table-hover table-condensed"  >
+              <thead class="cf">
+                  <tr>                      
+                      <th>NRO</th>
+                      <th>MONTO INGRESO</th>
+                      <th>MONTO EGRESO</th>
+                      <th>MONTO SALDO</th>
+                      <th>DESCRIPCION</th>
+                      <th>FECHA</th>
+                      <th>&nbsp;</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr  ng-repeat="e in cajaChicaDetalleList" 
+                       id="{{e.codCajaChicaDetalle}}"
+                       >                      
+                      <td data-title="NRO">&nbsp;{{e.codCajaChicaDetalle}}</td>
+                      <td data-title="MONTO INGRESO">&nbsp;{{e.montoIngreso}}</td>
+                      <td data-title="MONTO EGRESO">&nbsp;{{e.montoEgreso}}</td>
+                      <td data-title="MONTO SALDO">&nbsp;{{e.montoSaldo}}</td>
+                      <td data-title="DESCRIPCION">&nbsp;{{e.descripcion}}</td>
+                      <td data-title="FECHA">&nbsp;{{e.fechaCajaChicaDetalle}}</td>                      
+                      <td data-title="">
+                          
+                          <div class="dropdown">
+                              <a class="btn btn-secondary dropdown-toggle" href="#" id="dropdownMenuButton" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false">
+                                    <i class="fa fa-ellipsis-v"></i>
+                              </a>
+                              <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenuButton">
+                                <li>
+                                    <a tabindex="-1"  ng-click="agregarCajaChicaDetalle_action();">
+                                        Agregar
+                                    </a>
+                                </li>
+                                <li>
+                                    <a tabindex="-1" ng-click="editarCajaChicaDetalle_action(e);">
+                                        Editar
+                                    </a>
+                                </li>
+                                <li>
+                                    <a tabindex="-1" ng-click="eliminarCajaChicaDetalle_action(e);">
+                                        Eliminar
+                                    </a>
+                                </li>
+                            </ul>                              
+                          </div>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </section>
+      
+      
+      <div align="center">
+          <button type="button" class="btn btn-primary" ng-click="atras_action()">
+              <i class="fa fa-chevron-left"></i>
+          </button>
+          <button type="button" class="btn btn-primary" ng-click="siguiente_action()">
+              <i class="fa fa-chevron-right"></i>
+          </button>
+      </div>
+          
+</div>
+
+    <div class="panel-footer" align="center">
+        
+        <div class="btn-group">
+            <p>
+            <button type="button" class="btn btn-primary" ng-click="agregarCajaChicaDetalle_action();">
+                <i class="fa fa-plus"></i>
+                Registrar
+            </button>            
+            <button type="button" class="btn btn-primary" ng-click="cancelar_action();">
+                <i></i>
+                Cancelar
+            </button>
+            </p>    
+        </div>
+    </div>
+</div>
+
+    
+    <div id="agregarCajaChicaDetalleDialog" class="modal fade" role="dialog">
+        <form>
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><i class="fa fa-check-circle"></i> Agregar Caja Chica Detalle</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row show-grid">
+                            <div class="col-md-6">
+                                <label>Monto ingreso:</label>
+                                <input ng-model="cajaChicaDetalle.montoIngreso" class="form-control" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Monto Egreso:</label>
+                                <input  ng-model="cajaChicaDetalle.montoEgreso" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row show-grid">
+                            <div class="col-md-12">
+                                <label>Descripcion:</label>
+                                <input  ng-model="cajaChicaDetalle.descripcion" class="form-control"    />
+                            </div>                            
+                        </div>
+                        <div class="row show-grid">                            
+                            <div class="col-md-6">
+                                <label>Fecha:</label>
+                                <input  ng-model="cajaChicaDetalle.fechaCajaChicaDetalle" class="form-control"  readonly   />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" ng-click="guardarCajaChicaDetalle_action();">
+                            <i class="fa fa-check"></i>
+                            Guardar
+                        </button>
+                        
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="$('#agregarCajaChicaDetalleDialog').modal('hide');">
+                            <i class="fa fa-times-circle"></i>
+                            Cancelar
+                        </button>
+                    </div>
+                    
+                </div>
+
+            </div>
+        </form>
+    </div>
+    
+    <div id="editarCajaChicaDetalleDialog" class="modal fade" role="dialog">
+        <form>
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><i class="fa fa-check-circle"></i> Editar CajaChicaDetalle</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row show-grid">
+                            <div class="col-md-6">
+                                <label>Monto ingreso:</label>
+                                <input ng-model="cajaChicaDetalle.montoIngreso" class="form-control" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Monto Egreso:</label>
+                                <input  ng-model="cajaChicaDetalle.montoEgreso" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row show-grid">
+                            <div class="col-md-12">
+                                <label>Descripcion:</label>
+                                <input  ng-model="cajaChicaDetalle.descripcion" class="form-control"    />
+                            </div>                            
+                        </div>
+                        <div class="row show-grid">                            
+                            <div class="col-md-6">
+                                <label>Fecha:</label>
+                                <input  ng-model="cajaChicaDetalle.fechaCajaChicaDetalle" class="form-control"  readonly   />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" ng-click="guardarEditarCajaChicaDetalle_action();">
+                            <i class="fa fa-check"></i>
+                            Guardar
+                        </button>
+                        
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="$('#editarCajaChicaDetalleDialog').modal('hide');">
+                            <i class="fa fa-times-circle"></i>
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    
+    
+    <div id="buscarCajaChicaDetalleDialog" class="modal fade" role="dialog">
+        <form>
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><i class="fa fa-search"></i> Buscar CajaChicaDetalles</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row show-grid">                        
+                            <div class="col-md-6">
+                                <label>Nombre:</label>
+                                <input class="form-control" ng-model="cajaChicaDetalleBuscar.nombreCajaChicaDetalle" />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Ruc:</label>
+                                <input  ng-model="cajaChicaDetalleBuscar.ruc" class="form-control"    />
+                            </div>
+                        </div>
+                        <div class="row show-grid">
+                            <div class="col-md-6">
+                                <label>Direccion:</label>
+                                <input  ng-model="cajaChicaDetalleBuscar.direccion" class="form-control"    />
+                            </div>
+                            <div class="col-md-6">
+                                <label>Ciudad:</label>
+                                <select class="form-control" ng-model="cajaChicaDetalleBuscar.ciudad.codCiudad" ng-options="e.codItem as e.nombreItem for e in ciudadList"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" ng-click="buscarCajaChicaDetalle_action();">Buscar</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    
+    <!-- alerta -->
+      
+      <div id="mensajeDialog" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><i class="fa fa-search fa-1x"></i> Mensaje</h4>
+                </div>
+                <div class="modal-body">
+                    <i class="fa fa-warning fa-5x"></i>
+                    {{mensaje}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="$('#mensajeDialog').dialog('hide');">Aceptar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+       

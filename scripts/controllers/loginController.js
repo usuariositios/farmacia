@@ -32,7 +32,7 @@ define(['app'], function (app)
                             if ($scope.usuarioPersonalBuscar.personal.codPersonal > 0) {                                
                                 //sessionStorage.setItem("usuarioPersonal",  JSON.stringify($scope.usuarioPersonalBuscar));
                                 guardarSession("usuarioPersonal",$scope.usuarioPersonalBuscar);
-                                window.location = "seleccionarGestionEmpresa.html";//configuracion.html
+                                window.location = "navegador.html";//configuracion.html
                             } else {
                                 $scope.mensaje = "usuario y/o password incorrecto";
                                 $scope.mostrarMensaje = true;

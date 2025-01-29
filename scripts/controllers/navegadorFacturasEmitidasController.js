@@ -9,6 +9,7 @@ app.controller('navegadorFacturasEmitidasController',
     $scope.facturasEmitidasObj = {};//facturasEmitidasBuscar
     $scope.facturasEmitidasList = [];
     $scope.usuarioPersonal = obtenerSession("usuarioPersonal");
+    $scope.cajaChica = angular.copy(obtenerSession("cajaChica"));    
     
     //console.log(sessionStorage.getItem("facturasEmitidasBuscar"));
     
@@ -35,6 +36,12 @@ app.controller('navegadorFacturasEmitidasController',
                  });
             });
          }
+         //cargar la caja chica vigente
+        /*$scope.cajaChica.estadoApertura.codApertura = 1;//todas las cajas chicas activas del usuario
+        $scope.cajaChicaList = [];
+        Data.post("/cajaChica/cargarCajaChica", $scope.cajaChica).then(function(data){            
+            $scope.cajaChicaList = data;
+        });*/
     };
     $scope.cargarPagina();
     
@@ -57,7 +64,13 @@ app.controller('navegadorFacturasEmitidasController',
          });
     };
     $scope.agregarFacturasEmitidas_action = function(){
-        $location.path("agregarFactura");
+        console.log($scope.cajaChica);        
+        if($scope.cajaChica.codCajaChica>0){//existe la caja chica con el personal
+            $location.path("agregarFactura");
+        }else{
+            $.growl.error({title:"ADVERTENCIA!", message: " Debe aperturar la caja chica " });
+            return null;
+        }        
     };
     $scope.cancelarAgregarFacturasEmitidas_action = function() {
         ocultarVentanaModal('#agregarFacturasEmitidasDialog');

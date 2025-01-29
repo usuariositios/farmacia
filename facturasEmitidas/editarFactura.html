@@ -3,7 +3,7 @@
 <section ng-controller="editarFacturaController" ng-cloak>
     <div class="panel panel-primary" id="panel-principal">
         <div class="panel-heading">
-            <div align="center" class="panel-title">EDITAR FACTURA</div>
+            <div align="center" class="panel-title">EDITAR VENTA</div>
         </div>
         <div class="panel-body">
             
@@ -22,12 +22,11 @@
                                 <div role="tabpanel" class="tab-pane active" id="datos1Tab">
                         <div class="row">
                             <div class="col-sm-4">
-                                <label>Nro Salida Venta *</label>
+                                <label>Nro factura </label>
                                 <input ng-model="salidasVenta.nroSalidaVenta" class="form-control"  disabled="true" />                                
                             </div>                            
                             <div class="col-sm-4">
-                                <label>Cliente *</label>                                
-                                
+                                            <label>Cliente </label>                                            
                                 
                                 <div class="input-group">
                                     <select class="form-control" ng-model="salidasVenta.clientes.codCliente" ng-options="e.codItem as e.nombreItem for e in clienteList" ng-change="cliente_change()"></select>
@@ -44,22 +43,18 @@
                                 
                             </div>
                             <div class="col-sm-4">
-                                    <label>Nit *</label>                                    
-                                    <input ng-model="salidasVenta.clientes.nitCliente" class="form-control"  />                                
+                                    <label>Nit </label>                                    
+                                    <input ng-model="salidasVenta.clientes.nitCliente" class="form-control"/>
                             </div>
                         </div>
                         <div class="row">                            
                             <div class="col-sm-4">
-                                <label>Tipo Descuento *</label>
-                                <input  data-ng-model="salidasVenta.clientes.tiposDescuento.nombreTipoDescuento" class="form-control"  disabled="true"/>
-                            </div>
-                            <div class="col-sm-4">
-                                <label>Fecha *</label>
+                                            <label>Fecha </label>
                                 <input  data-ng-model="salidasVenta.fechaSalidaVenta" class="form-control" required="true" disabled="true" />
                             </div>                            
                             <div class="col-sm-4">
                                 <label>Concepto:</label>
-                                <input ng-model="salidasVenta.glosa" class="form-control" placeholder="Concepto" />
+                                            <input ng-model="salidasVenta.glosa" class="form-control" placeholder="glosa:" />
                             </div>
                         </div>                        
                     </div>
@@ -83,30 +78,25 @@
                         </div>
                 </div>
                 </div>
+            </div>
             <section id="no-more-tables">
                 
                     <table class="table table-bordered table-hover cf table-striped" >
                         <thead class="cf">
                             <tr>
-                                <th>ITEM</th>
-                                <th>UNID.</th>
-                                <th style="width: 7%">C/U BS</th>
-                                <th>CANT</th>                                
-                                <th style="width: 10%">SUB TOTAL BS</th>
-                                <th style="width: 10%">DESC BS</th>
-                                <th style="width: 10%">TOTAL BS</th>
+                                <th>PRODUCTO</th>                                
+                                <th style="width: 7%">PRECIO</th>
+                                <th>CANTIDAD</th>
+                                <th style="width: 10%">SUB TOTAL</th>                                
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr  ng-repeat="row in salidasVentaDetalleList" ng-show="row.eliminar===0">
-                                <td data-title="PROD/SERVICIO">{{row.productos.nombreProducto}}</td>
-                                <td data-title="UNID.">{{row.unidadesMedida.nombreUnidadMedida}}</td>                                
-                                <td data-title="C/U BS"><input ng-model="row.costoUnitario" class="form-control" ng-keyup="cantidadProducto_change(row)"  /></td>
-                                <td data-title="CANT">{{row.cantSalida}}</td>
+                            <tr  ng-repeat="row in salidasVentaDetalleList">                                
+                                <td data-title="PRODUCTO">{{row.productos.nombreProducto}}</td>                                
+                                <td data-title="PRECIO"><input ng-model="row.costoUnitario" class="form-control" ng-keyup="cantidadProducto_change(row)" /></td>
+                                <td data-title="CANTIDAD">{{row.cantSalida}}</td>
                                 <td data-title="SUB TOTAL BS">{{row.montoSubTotal}}</td>
-                                <td data-title="DESC BS" >{{row.montoDescuento}}({{row.porcDescuento}}%)</td>
-                                <td data-title="TOTAL BS">{{row.montoTotal}}</td>                                
                                 <td data-title="">
                                     <div class="dropdown">
                                         <a class="btn btn-secondary dropdown-toggle" href="" id="dropdownMenuButton1" data-toggle="dropdown" data-aria-haspopup="true" data-aria-expanded="false">
@@ -118,11 +108,11 @@
                                                     Editar Cantidad
                                                 </a>                                                        
                                             </li>                                                                              
-                                            <li>
+                                            <!--li>
                                                 <a tabindex="-1"  ng-click="editarDescuento_action(row);">
                                                     Descuento
                                                 </a>
-                                            </li>
+                                            </li-->
                                             <li>
                                                 <a tabindex="-1"  ng-click="borrarVentaDetalle_action(row);">
                                                     Eliminar
@@ -137,30 +127,28 @@
                             <tr ng-class="salidasVentaDetalleList.length===0?'hidden':''">
                                 <td >&nbsp;</td>
                                 <td >&nbsp;</td>
+                                <td >&nbsp;Descuento</td>
+                                <td ><input ng-model="salidasVentaTotal.montoDescuento" class="form-control" ng-keyup="descuento_change()" /></td>
+                                <td >&nbsp;</td>
+                            </tr>
+                            <tr ng-class="salidasVentaDetalleList.length===0?'hidden':''">                                
+                                <td >&nbsp;</td>
                                 <td >&nbsp;</td>
                                 <td >&nbsp;Total</td>
-                                <td >&nbsp;{{salidasVentaTotal.montoSubTotal}}</td>                                
-                                <td >&nbsp;{{salidasVentaTotal.montoDescuento}}</td>
-                                <td >&nbsp;{{salidasVentaTotal.montoTotal}}</td>
-                                <td >
-                                    
-                                </td>
+                                <td data-title="MONTO SUB TOTAL">&nbsp;{{salidasVentaTotal.montoTotal}}</td>                                                                
+                                <td >&nbsp;</td>
                             </tr>
                             <tr ng-class="salidasVenta.tiposVenta.codTipoVenta===1?'hidden':''">
                                 <td >&nbsp;</td>
                                 <td >&nbsp;</td>
-                                <td ></td>
-                                <td >&nbsp;</td>
-                                <td >&nbsp;</td>                                
                                 <td >&nbsp;Monto Inicial</td>
-                                <td style="width: 10%" data-title="TOTAL"><input ng-model="salidasVentaTotal.montoCancelado" class="form-control" type="number"  /></td>
-                                <td >
-                                    
-                                </td>
+                                <td  data-title="MONTO INICIAL"><input ng-model="salidasVentaTotal.montoCancelado" class="form-control" type="number"  /></td>
+                                <td >&nbsp;</td>
                             </tr>
                         </tfoot>
                         
                     </table>
+                
                 
             </section>
 
@@ -168,15 +156,17 @@
                     
             
         
+        
         <div class="panel-footer" align="center">
             <button type="button" class="btn btn-primary" ng-click="agregarProducto_action();">
                 <i class="fa fa-plus-circle"></i>
             </button>
-            <button type="button" class="btn btn-primary" ng-click="eliminarCuenta_action();" id="btnEliminar">
-                <i class="fa fa-minus-circle"></i>
+
+            <button type="button" class="btn btn-primary" ng-click="mostrarAgregarProductoCodBarras();">
+                <i class="fa fa-barcode"></i>
 
             </button>
-            <button type="button" class="btn btn-primary" ng-click="guardarSalidaVenta_action();" >
+            <button type="button" class="btn btn-primary" ng-disabled="desabilitarBotonGuardar" ng-click="guardarSalidaVenta_action();" >
                 <i class="fa fa-save">                    
                 </i>
                 Guardar
@@ -189,7 +179,39 @@
             
         </div>
     </div>
+    <!-- registro codigo de barras -->
+    <div id="agregarProductoCodBarrasDialog" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><i class="fa fa-check"></i> Registro con Codigo de Barras</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row show-grid">
+                            <div class="col-md-12">
+                                <label>Cod Barras:</label>
+                                <div class="input-group" >
+                                    <input ng-model="productosBuscar.codBarrasProducto" type="text" class="form-control" placeholder="Cod Barras Producto"  id="codBarrasProducto"   />
+                                    <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-primary" ng-click="agregarProductoCodBarras_action();">
+                                            Agregar
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="$('#mensajeDialog').modal('hide');">Aceptar</button>
+                </div>
+            </div>
     
+        </div>
+    </div>
     
     
     	<!-- ui-dialog -->
@@ -204,41 +226,40 @@
                         <form>
                         <div class="row show-grid">
                             <div class="col-md-12">
-                                <label>Grupo:</label>
-                                <select class="form-control" ng-model="productosBuscar.grupoProducto.codGrupoProducto" ng-change="grupoProducto_change()">
-                                    <option value="0">-NINGUNO-</option>
-                                    <option ng-repeat="p in gruposProductoList"
-                                            value="{{p.codItem}}">
-                                            {{p.nombreItem}}
-                                    </option>
-                                </select>
-                            </div>                            
-                        </div>
-                        <div class="row show-grid">
-                            <div class="col-md-12">
-                                <label>Sub Grupo:</label>
-                                <select class="form-control" ng-model="productosBuscar.subGruposProducto.codSubgrupo">
-                                    <option value="0">-NINGUNO-</option>
-                                    <option ng-repeat="p in subGruposList"
-                                            value="{{p.codItem}}">
-                                            {{p.nombreItem}}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row show-grid">
-                            <div class="col-md-12">
-                                <label>Nombre:</label>                                
-                                <div class="input-group">                                    
+                                <label>Nombre:</label>
+                                <div class="input-group">
                                     <input ng-model="productosBuscar.nombreProducto" type="text" class="form-control" placeholder="Nombre de Producto">
                                     <span class="input-group-btn">
-                                        <button type="submit" class="btn btn-primary" ng-click="buscarProducto_action();">                                            
+                                        <button type="submit" class="btn btn-primary" ng-click="buscarProducto_action();">    
                                             Buscar
                                         </button>
                                     </span>
                                 </div>
                             </div>
                         </div>
+                        <div class="row show-grid">   
+                        <div class="col-md-6">
+                                <label>Laboratorio:</label>
+                                <select class="form-control" ng-model="productosBuscar.proveedores1.codProveedor" >
+                                    <option value="0">-NINGUNO-</option>
+                                    <option ng-repeat="p in proveedoresList"
+                                            value="{{p.codItem}}">
+                                            {{p.nombreItem}}
+                                    </option>
+                                </select>
+                            </div>                            
+                        <div class="col-md-6">
+                            <label>Accion terapeutica:</label>
+                            <select class="form-control" ng-model="productosBuscar.accionTerapeutica.codAccionTerapeutica">
+
+                                <option ng-repeat="p in accionesTerapeuticasList"
+                                            value="{{p.codItem}}">
+                                            {{p.nombreItem}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        
                         
                         <br/>
                         
@@ -248,24 +269,27 @@
                                     <thead class="">
                                         <tr>
                                             <th>NOMBRE</th>                                            
-                                            <th>GRUPO</th>
-                                            <th>UNID.</th>
-                                            <th>PRECIO</th>
+                                            <th>FORMA FARMACEUTICA</th>
+                                            <th>CANTIDAD</th>                                            
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr  ng-repeat="m in productosBuscarList" 
-                                             id="{{m.codProducto}}">
-                                            <td><a href="" ng-click="seleccionarProducto_action(m)" style="color: #337ab7" >{{m.nombreProducto}}</a></td>
-                                            <td>{{m.grupoProducto.nombreGrupoProducto}}</td>
-                                            <td>{{m.unidadesMedida.nombreUnidadMedida}}</td>
-                                            <td>{{m.precioTienda}}</td>
+                                        <tr  ng-repeat="p in productosBuscarList" 
+                                             id="{{p.codProducto}}">
+                                            <td><a href="" ng-click="seleccionarProducto_action(p)" style="color: #337ab7" >{{p.nombreProducto}}</a></td>
+                                            <td>{{p.formaFarmaceutica.nombreFormaFarmaceutica}}</td>                                            
+                                            <td>{{p.cantPCompraVenta}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <br/>
+                        <div class="row show-grid">
+                            <div class="col-md-12">
+                                <label>Producto:</label>
+                                <input ng-model="productosSalida.nombreProducto" type="text" class="form-control" readonly="true">
+                            </div>
+                        </div>
                         <div class="row show-grid">
                             <div class="col-md-4">
                                 <label>Cant. Rest.:</label>                                
@@ -323,24 +347,25 @@
                                 <table    class="table table-bordered table-hover" >
                                     <thead class="">
                                         <tr>
-                                            <th>FECHA&nbsp;</th>
-                                            <th>NRO INGRESO&nbsp;</th>
-                                            <th>CANT REST.&nbsp;</th>
-                                            <th>UNID.&nbsp;</th>
+                                            <th>NRO COMPRA&nbsp;</th>
+                                            <th>FECHA COMPRA&nbsp;</th>
+                                            <th>CANTIDAD&nbsp;</th>                                            
                                             <th>LOTE&nbsp;</th>
-                                            <th>F. VENC.&nbsp;</th>                                            
-                                            <th>CANT.&nbsp;</th>                                            
+                                            <th>FECHA EXPIRACION&nbsp;</th>
+                                            <th>CANTIDAD VENTA&nbsp;</th>    
+                                            
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="row in sadSeleccionado.salidasVentaDetalleIngresosList">
-                                            <td>{{row.ingresosVentaDetalle.ingresosVenta.fechaIngresoVenta}}</td>
                                             <td>{{row.ingresosVentaDetalle.ingresosVenta.nroIngresoVenta}}</td>
+                                            <td>{{row.ingresosVentaDetalle.ingresosVenta.fechaIngresoVenta}}</td>
                                             <td>{{row.ingresosVentaDetalle.cantRestante}}</td>
-                                            <td>{{row.ingresosVentaDetalle.unidadesMedida.nombreUnidadMedida}}</td>
                                             <td>{{row.ingresosVentaDetalle.nroLote}}</td>
                                             <td>{{row.ingresosVentaDetalle.fechaVencimiento}}</td>
                                             <td><input  class="form-control" ng-model="row.cantSacar" ng-change="cantEtiquetas_change(row)" /></td>
+                                            
                                         </tr>
                                     </tbody>
                                     <tfoot>
@@ -363,7 +388,7 @@
                             <i class="fa fa-check-circle"></i>
                             Aceptar    
                         </button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="cancelarDetalleCantSacar_action()">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="$('#detalleEtiquetasDialog').modal('hide');">
                             <i class="fa fa-times-circle"></i>
                             Cancelar
                         </button>

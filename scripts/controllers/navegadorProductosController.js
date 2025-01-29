@@ -145,10 +145,10 @@ app.controller('navegadorProductosController',
         
     };
     $scope.guardarProducto_action = function() {
-        if($scope.producto.unidadesMedida.codUnidadMedida <=0){                        
+        /*if($scope.producto.unidadesMedida.codUnidadMedida <=0){                        
             $.growl.warning({title:"ADVERTENCIA!", message: "Registre la unidad de medida del producto " });
             return null;
-        }
+        }*/
         $scope.producto.estadosRegistro.codEstado = 1;
         $scope.producto.grupoProducto.codGrupoProducto = 5;//medicamentos
         //$scope.producto.imagenProducto = $scope.producto.imagenProducto.replace("data:image/jpeg;base64,","");//reemplaza la primera ocurrencia
@@ -204,6 +204,10 @@ app.controller('navegadorProductosController',
                 break;
             }
         }*/
+        
+        if(confirm("esta seguro de eliminar el producto?")===false){
+            return null;
+        }
         
         $scope.producto = angular.copy(pr);
         Data.post('/productos/eliminarProductos', $scope.producto).then(function (data) {

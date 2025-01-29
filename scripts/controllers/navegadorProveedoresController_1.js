@@ -1,6 +1,6 @@
 define(['app'], function(app)
 {
-app.controller('navegadorProveedoresController',
+app.controller('navegadorProveedoresController1',
     ['$scope','Data','$location',
     function ($scope, Data,$location) {    
     //try {    

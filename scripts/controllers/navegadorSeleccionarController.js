@@ -22,7 +22,7 @@ define(['app'], function (app)
                            $scope.empresasList = empresasList;
                            console.log(empresasList);
                         });
-                   });
+                    });
                     
                         Data.get("/gestion/cargarGestion").then(function(gestionesList){
                            $scope.gestionesList = gestionesList;

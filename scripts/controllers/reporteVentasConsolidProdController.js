@@ -47,19 +47,29 @@ function ($scope, Data, $location,$window) {
     });
     
     
-    Data.get('/gruposProducto/cargarGruposProductoItem').then(function(data){
+    /*Data.get('/gruposProducto/cargarGruposProductoItem').then(function(data){
             console.log(data);
             $scope.gruposProductoList = data;
+    });*/
+    
+    Data.get('/tablaDetalle/tablaDetalle').then(function (data) {
+        $scope.tablaDetalle = data;
+        
+        $scope.tablaDetalle.tabla.nombreTabla = "ACCION_TERAPEUTICA";
+        Data.post("/tablaDetalle/cargarTablaDetalleItem", $scope.tablaDetalle).then(function (data) {
+            $scope.accionTerapeuticaList = data;
+            console.log(data);
+        });
     });
     
    
     $scope.buscarProducto_action = function(){
         
         
-        if ( $scope.productosBuscar.nombreProducto.trim().length < 3 && $scope.productosBuscar.grupoProducto.codGrupoProducto===0) {
+        /*if ( $scope.productosBuscar.nombreProducto.trim().length < 3 && $scope.productosBuscar.grupoProducto.codGrupoProducto===0) {
                 $.growl.warning({title:"ADVERTENCIA!", message: "ingrese al menos 3 caracteres del nombre de producto" });
                 return null;
-        }
+        }*/
             
         console.log($scope.productosBuscar);
         Data.post('/productos/cargarProductos', $scope.productosBuscar).then(function(data){
